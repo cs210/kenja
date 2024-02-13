@@ -1,8 +1,10 @@
 # The Boys in the Boat
-🚣🚣🚣🚣
+MVP for initial recommendation algorithm, powered by RAG.
 
-We are currently in the process of needfinding, but our initial list of ideas can be found [here](https://github.com/cs210/2024-Unusual-1/wiki/Brainstorming-Session). Specifically, we're thinking about working on a project in the agriculture or ML infrastructure space.
+## Set-Up
 
-##  Useful Links
-
-[Documentation at the GitHub Wiki](https://github.com/cs210/2024-Unusual-1/wiki)
+```bash
+python3 -m venv env
+source env/bin/activate
+python3 -m pip install requirement.txt
+```
