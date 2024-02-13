@@ -4,3 +4,4 @@ idna==3.6
 requests==2.31.0
 urllib3==2.2.0
 chromadb==0.4.22
+bs4==0.0.2
