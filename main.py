@@ -1,6 +1,18 @@
-# Requests
+"""
+Simple recommendation algorithm for wine
+"""
+from bs4 import BeautifulSoup
 import requests
 
-x = requests.get('https://www.cellartracker.com/notes.asp?iWine=3')
+def scrape_notes(website):
+    """
+    Scrape CellarTracker page for notes.
+    """
+    x = requests.get(website)
+    html = x.text
+    soup = BeautifulSoup(html)
+    print(soup.prettify())
 
-print(x.text)
+if __name__ == "__main__":
+    scrape_notes('https://www.cellartracker.com/notes.asp?iWine=3')
+    
