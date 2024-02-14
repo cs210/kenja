@@ -3,6 +3,7 @@ Simple recommendation algorithm for wine
 """
 from bs4 import BeautifulSoup
 import requests
+import time
 
 class WineInfo:
     def __init__(self, comments, wine_rating):
@@ -34,12 +35,33 @@ def scrape_notes(website):
     Scrape CellarTracker page for notes.
     """
     x = requests.get(website)
+    while(x.status_code == 202):
+        print("here!")
+        time.sleep(60)
+        x = requests.get(website)
 
     html = x.text
     soup = BeautifulSoup(html, features="html.parser")
-    print(soup.prettify())
+
+    print(x.status_code)
+
+    title = soup.title.text
+    title = title[title.find("-") + 2:]
+    title = title[:title.find("-") - 1]
+    if title == "Wine Not Found": 
+        print("Wine Not Found!")
+        return
+    
+    all_reviews = soup.find_all("p", class_="break_word")
+    review_list = []
+    for review in all_reviews:
+        review_list.append(review.text)
+    
+    rating = str(soup.find("meta", property="og:description"))
+    rating = rating[rating.find("f") + 2:rating.find("p") - 1]
+
 
 if __name__ == "__main__":
-    scrape_notes('https://www.cellartracker.com/notes.asp?iWine=3')
+    scrape_notes('https://www.cellartracker.com/notes.asp?iWine=100')
     # discover_num_wines()
     

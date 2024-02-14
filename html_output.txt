@@ -1,0 +1,2939 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Community Tasting Notes - 1995 Abreu Cabernet Sauvignon Madrona Ranch - CellarTracker
+  </title>
+  <meta content="Community Tasting Notes - 1995 Abreu Cabernet Sauvignon Madrona Ranch" property="og:title"/>
+  <meta content="https://www.cellartracker.com/notes.asp?iWine=3" property="og:url"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://cdn.ct-static.com/labels/a9249e4d-ebfb-48ab-a675-4d57fc0227c3.jpg" property="og:image"/>
+  <meta content="768" property="og:image:width"/>
+  <meta content="1024" property="og:image:height"/>
+  <meta content="Average of 94.2 points in 40 community wine reviews on 1995 Abreu Cabernet Sauvignon Madrona Ranch, plus professional notes, label images, wine details, and recommendations on when to drink." property="og:description"/>
+  <meta content="172656486080057" property="fb:app_id"/>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <link href="/favicon2.ico" rel="shortcut icon"/>
+  <meta content="app-id=893759800" name="apple-itunes-app"/>
+  <meta content="CellarTracker" name="apple-mobile-web-app-title">
+   <link href="/apple-touch-icon-180x180-precomposed.png" rel="apple-touch-icon-precomposed" sizes="180x180"/>
+   <link href="/apple-touch-icon-152x152-precomposed.png" rel="apple-touch-icon-precomposed" sizes="152x152"/>
+   <link href="/apple-touch-icon-120x120-precomposed.png" rel="apple-touch-icon-precomposed" sizes="120x120"/>
+   <link href="https://cdn.ct-static.com/dist/css/ct.min.dc53d5bf16.css" rel="stylesheet" type="text/css"/>
+   <link href="https://cdn.ct-static.com/dist/css/print.min.abc455841d.css" media="print" rel="stylesheet" type="text/css"/>
+   <link href="https://cdn.ct-static.com/libs/cookieconsent/cookieconsent.min.css" rel="stylesheet" type="text/css"/>
+   <script type="text/javascript">
+    WebFontConfig = { google: { families: [ 'Volkhov:400,700:latin' ] } };(function(d){var wf=d.createElement('script'),h=d.documentElement,s=d.scripts[0],f=function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+' wf-inactive';};wf.src='https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';wf.async='true';var t=setTimeout(f,3000);wf.onerror=function(){clearTimeout(t);f()};wf.onload=wf.onreadystatechange=function(){a=this.readyState;if(a&&a!="complete"&&a!="loaded")return;clearTimeout(t);};s.parentNode.insertBefore(wf, s);})(document);
+   </script>
+   <script src="//d2wy8f7a9ursnm.cloudfront.net/v7/bugsnag.min.js">
+   </script>
+   <script type="text/javascript">
+    if(Bugsnag){Bugsnag.start({apiKey:'12ff422b0012832012aee080b0cfabc3',appVersion:'master-20240208.1',user:{id:'0',name:"Guest"}});
+}
+   </script>
+   <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DL6J2RSYTV">
+   </script>
+   <script>
+    window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-DL6J2RSYTV');
+   </script>
+   <script>
+    localStorage.setItem("ExperimentPayment_1","0")
+   </script>
+   <script defer="" src="https://616a34e516f2.edge.sdk.awswaf.com/616a34e516f2/3ac2ac3dbc8c/challenge.js" type="text/javascript">
+   </script>
+   <script charset="windows-1252" crossorigin="" src="https://cdn.ct-static.com/dist/js/ct.min.5087ae22f0.js" type="text/javascript">
+   </script>
+   <script crossorigin="" src="https://cdn.ct-static.com/libs/cookieconsent/cookieconsent.min.js" type="text/javascript">
+   </script>
+  </meta>
+ </head>
+ <body class="jshovercard tracksearch jsguest jsadvtn" itemscope="" itemtype="https://schema.org/Product">
+  <script type="text/javascript">
+   var googletag = googletag || {};
+		googletag.cmd = googletag.cmd || [];
+		(function() {
+			var gads = document.createElement('script');
+			gads.async = true;
+			gads.type = 'text/javascript';
+			var useSSL = 'https:' == document.location.protocol;
+			gads.src = (useSSL ? 'https:' : 'http:') +
+				'//www.googletagservices.com/tag/js/gpt.js';
+			var node = document.getElementsByTagName('script')[0];
+			node.parentNode.insertBefore(gads, node);
+		})();
+  </script>
+  <script type="text/javascript">
+   googletag.cmd.push(function() {
+			googletag.defineSlot('/11734367/ct_desktop_footer_leaderboard_728x90', [728, 90], 'div-gpt-ad-1454375058031-0').addService(googletag.pubads());
+			googletag.defineSlot('/11734367/ct_desktop_rightsidebar_wide-skyscraper_160x600', [160, 600], 'div-gpt-ad-1454375058031-2').addService(googletag.pubads());
+			googletag.pubads().setTargeting('winecategory', 'Dry');googletag.pubads().setTargeting('producer', 'Abreu');
+googletag.pubads().setTargeting('locale', 'USA, California, Napa Valley');
+			googletag.pubads().enableSingleRequest();
+			googletag.enableServices();
+		});
+  </script>
+  <div class="section_wines" id="wrapper">
+   <div id="header">
+    <div class="alertbar notificationbar" id="notificationbar">
+     <div>
+      <span class="important">
+       CellarTracker 2023 Year in Wine is Live!
+      </span>
+      <a href="https://insights.cellartracker.com/" id="insights-banner">
+       See insights &gt;
+      </a>
+      <a class="hide_alert" href="#" id="close-insights-banner">
+       Hide
+      </a>
+     </div>
+    </div>
+    <div id="topbar">
+     <ul id="main_nav">
+      <li class="home">
+       <a href="default.asp">
+        Home
+       </a>
+      </li>
+      <li class="wines">
+       <a href="wines.asp">
+        Wines
+       </a>
+      </li>
+      <li class="people">
+       <a href="people.asp">
+        Members
+       </a>
+      </li>
+      <li class="discussions">
+       <a href="/forum/" target="forum">
+        Discussions
+       </a>
+      </li>
+      <li class="articles">
+       <a href="articles.asp">
+        Articles
+       </a>
+      </li>
+      <li class="help">
+       <a href="https://support.cellartracker.com/">
+        Help
+       </a>
+      </li>
+     </ul>
+     <ul id="user_nav">
+      <li class="create_account">
+       <a href="https://www.cellartracker.com/adduser.asp">
+        Create an Account
+       </a>
+      </li>
+      <li>
+       <span class="text">
+        or
+       </span>
+      </li>
+      <li class="sign_in">
+       <a href="https://www.cellartracker.com/password.asp?Referrer=%2Fnotes%2Easp%3FiWine%3D3" id="login">
+        Sign In
+       </a>
+      </li>
+     </ul>
+    </div>
+    <!-- End topbar -->
+    <div id="header_group">
+     <div class="header-background">
+     </div>
+     <div id="header_contents">
+      <div id="logo">
+       <a href="default.asp">
+        <img alt="CellarTracker" class="hdpi" height="57" src="https://cdn.ct-static.com/img/ct_logo.png" width="202"/>
+       </a>
+      </div>
+      <!-- End logo -->
+      <div id="search">
+       <form action="search.asp" id="search_form" method="get">
+        <div class="search_container">
+         <div class="main_search_select dropdown hover" id="main_search_select">
+          <a class="select" href="#" id="selected_search">
+           Wines
+          </a>
+          <ul id="faux_search">
+           <li>
+            <a href="#" id="wines_search">
+             Wines
+            </a>
+           </li>
+           <li>
+            <a href="#" id="notes_search">
+             Tasting Notes
+            </a>
+           </li>
+           <li>
+            <a href="#" id="people_search">
+             Members
+            </a>
+           </li>
+           <li>
+            <a href="#" id="forum_search">
+             Discussions
+            </a>
+           </li>
+           <li>
+            <a href="#" id="articles_search">
+             Articles
+            </a>
+           </li>
+           <li>
+            <a href="#" id="food_search">
+             Food Pairing Tags
+            </a>
+           </li>
+           <li>
+            <a href="#" id="help_search">
+             Help
+            </a>
+           </li>
+          </ul>
+         </div>
+         <!-- End main_search_select -->
+         <input id="search_section" name="QTable" type="hidden" value="AllWines"/>
+         <div id="search_input">
+          <input accesskey="s" autocapitalize="off" autocorrect="off" id="search_text" maxlength="255" name="S" spellcheck="false"/>
+         </div>
+         <div class="search_button">
+          <input class="search_submit" id="search_submit" title="Search" type="submit" value=""/>
+         </div>
+        </div>
+        <input name="SaveSearch" type="hidden" value="True"/>
+       </form>
+       <ul id="search_actions">
+        <li class="advanced">
+         <a href="query.asp">
+          Advanced Search
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- End header -->
+   <div id="section_tools">
+    <ul class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+     <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+      <div>
+       <a href="wines.asp" itemprop="item" title="Wines">
+        <span itemprop="name">
+         Wines
+        </span>
+        <meta content="1" itemprop="position"/>
+       </a>
+      </div>
+     </li>
+     <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+      <div>
+       &gt;
+       <a href="producer.asp?iProducer=1" itemprop="item" title="Wines from Abreu">
+        <span itemprop="name">
+         Abreu
+        </span>
+        <meta content="3" itemprop="position"/>
+       </a>
+      </div>
+     </li>
+     <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+      <div>
+       &gt;
+       <a href="list.asp?Table=List&amp;iUserOverride=0&amp;fInStock=0&amp;Wine=Abreu+Cabernet+Sauvignon+Madrona+Ranch" itemprop="item" title="All vintages of Abreu Cabernet Sauvignon Madrona Ranch">
+        <span itemprop="name">
+         Cabernet Sauvignon Madrona Ranch
+        </span>
+        <meta content="4" itemprop="position"/>
+       </a>
+      </div>
+     </li>
+     <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+      <div>
+       &gt;
+       <a href="wine.asp?iWine=3" itemprop="item" title="1995">
+        <span itemprop="name">
+         1995
+        </span>
+        <meta content="5" itemprop="position"/>
+       </a>
+      </div>
+     </li>
+     <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+      <div>
+       &gt;
+       <span itemprop="name">
+        Community Tasting Notes
+       </span>
+       <meta content="6" itemprop="position"/>
+      </div>
+     </li>
+    </ul>
+    <ul class="display">
+     <li class="btn_sectiontools_sep">
+      <a class="input_col browser_print btn btn_sectiontools btn_l_fixed btn_left" href="#" id="browser_print">
+       Print
+      </a>
+     </li>
+     <li>
+      <a class="action_wide btn btn_sectiontools btn_l_fixed btn_right" href="popup/shareactions.asp?url=%2Fnotes%2Easp%3FiWine%3D3" id="share_panel" rel="nofollow">
+       Share
+      </a>
+     </li>
+    </ul>
+    <div class="corner">
+    </div>
+   </div>
+   <div id="central">
+    <div class="central_shell">
+     <div class="colD_yellow">
+      <div class="colABC">
+       <div id="wine_summary">
+        <h2 itemprop="name">
+         <a href="wine.asp?iWine=3">
+          1995 Abreu Cabernet Sauvignon Madrona Ranch
+         </a>
+        </h2>
+        <h1>
+         Community Tasting Notes
+        </h1>
+       </div>
+       <!-- End wine_summary -->
+       <div class="panel" id="update_ajax">
+        <input id="ck_notes" type="hidden" value="1e7acf5a414a0ab204ac78b4efa73138"/>
+        <h2 itemprop="aggregateRating" itemscope="" itemtype="https://schema.org/AggregateRating">
+         <a href="notes.asp?iWine=3">
+          Community Tasting Notes
+         </a>
+         <span class="tabcount">
+          (
+          <span class="tabcount">
+           35
+          </span>
+          )
+         </span>
+         <meta content="35" itemprop="reviewCount"/>
+         <span class="score">
+          Avg Score:
+          <b>
+           <a class="action" href="popup/notestats.asp?iWine=3">
+            <span class="rating" itemprop="ratingValue">
+             94.2
+            </span>
+            points
+           </a>
+          </b>
+         </span>
+         <meta content="100" itemprop="bestRating"/>
+         <meta content="70" itemprop="worstRating"/>
+        </h2>
+        <div class="comment_options">
+         <ol>
+          <li>
+           <div class="select_graywhite dropdown hover">
+            <a class="select" href="#">
+             Newest
+             <span class="arrow">
+             </span>
+            </a>
+            <ul id="community_sort">
+             <li class="guide">
+              <span>
+               Sort Tasting Notes by...
+              </span>
+             </li>
+             <li>
+              <a href="#">
+               Newest
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Oldest
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Highest Score
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Lowest Score
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Most Comments
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Fewest Comments
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Most Helpful Votes
+              </a>
+             </li>
+             <li>
+              <a href="#">
+               Fewest Helpful Votes
+              </a>
+             </li>
+            </ul>
+           </div>
+          </li>
+         </ol>
+         <a class="settings action_wide" href="popup/note_display.asp">
+          Note Display Settings
+         </a>
+        </div>
+        <ul class="comments">
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10723189" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=144102&amp;CK=f8bd12ebff23338035abca54d10ca1c3" href="user.asp?iUserOverride=144102">
+               View G_H's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=10723189" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2023-10-07" itemprop="datePublished"/>
+           <h3>
+            10/7/2023 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=144102&amp;CK=f8bd12ebff23338035abca54d10ca1c3" href="note.asp?iWine=3&amp;iNote=10723189">
+             <span class="static" itemprop="author">
+              G_H
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              90
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           A bit of a lackluster performance, some black and blue fruit, light to medium bodied, not very expressive even over the course of two hours in the decanter
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10723189&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10723189&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10723189" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10610626" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=87959&amp;CK=1436b9388202a91ea7a6cffd48056292" href="user.asp?iUserOverride=87959">
+               View RockinCabs's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=10610626" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2023-08-01" itemprop="datePublished"/>
+           <h3>
+            8/1/2023 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=87959&amp;CK=1436b9388202a91ea7a6cffd48056292" href="note.asp?iWine=3&amp;iNote=10610626">
+             <span class="static" itemprop="author">
+              RockinCabs
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              97
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Nose: Rich red and black fruit. Cherry, cassis, blackberry, graphite, sarsaparilla, and leather fill the nose. Perfumed like a fine Pauillac. Palate: Entry is broad and silky. Elegant and layered wine that possesses deep fruit reserves. Top notes of pencil, spices, tobacco and pain grille with just a bit of florals. Finish: Mature, herbs, cherry, cassis and a jammy berry note.
+           <br/>
+           <br/>
+           Powerful and mature Napa cabernet at its best. This really shows what a special site Madrona Ranch is.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10610626&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10610626&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10610626" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10340824" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=425843&amp;CK=e6547d0ed9349eba655865c8717b012e" href="user.asp?iUserOverride=425843">
+               View MJP Hou TX's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=10340824" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2023-02-25" itemprop="datePublished"/>
+           <h3>
+            2/25/2023 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=425843&amp;CK=e6547d0ed9349eba655865c8717b012e" href="note.asp?iWine=3&amp;iNote=10340824">
+             <span class="static" itemprop="author">
+              MJP Hou TX
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Catching up with close friends always makes a great excuse to dive deep into the cellar.
+           <br/>
+           <br/>
+           Menu: Roasted beets, spring mix, feta, pistachios &amp; balsamic vinaigrette, select cuts of prime filet, tomahawk &amp; wagyu ribeye with a side of roasted mashed sweet potatoes.
+           <br/>
+           <br/>
+           Mousse Fils Perpetuelle BdN L'OR D'Eugene &amp; 2021 Cornell Chardonnay.
+           <br/>
+           <br/>
+           Side by side 2005 Domaine Jean Louis Chave Hermitage &amp; 1995 Abreu Madrona Ranch.
+           <br/>
+           <br/>
+           2010 Vieux Chateau Certan
+           <br/>
+           <br/>
+           2009 Dolce Winery Late Harvest
+           <br/>
+           <br/>
+           1995 Madrona- this wine is in a beautiful spot. One of the prettiest pale ruby reds with no edges. Just stunning to look. There is still a touch of sweet red currant fruits on the mature palate. Almost no sediment. Potpourri. I believe this wine would continue to age gracefully for another 5 years before starting a new chapter. Having the JLC side by side was the perfect compliment of finesse &amp; power.
+           <br/>
+           <br/>
+           13.4 ABV
+           <br/>
+           <br/>
+           Easily a 95 in my book.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10340824&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10340824&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10340824" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=10333467" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=7898&amp;CK=dd82992272cd520853772f44d76d4fa3" href="user.asp?iUserOverride=7898">
+               View kevinpatrick's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=10333467" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2023-02-21" itemprop="datePublished"/>
+           <h3>
+            2/21/2023 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=7898&amp;CK=dd82992272cd520853772f44d76d4fa3" href="note.asp?iWine=3&amp;iNote=10333467">
+             <span class="static" itemprop="author">
+              kevinpatrick
+             </span>
+             Likes this wine:
+            </a>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=50906">
+            Pre-1996 Blind Napa vs Bordeaux (Ducru, Heitz, Abreu, Cos d'Estournel, Cask 23 &amp; more) (Charlotte, NC)
+           </a>
+           : 2 hour double decant, recorked within 30 minutes and then slow-ox for 60 minutes before serving. The wines were selected at random but I thought this was a facsimile of Wine #3, only a couple years younger, Floral aromas and dark fruits on the nose though more restrained than the Ducru. Elegant but powerful on the mouthfeel, the rich, dark fruits with a hint of mint sing lovingly on the palate. Fully integrated tannins. Clicking on all cylinders between primary and secondary notes with a touch of tertiary. A brilliant wine with a long fruit-driven finish. Hard to believe this wine is at least 27 years old. 2nd place overall for WOTN and two votes for WOTN.
+           <br/>
+           <br/>
+           6 guesses for Napa, 2 for Bordeaux. My guess: 90 Cos d’Estournel
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10333467&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=10333467&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a href="note.asp?iWine=3&amp;iNote=10333467">
+            Comments (1)
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=9682684" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=425843&amp;CK=e6547d0ed9349eba655865c8717b012e" href="user.asp?iUserOverride=425843">
+               View MJP Hou TX's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=9682684" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2022-02-18" itemprop="datePublished"/>
+           <h3>
+            2/18/2022 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=425843&amp;CK=e6547d0ed9349eba655865c8717b012e" href="note.asp?iWine=3&amp;iNote=9682684">
+             <span class="static" itemprop="author">
+              MJP Hou TX
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Anticipation for night of Madrona started back in July of 2021 when I went in on these bottles with JonathanJ &amp; Deandrew8649. Sourced through Benchmark Wine Group in what turned out to be perfect condition. After a few months of trying to schedule we landed on a date Feb 18th (little did we know it was national drink wine day). The venue of Bludorn was kind enough host and we were all set for what turned out to be an amazing experience.
+           <br/>
+           <br/>
+           94 &amp; 95 double decanted back into bottle.
+           <br/>
+           <br/>
+           03 &amp; 04 splash decanted and sediment filtered (lots of sediment in the 04)
+           <br/>
+           <br/>
+           Madrona is a special site and these wines showed terroir and vintage wonderfully. Spanning 28 years and two different winemakers (Rick Forman/Brad Grimes) this was an experience in which I will never forget.
+           <br/>
+           <br/>
+           1995 Abreu Madrona Ranch
+           <br/>
+           <br/>
+           Double decant back into the bottle. This bottle was in perfect shape. Many of the restaurant staff absolutely loved the 94 &amp; 95. By the time we had it before our meal I'm afraid we might have missed the peak window on the 94. The expression of the 95 this stood out over the length of the meal and for a few of us was WOTN. Beautiful fruit and length of finish was tremendous.
+           <br/>
+           <br/>
+           Depending upon storage this wine still has a lot of life yet. Drink or hold.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9682684&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9682684&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=9682684" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=189969&amp;CK=23278efe062152e93704eb19cceee4e1" href="user.asp?iUserOverride=189969">
+               View dankrems's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=9589317" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2022-01-01" itemprop="datePublished"/>
+           <h3>
+            1/1/2022 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=189969&amp;CK=23278efe062152e93704eb19cceee4e1" href="note.asp?iWine=3&amp;iNote=9589317">
+             <span class="static" itemprop="author">
+              dankrems
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Outstanding wine.  Decanted 3 hours.  Enticing nose, hinting at the fruit and earth elements found on the palate.  Balance of fruit, earth and spice are perfect.  Tannins are fully resolved.  This wine is at peak but no signs of fading.  Long finish, so enjoyable.  What a treat to drink!
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9589317&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9589317&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=9589317" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=9415406" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=282142&amp;CK=d2fd5cbf0e4f5716a06abf69ec91851e" href="user.asp?iUserOverride=282142">
+               View joshabramson's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=9415406" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2021-10-09" itemprop="datePublished"/>
+           <h3>
+            10/9/2021 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=282142&amp;CK=d2fd5cbf0e4f5716a06abf69ec91851e" href="note.asp?iWine=3&amp;iNote=9415406">
+             <span class="static" itemprop="author">
+              joshabramson
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           This was showing great tonight. Loads of ripe fruit balanced with very pleasing acidity. I think fans of modern day Napa as well as those who despise it will both find something to enjoy about this wine. Big and juicy but not at all overdone.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9415406&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=9415406&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=9415406" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=8406387" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=51278&amp;CK=af8c9ec43c8ffab6ed3d7956dc875c16" href="user.asp?iUserOverride=51278">
+               View wa2ofd's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=8406387" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2020-05-24" itemprop="datePublished"/>
+           <h3>
+            5/24/2020 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=51278&amp;CK=af8c9ec43c8ffab6ed3d7956dc875c16" href="note.asp?iWine=3&amp;iNote=8406387">
+             <span class="static" itemprop="author">
+              wa2ofd
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Majestic. This wine really young and showing beautiful fruit layers. Not candied, or overly in your face. Gracefully aging with no need to rush to drink, however California wines that drink this well at this age are few and far between imho. Drink with someone special or good friends or just when you need to be reminded how profound domestic wines can be. Bravo!
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=8406387&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=8406387&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=8406387" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7971856" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=114985&amp;CK=f2f6da603791d18b2d792f41630b8422" href="user.asp?iUserOverride=114985">
+               View jsmorris707's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=7971856" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2019-11-01" itemprop="datePublished"/>
+           <h3>
+            11/1/2019 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=114985&amp;CK=f2f6da603791d18b2d792f41630b8422" href="note.asp?iWine=3&amp;iNote=7971856">
+             <span class="static" itemprop="author">
+              jsmorris707
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Double decanted for 60 min, med/deep ruby with a slight brick rim, dark fruit with some tobacco &amp; leather (so left bank Bordeaux), soft tannins, long finish; outstanding &amp; ready to drink
+           <br/>
+           <br/>
+           Later in the evening at dinner at Cook &amp; Cork with AC &amp; Serge, it became more Californian. Still delicious &amp; held up well against to great pinots, 02 Drouhin Bonnes Mares &amp; 12 Rivers Marie Summa
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7971856&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7971856&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7971856" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7342228" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=187003&amp;CK=e543b123a7abcfbd38d76649a94baff3" href="user.asp?iUserOverride=187003">
+               View MC2 Wines's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=7342228" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2018-11-10" itemprop="datePublished"/>
+           <h3>
+            11/10/2018 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=187003&amp;CK=e543b123a7abcfbd38d76649a94baff3" href="note.asp?iWine=3&amp;iNote=7342228">
+             <span class="static" itemprop="author">
+              MC2 Wines
+             </span>
+             Likes this wine:
+            </a>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Really quite a nice wine and one that shows what Napa can do with some age which I always appreciate. It got overshadowed by the '82 Palmer that we also had, but I remember enjoying it. Fruit more prevalent here than the other we had a few years ago. More on the darker side. No real detailed notes unfortunately, but very positive impressions.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7342228&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7342228&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7342228" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7207357" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=114985&amp;CK=f2f6da603791d18b2d792f41630b8422" href="user.asp?iUserOverride=114985">
+               View jsmorris707's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=7207357" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2018-08-28" itemprop="datePublished"/>
+           <h3>
+            8/28/2018 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=114985&amp;CK=f2f6da603791d18b2d792f41630b8422" href="note.asp?iWine=3&amp;iNote=7207357">
+             <span class="static" itemprop="author">
+              jsmorris707
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Decanted for 30 min then back in the bottle to take to boys night dinner at Capital Grille, med/deep ruby with a lightening rim but no brick, dark fruit with some tobacco (might have guessed left bank Bordeaux), soft tannins, long finish; delicious &amp; ready to drink but no rush
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            2 people found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7207357&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=7207357&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=7207357" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=6299665" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=16376&amp;CK=b23ba775d18e928a8339e7f68d7bd1ce" href="user.asp?iUserOverride=16376">
+               View Quiet Lion's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=6299665" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2017-04-14" itemprop="datePublished"/>
+           <h3>
+            4/14/2017 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=16376&amp;CK=b23ba775d18e928a8339e7f68d7bd1ce" href="note.asp?iWine=3&amp;iNote=6299665">
+             <span class="static" itemprop="author">
+              Quiet Lion
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              92
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Sweet, faded fruit, sweet oak, minimal tannins. The cork was pristine but to me this tasted well past its prime, disappointing for the price. Perhaps bottle variation as others had much better experiences recently.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=6299665&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=6299665&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=6299665" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=6049473" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=22375&amp;CK=48b189216b75cd22ebbb3ae2643d440e" href="user.asp?iUserOverride=22375">
+               View Zweder's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=6049473" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2016-09-24" itemprop="datePublished"/>
+           <h3>
+            9/24/2016 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=22375&amp;CK=48b189216b75cd22ebbb3ae2643d440e" href="note.asp?iWine=3&amp;iNote=6049473">
+             <span class="static" itemprop="author">
+              Zweder
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=33676">
+            USA 1995 (@ JK)
+           </a>
+           : Beautiful bouquet with sweet spices. On the palate a beautiful and harmonious wine with a beautiful balance between dark berry fruits, acidity and sweetness. Well integrated minerals. Great wine in a lovely drinking stage.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=6049473&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=6049473&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=6049473" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5373559" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=126329&amp;CK=e80d5bc994aea13a29df0a106a8702c8" href="user.asp?iUserOverride=126329">
+               View Jeff Leve's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5373559" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2015-12-09" itemprop="datePublished"/>
+           <h3>
+            12/9/2015 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=126329&amp;CK=e80d5bc994aea13a29df0a106a8702c8" href="note.asp?iWine=3&amp;iNote=5373559">
+             <span class="static" itemprop="author">
+              Jeff Leve
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Opulent, lush, ripe and concentrated with sweet and polished fruit, with a sense of purity in the fruit and sweetness in the finish.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            2 people found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5373559&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5373559&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5373559" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5230245" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=185064&amp;CK=b96152fd27153a35eb47ecb43ed5f1a6" href="user.asp?iUserOverride=185064">
+               View Dave_Mowry's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5230245" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2015-09-25" itemprop="datePublished"/>
+           <h3>
+            9/25/2015 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=185064&amp;CK=b96152fd27153a35eb47ecb43ed5f1a6" href="note.asp?iWine=3&amp;iNote=5230245">
+             <span class="static" itemprop="author">
+              Dave_Mowry
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           An enormous wine with some very strong Bordeaux-like flavors.  Brick red and brown color with some increased Lucency around the edges.  The nose was bold but not abrasive with a light floral note.  Flavor was black cherry and currants, and leather.  Smooth texture on the tongue with a lovely finish.  Simply awesome!
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5230245&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5230245&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5230245" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5198930" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=118715&amp;CK=b4617e8dd670875f60522476ff6e18c1" href="user.asp?iUserOverride=118715">
+               View rcg62's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5198930" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2015-09-05" itemprop="datePublished"/>
+           <h3>
+            9/5/2015 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=118715&amp;CK=b4617e8dd670875f60522476ff6e18c1" href="note.asp?iWine=3&amp;iNote=5198930">
+             <span class="static" itemprop="author">
+              rcg62
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Tasted at a dinner party with other 90s Cali cabs. This was definitely the most differentiated of the night, with real Bordeaux characteristics. Nose killed with deep cassis, and there was loads of (drying) fruit on the finish with cedary notes. Probably in the latter stages of its drinking window but still a beauty.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5198930&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5198930&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5198930" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5176807" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=187003&amp;CK=e543b123a7abcfbd38d76649a94baff3" href="user.asp?iUserOverride=187003">
+               View MC2 Wines's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5176807" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2015-08-21" itemprop="datePublished"/>
+           <h3>
+            8/21/2015 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=187003&amp;CK=e543b123a7abcfbd38d76649a94baff3" href="note.asp?iWine=3&amp;iNote=5176807">
+             <span class="static" itemprop="author">
+              MC2 Wines
+             </span>
+             Likes this wine:
+            </a>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           My WOTN where we also had 1990 Beausejour, 1995 Colgin, 2005 Mission Haut Brion, 2009 Bressler, and 2008 Gargiulo G Major. So really not a shabby wine night. This had evolved into just about the perfect spot - it was more earth and foliage than fruit but there was just a touch poking through. Everything was in the right balance. Seems thought like it's time to drink up - didn't see much additional evolution coming. Did decant for about 30 minutes before drinking which seemed to help. Paired great with a spicy short rib.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5176807&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5176807&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5176807" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4845261" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=126329&amp;CK=e80d5bc994aea13a29df0a106a8702c8" href="user.asp?iUserOverride=126329">
+               View Jeff Leve's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=4845261" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2015-02-10" itemprop="datePublished"/>
+           <h3>
+            2/10/2015 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=126329&amp;CK=e80d5bc994aea13a29df0a106a8702c8" href="note.asp?iWine=3&amp;iNote=4845261">
+             <span class="static" itemprop="author">
+              Jeff Leve
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              94
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Fully mature, with its truffle, blackberry, earth and thyme nose, the fruits are sweet, polished and fresh, but the wine lacks the depth and sensuous textures found in subsequent vintages.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4845261&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4845261&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4845261" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4757999" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=4738&amp;CK=0b400d458557b94dfad70b0f7ac59300" href="user.asp?iUserOverride=4738">
+               View CamWheeler's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=4757999" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2014-08-23" itemprop="datePublished"/>
+           <h3>
+            8/23/2014 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=4738&amp;CK=0b400d458557b94dfad70b0f7ac59300" href="note.asp?iWine=3&amp;iNote=4757999">
+             <span class="static" itemprop="author">
+              CamWheeler
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              92
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=26941">
+            Judgement of Sydney Blind Tasting
+           </a>
+           : Mint/menthol, earth, with a little meaty brett as well. The fruit is restrained but what is there is fresh and pleasing in flavour. The acid and tannins are both in fine balance and this was in a really good spot for my taste.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4757999&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4757999&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4757999" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4259002" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=105931&amp;CK=cf9cf8ff1b39597d6596b8c8768ab9ed" href="user.asp?iUserOverride=105931">
+               View tcarter's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=4259002" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2014-04-16" itemprop="datePublished"/>
+           <h3>
+            4/16/2014 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=105931&amp;CK=cf9cf8ff1b39597d6596b8c8768ab9ed" href="note.asp?iWine=3&amp;iNote=4259002">
+             <span class="static" itemprop="author">
+              tcarter
+             </span>
+             Likes this wine:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              92
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           A little hot right now. Could use a few more years, or a long decant. We popped and poured and it needed an hour or so in the glass.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4259002&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=4259002&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=4259002" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=2538107" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=15759&amp;CK=376bb6d0ac0dee4a057fe7b2a61e45c2" href="user.asp?iUserOverride=15759">
+               View lepetitchateau's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=2538107" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2012-01-18" itemprop="datePublished"/>
+           <h3>
+            1/18/2012 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=15759&amp;CK=376bb6d0ac0dee4a057fe7b2a61e45c2" href="note.asp?iWine=3&amp;iNote=2538107">
+             <span class="static" itemprop="author">
+              lepetitchateau
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              89
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Fine, sturdy and showing classic cab notes but just not exciting.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=2538107&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=2538107&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=2538107" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1418613" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1820&amp;CK=eda854be528c8befb6ede06f92ae1fbd" href="user.asp?iUserOverride=1820">
+               View ronlite's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=1418613" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2010-03-14" itemprop="datePublished"/>
+           <h3>
+            3/14/2010 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1820&amp;CK=eda854be528c8befb6ede06f92ae1fbd" href="note.asp?iWine=3&amp;iNote=1418613">
+             <span class="static" itemprop="author">
+              ronlite
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Terrific
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1418613&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1418613&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1418613" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1414539" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=68156&amp;CK=27383d7e48a96418fd7ff571efe55725" href="user.asp?iUserOverride=68156">
+               View tripkirby's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=1414539" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2010-03-13" itemprop="datePublished"/>
+           <h3>
+            3/13/2010 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=68156&amp;CK=27383d7e48a96418fd7ff571efe55725" href="note.asp?iWine=3&amp;iNote=1414539">
+             <span class="static" itemprop="author">
+              tripkirby
+             </span>
+             wrote:
+            </a>
+            <span class="score">
+             flawed
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Flawed? Initial nose of musty damp dirt, smells like an old left bank bordeaux, after double decant and about an hour, a muted nose of red fruit, leather and coffee. Surprising firm tannin, acid, taste kinda like it smells, shoe leather, coffee ground but very little fruit. Not terrible but not really my style.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1414539&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1414539&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1414539" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1328433" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=77191&amp;CK=6129e3637ac495713e77fafeeb211f40" href="user.asp?iUserOverride=77191">
+               View gondrik's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=1328433" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2010-01-11" itemprop="datePublished"/>
+           <h3>
+            1/11/2010 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=77191&amp;CK=6129e3637ac495713e77fafeeb211f40" href="note.asp?iWine=3&amp;iNote=1328433">
+             <span class="static" itemprop="author">
+              gondrik
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              97
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Decanted three hours. The nose is just gorgeous! On the palate it is sweeter than I anticipated, with red fruit flavors. Blind, I might have guessed a great CNP rather than a cabernet.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1328433&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1328433&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1328433" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1096311" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=31035&amp;CK=dc773d1456433b0d4a4e82dde36ec783" href="user.asp?iUserOverride=31035">
+               View ASG24's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=1096311" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2009-06-25" itemprop="datePublished"/>
+           <h3>
+            6/25/2009 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=31035&amp;CK=dc773d1456433b0d4a4e82dde36ec783" href="note.asp?iWine=3&amp;iNote=1096311">
+             <span class="static" itemprop="author">
+              ASG24
+             </span>
+             wrote:
+            </a>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Decanted about 30 minutes before pouring. Very nice nose of red berries, cherry liqueur, tobacco, anise, and some smoke. In the mouth, smooth, round, fully resolved, with wonderful red and some blue fruit, cassis, tobacco, some leather, and smoke flavors. A terrific wine.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1096311&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=1096311&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=1096311" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=837570" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=17348&amp;CK=4c8cba246d65dcd0e6d573533ea69c94" href="user.asp?iUserOverride=17348">
+               View rsepulve's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=837570" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2008-10-24" itemprop="datePublished"/>
+           <h3>
+            10/24/2008 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=17348&amp;CK=4c8cba246d65dcd0e6d573533ea69c94" href="note.asp?iWine=3&amp;iNote=837570">
+             <span class="static" itemprop="author">
+              rsepulve
+             </span>
+             wrote:
+            </a>
+            <span class="score">
+             flawed
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Corked! Wow. 3 corked Abreu's in the past year. What rotten luck!
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=837570&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=837570&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=837570" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=355649" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=5540&amp;CK=c3f7a2dccaec2ec5a68b007ad59eca49" href="user.asp?iUserOverride=5540">
+               View conadoc's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=355649" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2007-03-31" itemprop="datePublished"/>
+           <h3>
+            3/31/2007 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=5540&amp;CK=c3f7a2dccaec2ec5a68b007ad59eca49" href="note.asp?iWine=3&amp;iNote=355649">
+             <span class="static" itemprop="author">
+              conadoc
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              98
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Superb wine. Fully mature, wonderful fruit, marvellously complex, long finish. No tannin.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=355649&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=355649&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=355649" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=269809" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="user.asp?iUserOverride=1">
+               View Eric's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=269809" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2006-08-13" itemprop="datePublished"/>
+           <h3>
+            8/13/2006 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="note.asp?iWine=3&amp;iNote=269809">
+             <span class="static" itemprop="author">
+              Eric
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              94
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=2502">
+            Seattle Tasting Group does California Cabernet (Sammamish, WA)
+           </a>
+           : A little smokey and charred with some brown sugar. This is amazingly lush and ripe, a huge palate presence, with impressive tannins on the finish. Terrific wine.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=269809&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=269809&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=269809" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=81133" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=401&amp;CK=c570e9df6e15f10bc0ff5cbcb210f537" href="user.asp?iUserOverride=401">
+               View Alpine's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=81133" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2005-11-29" itemprop="datePublished"/>
+           <h3>
+            11/29/2005 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=401&amp;CK=c570e9df6e15f10bc0ff5cbcb210f537" href="note.asp?iWine=3&amp;iNote=81133">
+             <span class="static" itemprop="author">
+              Alpine
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              95
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Really dark red fruit in the nose….maybe a touch hot on the nose but not out of balance at all on the palate. Huge fruit on entry and a long finish…I would have liked more fruit concentration on the mid palate. This was the best of the first flight for me.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=81133&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=81133&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=81133" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=13237" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=42&amp;CK=5e93508fa475d51c7bac0c53b251150b" href="user.asp?iUserOverride=42">
+               View Rani's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=13237" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2004-10-01" itemprop="datePublished"/>
+           <h3>
+            10/1/2004 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=42&amp;CK=5e93508fa475d51c7bac0c53b251150b" href="note.asp?iWine=3&amp;iNote=13237">
+             <span class="static" itemprop="author">
+              Rani
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              89
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Blackcurrant galore on the nose. Very upfront, with coarse tannins (a bit rustic). Big attack is followed by decent mouthfilling fruit but a short finish. A good wine but outclassed by the better Clarets tasted before it and after.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=13237&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=13237&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=13237" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=11796" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="user.asp?iUserOverride=1">
+               View Eric's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=11796" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2004-07-30" itemprop="datePublished"/>
+           <h3>
+            7/30/2004 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="note.asp?iWine=3&amp;iNote=11796">
+             <span class="static" itemprop="author">
+              Eric
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              94
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=69">
+            My trip to Napa, Part 3: Tasting at Outpost and dinner at Terra (Napa Valley, California, USA)
+           </a>
+           : My bottle. When we first opened this it screamed of mint, cola, and sasparilla, an amazingly cool nose! On the palate this had seething intensity and was very complex and layered. And then, within a matter of 10 minutes, this shut down
+           <b>
+            HARD
+           </b>
+           ! The lavish and complex wine turned into a brooding, structured monster, massive on the palate, barely giving up some cranberry fruit. From this point we chased the memory of what we had tasted at first, and right as we neared the end of the meal the wine started to relent. Beware though, this one clearly needs some more time.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=11796&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=11796&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=11796" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="user.asp?iUserOverride=1">
+               View Eric's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2003-01-24" itemprop="datePublished"/>
+           <h3>
+            1/24/2003 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=1&amp;CK=d9971f4977002a9361594f2b2563d197" href="note.asp?iWine=3&amp;iNote=5">
+             <span class="static" itemprop="author">
+              Eric
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           <a href="event.asp?iEvent=9">
+            Seattle Tasting Group 1997 and older California Meritage (Sammamish, WA, USA)
+           </a>
+           : This was my bottle. Black as night. The nose was slightly reluctant, this was an infant. Coffee, olive, and a ton of complexity that defies my feeble vocabulary. On the palate this was a silky, monstrous powerhouse, powerful, liquer-like. Remarkable extract. Over the top for 2 of the 8 folks but loved by the other 6. The finish was from another world, 45 seconds, soaring, dancing, exploding, multiple layers. Simply stunning! 96 points and WOTN!
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=99075" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=629&amp;CK=e6ae2012ad37cbb5788ae61c1c8e70b0" href="user.asp?iUserOverride=629">
+               View mdefreitas's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=99075" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="2002-09-29" itemprop="datePublished"/>
+           <h3>
+            9/29/2002 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=629&amp;CK=e6ae2012ad37cbb5788ae61c1c8e70b0" href="note.asp?iWine=3&amp;iNote=99075">
+             <span class="static" itemprop="author">
+              mdefreitas
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              92
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           Good structure, fine tannins, a bit too much tannins however smooth they are. Good fruit and minerals, but needs more time. Has some upside potential.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            1 person found this helpful, do you?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=99075&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=99075&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=99075" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+         <li itemprop="review" itemscope="" itemtype="https://schema.org/Review">
+          <div class="relative">
+           <div class="dropdown hover">
+            <a class="note_options select ir" href="#">
+             Options
+            </a>
+            <ul>
+             <li>
+              <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5981227" rel="nofollow">
+               Post a Comment
+              </a>
+             </li>
+             <li>
+              <a class="hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=463287&amp;CK=1c32b4dcf61f9a0781b296cae332376e" href="user.asp?iUserOverride=463287">
+               View buckeye76's profile
+              </a>
+             </li>
+             <li>
+              <a class="extra auth_required action_wide" href="popup/notereport_form.asp?iNote=5981227" rel="nofollow">
+               Report Issue
+              </a>
+             </li>
+            </ul>
+           </div>
+           <meta content="1999-12-30" itemprop="datePublished"/>
+           <h3>
+            12/30/1999 -
+            <a class="uppercase hovercard" data-hovercard="ajaxpersonpopup.asp?iUserOverride=463287&amp;CK=1c32b4dcf61f9a0781b296cae332376e" href="note.asp?iWine=3&amp;iNote=5981227">
+             <span class="static" itemprop="author">
+              buckeye76
+             </span>
+             wrote:
+            </a>
+            <span class="score" itemprop="reviewRating" itemscope="" itemtype="https://schema.org/Rating">
+             <meta content="100" itemprop="bestRating"/>
+             <meta content="70" itemprop="worstRating"/>
+             <span class="static" itemprop="ratingValue">
+              96
+             </span>
+             Points
+            </span>
+           </h3>
+          </div>
+          <p class="break_word" itemprop="reviewBody">
+           COMPLEX ELEGANT WINE WHICH TOOK ALMOST 90 MINUTES TO OPEN UP, THEN DEEP BERRY FRUIT, LICORICE, AND LEATHER IN THE NOSE AND FLAVOR. LONG FINISH.
+          </p>
+          <p class="footnote">
+           <span class="notevote">
+            Do you find this review helpful?
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5981227&amp;Helpful=1" rel="nofollow">
+             Yes
+            </a>
+            -
+            <a class="votelink extra auth_required" href="notevote.asp?iNote=5981227&amp;Helpful=0" rel="nofollow">
+             No
+            </a>
+           </span>
+           /
+           <a class="auth_required" href="editcomment.asp?iWine=3&amp;iNote=5981227" rel="nofollow">
+            Comment
+           </a>
+          </p>
+         </li>
+        </ul>
+        <h2 class="end">
+         What Do You Think?
+         <span>
+          <a class="auth_required btn btn_m" href="editnote.asp?iWine=3" rel="nofollow">
+           Add a Tasting Note
+          </a>
+         </span>
+        </h2>
+       </div>
+       <!-- End panel -->
+       <!-- /11734367/ct_desktop_footer_leaderboard_728x90 -->
+       <div class="ad_leaderboard" id="div-gpt-ad-1454375058031-0" style="height:90px; width:728px;">
+        <script type="text/javascript">
+         googletag.cmd.push(function() { googletag.display('div-gpt-ad-1454375058031-0'); });
+        </script>
+       </div>
+      </div>
+      <!-- End ABC -->
+      <div class="colD_container">
+       <div class="colD">
+        <div class="right_info">
+         <div class="wine_notes">
+          <a class="img_wrap action_exwide" href="label.asp?iWine=3&amp;iLabel=2291041&amp;CK=bd210e1f8803aa38587e4e6b7fc0a489">
+           <img alt="label" height="65" itemprop="image" src="https://cdn.ct-static.com/labels/a9249e4d-ebfb-48ab-a675-4d57fc0227c3_100x.jpg" width="49"/>
+          </a>
+          <h3>
+           <a href="wine.asp?iWine=3">
+            1995 Abreu Cabernet Sauvignon Madrona Ranch
+           </a>
+          </h3>
+          <p>
+           <a class="action" href="popup/vintages.asp?iWine=3">
+            (see all 38 vintages)
+           </a>
+          </p>
+          <p>
+           <a class="auth_required" href="editpersonal.asp?iWine=3" rel="nofollow" title="Source: Community">
+            Drink 2004-2022
+           </a>
+          </p>
+          <ul>
+           <li>
+            <a href="list.asp?Country=USA">
+             USA
+            </a>
+           </li>
+           <li>
+            &gt;
+            <a href="list.asp?Region=California">
+             California
+            </a>
+           </li>
+           <li>
+            &gt;
+            <a href="list.asp?SubRegion=Napa+Valley">
+             Napa Valley
+            </a>
+           </li>
+          </ul>
+         </div>
+         <!-- End wine_notes -->
+         <div class="clear">
+         </div>
+        </div>
+        <!-- End right_info -->
+        <ul class="top" id="right_nav">
+         <li class="alert" id="wheretobuy">
+          <a class="bar on" href="#wheretobuy">
+           Where to Buy
+          </a>
+          <ul>
+           <li class="detail button-box" data-wineid="3" id="where_to_buy_container">
+            <div class="loading">
+            </div>
+           </li>
+          </ul>
+         </li>
+         <li id="likeit">
+          <a class="bar on" href="#likeit">
+           100% Like It
+           <span>
+            9
+           </span>
+          </a>
+          <ul>
+           <li class="end">
+            What do you think?
+            <br/>
+            <a class="button likelink auth_required btn btn_tbldark btn_fixed" href="likeit.asp?iWine=3&amp;LikeIt=1" rel="nofollow">
+             I like it
+            </a>
+            <a class="button likelink auth_required btn btn_tbldark btn_fixed" href="likeit.asp?iWine=3&amp;LikeIt=0" rel="nofollow">
+             I don't like it
+            </a>
+            <div class="clear">
+            </div>
+           </li>
+          </ul>
+         </li>
+         <li id="mycellar">
+          <a class="bar on" href="#mycellar">
+           My Cellar
+           <span>
+            0
+           </span>
+          </a>
+          <ul>
+           <li class="end">
+            <a class="auth_required" href="purchase.asp?iWine=3" rel="nofollow">
+             Add to My Cellar
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li id="tastingnotes">
+          <a class="bar on" href="#tastingnotes">
+           Tasting Notes
+           <span>
+            35
+           </span>
+          </a>
+          <ul>
+           <li class="pointer divider">
+            <a href="notes.asp?iWine=3">
+             Community Notes
+            </a>
+            <span>
+             35
+            </span>
+           </li>
+           <li>
+            <a class="action" href="popup/notestats.asp?iWine=3" title="Average of 94.2 points in 35 community notes">
+             Community Score
+            </a>
+            <span>
+             94.2
+            </span>
+           </li>
+           <li class="end">
+            <a class="auth_required" href="editnote.asp?iWine=3" rel="nofollow">
+             Add a Tasting Note
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li id="proreviews">
+          <a class="bar on" href="#proreviews">
+           Pro Reviews
+           <span>
+            2
+           </span>
+          </a>
+          <ul class="proreviewlist">
+           <li class="proreview">
+            <a class="action_exwide" href="popup/proreviews.asp?iWine=3&amp;Publication=Vinous">
+             Vinous
+            </a>
+            <span>
+            </span>
+           </li>
+           <li class="proreview">
+            <a class="action_exwide" href="popup/proreviews.asp?iWine=3&amp;Publication=RJonWine%2Ecom">
+             RJonWine.com
+            </a>
+            <span>
+             92
+            </span>
+           </li>
+           <li class="divider">
+            <a class="action_exwide" href="popup/proreviews.asp?iWine=3">
+             (see all 2 reviews)
+            </a>
+           </li>
+           <li class="end">
+            <a class="auth_required" href="editreview.asp?iWine=3" rel="nofollow">
+             Add a Pro Review
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li id="mywishlist">
+          <a class="bar on" href="#mywishlist">
+           My Wish List
+           <span>
+            0
+           </span>
+          </a>
+          <ul>
+           <li class="end">
+            <a class="auth_required action_wide" href="popup/tagwine_form.asp?Refresh=false&amp;iWine=3" rel="nofollow">
+             Add to My List
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li id="myprivatenotes">
+          <a class="bar on" href="#myprivatenotes">
+           My Private Notes
+           <span>
+            0
+           </span>
+          </a>
+          <ul>
+           <li class="end">
+            <a class="auth_required" href="editprivatenote.asp?iWine=3" rel="nofollow">
+             Add a Private Note
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li id="communityholdings">
+          <a class="bar on" href="#communityholdings">
+           <span class="ellipsis">
+            Community Holdings
+           </span>
+           <span>
+            705
+           </span>
+          </a>
+          <ul>
+           <li>
+            <span class="ellipsis">
+             Pending Delivery (0%)
+            </span>
+            <span>
+             1
+            </span>
+           </li>
+           <li>
+            <span class="ellipsis">
+             In Cellars (55%)
+            </span>
+            <span>
+             390
+            </span>
+           </li>
+           <li class="divider">
+            <span class="ellipsis">
+             Consumed (45%)
+            </span>
+            <span>
+             314
+            </span>
+           </li>
+           <li class="end">
+            <a class="action_wide" href="popup/topstores.asp?iWine=3&amp;CK=1460482eefeaa8d4d5400ed4aeb62e05">
+             Top Stores
+            </a>
+           </li>
+          </ul>
+         </li>
+         <li>
+          <div class="ad_label" style="width:160px;">
+           Advertisement
+          </div>
+          <!-- /11734367/ct_desktop_rightsidebar_wide-skyscraper_160x600 -->
+          <div class="ad_skyscraper" id="div-gpt-ad-1454375058031-2" style="height:600px; width:160px;">
+           <script type="text/javascript">
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1454375058031-2'); });
+           </script>
+          </div>
+         </li>
+        </ul>
+       </div>
+       <!-- End colD -->
+      </div>
+      <!-- End colD_container -->
+      <div class="clear">
+      </div>
+     </div>
+     <!-- End colDYellow -->
+    </div>
+   </div>
+   <!-- End central and shell -->
+   <!-- Start footer -->
+   <div id="footer">
+    <ul id="footer_nav">
+     <li>
+      <a href="https://support.cellartracker.com/">
+       <span>
+        Help
+       </span>
+      </a>
+     </li>
+     <li>
+      <a href="about.asp">
+       <span>
+        About
+       </span>
+      </a>
+     </li>
+     <li>
+      <a href="contact.asp">
+       <span>
+        Contact Us
+       </span>
+      </a>
+     </li>
+     <li>
+      <a href="terms.asp">
+       <span>
+        Terms
+       </span>
+      </a>
+     </li>
+     <li>
+      <a href="privacypolicy.asp">
+       <span>
+        Privacy
+       </span>
+      </a>
+     </li>
+     <li>
+      <a href="https://www.facebook.com/CellarTracker">
+       Facebook
+      </a>
+     </li>
+     <li>
+      <a href="https://twitter.com/cellartracker">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="classic/wine.asp?iWine=3" rel="nofollow">
+       Classic-mode
+      </a>
+     </li>
+     <li>
+      <a href="/m/wines/3" rel="nofollow">
+       Mobile
+      </a>
+     </li>
+    </ul>
+    <p id="copyright">
+     © 2003-24 CellarTracker! LLC. All rights reserved.
+		"CellarTracker!" is a trademark of CellarTracker! LLC. No part of this website may be used, reproduced or distributed without the prior written permission of CellarTracker! LLC.
+    </p>
+   </div>
+   <!-- End footer -->
+   <script>
+    window.addEventListener("load",function(){window.cookieconsent&&window.cookieconsent.initialise({palette:{popup:{background:"#f0eee3",text:"#333333"},button:{background:"#94262b",text:"#ffffff"}},theme:"classic",content:{message:"We use technologies such as cookies to collect information from your browser to personalize content and perform site analytics. Please visit our Privacy Policy for more information.",href:"https://www.cellartracker.com/privacypolicy.asp"},onStatusChange:function(status,chosenBefore){if(status==="dismiss"){var xhr=new XMLHttpRequest;xhr.open("GET","/settings.asp?Setting=ShowCookieBanner&Value=0");xhr.send()}}})});
+   </script>
+  </div>
+  <!-- End section -->
+  <div class="help" id="helpbox">
+   <div class="body shadow">
+    <a class="close" href="#">
+     ×
+    </a>
+    <span id="helpcopy">
+    </span>
+   </div>
+   <!-- End body -->
+  </div>
+  <!-- End helpbox -->
+  <div class="actionbox" id="actionbox">
+   <div class="body shadow">
+    <a class="close" href="#">
+     ×
+    </a>
+    <span id="copy">
+    </span>
+   </div>
+   <!-- End body -->
+   <div class="clear">
+   </div>
+  </div>
+  <!-- End actionbox -->
+ </body>
+</html>
+
