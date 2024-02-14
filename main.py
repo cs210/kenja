@@ -1,13 +1,16 @@
 """
 Simple recommendation algorithm + frontend for wine.
 """
+import chromadb
+from chromadb.config import Settings
 import csv
 from dotenv import load_dotenv
 from openai import OpenAI
 
-""" Set up OpenAI client """
+""" Set up OpenAI and Chroma client """
 load_dotenv()
 client = OpenAI()
+chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
 
 """ Constants for data """
 CONFIG_FILE = "config.json"
@@ -52,12 +55,39 @@ def create_embedding(description):
     """
     return client.embeddings.create(input = [description], model=EMBEDDING_MODEL).data[0].embedding
 
+def add_wines(collection, wine):
+    """
+    Add wine to our vector database.
+    """
+    collection.add(
+        embeddings=[[1, 2, 3]],#create_embedding(wine.description)],
+        documents=[wine.description],
+        metadatas=[{"price": wine.price}],
+        ids=[wine.id]
+    )
+
+def find_wine(query):
+    """
+    Find a similar wine based on our query.
+    """
+    embedding = create_embedding(query)
+    results = collection.query(
+        query_embeddings=[embedding],
+        n_results=3
+    )
+    return results
+
 if __name__ == "__main__":
     """
     Call all functions.
     """
+    # Load data
     wines = load_data()
-    embedding = create_embedding(wines[0].description)
-    print(embedding)
-    #print("Hello World!")
+
+    # Create collection
+    collection = chroma_client.create_collection(name="wines")
+
+    # Add wines to collection
+    for i in range(30):
+        add_wines(collection, wines[i])
     

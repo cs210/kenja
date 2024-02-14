@@ -6,5 +6,5 @@ MVP for initial recommendation algorithm, powered by RAG.
 ```bash
 python3 -m venv env
 source env/bin/activate
-python3 -m pip install requirement.txt
+python3 -m pip install requirements.txt
 ```
