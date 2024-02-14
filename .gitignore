@@ -4,3 +4,6 @@ env/
 
 # API keys
 .env
+
+# Miscellany
+__pycache__/

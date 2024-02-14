@@ -6,13 +6,14 @@ from chromadb.config import Settings
 import csv
 from dotenv import load_dotenv
 from openai import OpenAI
+import streamlit as st
 
-""" Set up OpenAI and Chroma client """
+# Set up OpenAI and Chroma client
 load_dotenv()
 client = OpenAI()
 chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
 
-""" Constants for data """
+# Constants for data
 CONFIG_FILE = "config.json"
 DATA_PATH = "data/initial_wine_data.csv"
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -60,13 +61,13 @@ def add_wines(collection, wine):
     Add wine to our vector database.
     """
     collection.add(
-        embeddings=[[1, 2, 3]],#create_embedding(wine.description)],
+        embeddings=[create_embedding(wine.description)],
         documents=[wine.description],
-        metadatas=[{"price": wine.price}],
+        metadatas=[{"designation": wine.designation, "variety": wine.variety, "winery": wine.winery}],
         ids=[wine.id]
     )
 
-def find_wine(query):
+def find_wine(collection, query):
     """
     Find a similar wine based on our query.
     """
@@ -77,17 +78,44 @@ def find_wine(query):
     )
     return results
 
-if __name__ == "__main__":
+def find_match(query):
     """
     Call all functions.
     """
-    # Load data
+    # Initialize all data
     wines = load_data()
-
-    # Create collection
     collection = chroma_client.create_collection(name="wines")
-
-    # Add wines to collection
-    for i in range(30):
+    for i in range(25):
         add_wines(collection, wines[i])
+
+    # Find a similar wine
+    results = find_wine(collection, query)
+    return results
+
+# Header
+st.title("🍷 Sommelier")
+st.subheader("You give us a request, we give you wine recs.")
+
+# Core form/search function
+submitted = False
+slider_val = ""
+with st.form("input_form"):
+   st.write("Describe what wine you're looking for...")
+   slider_val = st.text_input("Ex: \"I want a wine that goes well with gouda and has notes of paprika.\"")
+
+   # Submit function
+   submitted = st.form_submit_button("Submit")
+
+# Checking for submitted
+if submitted:
+    st.subheader("Recommendations")
+    results = find_match(slider_val)
+
+    # Display results
+    for i in range(len(results['documents'][0])):
+        metadata = results['metadatas'][0][i]
+        st.write("🍷 " + metadata['designation'])
+        st.write("Vineyard: " + metadata['winery'])
+        st.write("Variety: " + metadata['variety'])
+        st.divider()
     
