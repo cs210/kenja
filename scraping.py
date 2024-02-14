@@ -1,9 +1,13 @@
 """
 Simple recommendation algorithm for wine
 """
+import csv
 from bs4 import BeautifulSoup
 import requests
 import time
+
+""" Constant for CellarTracker URL """
+URL = "https://www.cellartracker.com/wine.asp?iWine="
 
 class WineInfo:
     def __init__(self, comments, wine_rating):
@@ -19,9 +23,10 @@ def discover_num_wines():
         print(website)
         x = requests.get(website)
         print(x.status_code)
-        while True:
+        print(x.response)
+        '''while True:
             if x.status_code != 202:
-                break
+                break'''
         if (x.status_code != 200):
             print("Error with status code: ", x.status_code,)
             print("Error occurred on value: ", index)
@@ -37,7 +42,7 @@ def scrape_notes(website):
     x = requests.get(website)
     while(x.status_code == 202):
         print("here!")
-        time.sleep(60)
+        #time.sleep(60)
         x = requests.get(website)
 
     html = x.text
@@ -60,8 +65,14 @@ def scrape_notes(website):
     rating = str(soup.find("meta", property="og:description"))
     rating = rating[rating.find("f") + 2:rating.find("p") - 1]
 
+    with open('data/cellartracker.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',')
+        writer.writerow([title, rating, review_list])
+        csvfile.close()
+
 
 if __name__ == "__main__":
-    scrape_notes('https://www.cellartracker.com/notes.asp?iWine=100')
+    for i in range(1, 101):
+        scrape_notes(URL + str(i))
     # discover_num_wines()
     
