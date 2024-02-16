@@ -18,3 +18,7 @@ If you've installed all the dependencies above, run:
 ```bash
 streamlit run main.py
 ```
+
+## Deployment
+
+To deploy, check thelink [here](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app).
