@@ -1,5 +1,5 @@
 import streamlit as st
-from sommelierFunctions.sommelierHelpers import *
+from sommelier_functions.sommelier_helpers import *
 
 # Header
 st.title("🍷 Sommelier")
