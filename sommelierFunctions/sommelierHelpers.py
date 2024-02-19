@@ -1,17 +1,12 @@
-"""
-Simple recommendation algorithm + frontend for wine.
-"""
 import chromadb
 from chromadb.config import Settings
 import csv
 from dotenv import load_dotenv
 from openai import OpenAI
-import streamlit as st
 
-# Set up OpenAI and Chroma client
 load_dotenv()
-client = OpenAI()
 chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
+client = OpenAI()
 
 # Constants for data
 CONFIG_FILE = "config.json"
@@ -91,31 +86,3 @@ def find_match(query):
     # Find a similar wine
     results = find_wine(collection, query)
     return results
-
-# Header
-st.title("🍷 Sommelier")
-st.subheader("You give us a request, we give you wine recs.")
-
-# Core form/search function
-submitted = False
-slider_val = ""
-with st.form("input_form"):
-   st.write("Describe what wine you're looking for...")
-   slider_val = st.text_input("Ex: \"I want a wine that goes well with gouda and has notes of paprika.\"")
-
-   # Submit function
-   submitted = st.form_submit_button("Submit")
-
-# Checking for submitted
-if submitted:
-    st.subheader("Recommendations")
-    results = find_match(slider_val)
-
-    # Display results
-    for i in range(len(results['documents'][0])):
-        metadata = results['metadatas'][0][i]
-        st.write("🍷 " + metadata['designation'])
-        st.write("Vineyard: " + metadata['winery'])
-        st.write("Variety: " + metadata['variety'])
-        st.divider()
-    

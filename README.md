@@ -21,4 +21,4 @@ streamlit run main.py
 
 ## Deployment
 
-To deploy, check thelink [here](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app).
+To deploy, check the link [here](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app).
