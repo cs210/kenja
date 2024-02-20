@@ -194,6 +194,21 @@ def find_match(query):
     Call all functions.
     """
     # Initialize all data
+    collection = chroma_client.get_or_create_collection(name="books")
+
+    if collection.count() == 0:
+        print("populating data from file")
+        # Initialize all data
+        wines = load_data()
+        for i in range(25):
+            add_books(collection, wines[i])
+    else:
+        print("Populating data from existing chromadb collection")
+
+    # Find a similar wine
+    results = find_book(collection, query)
+    return results
+    """
     books = load_data()
     collection = chroma_client.create_collection(name="books")
     for i in range(25):
@@ -202,3 +217,4 @@ def find_match(query):
     # Find a similar wine
     results = find_book(collection, query)
     return results
+    """

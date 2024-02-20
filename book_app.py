@@ -38,8 +38,8 @@ if submitted:
         metadata = results['metadatas'][0][i]
         st.write("📘 " + metadata['title'])
         st.write("Description: " + metadata['description'])
-        st.write("score: " + str(metadata['score']))
+        st.write("score: " + str(round(metadata['score'],1)))
         st.write("publisher: " + metadata['publisher'])
-        st.write("publication date: " + metadata['publisher'])
+        st.write("publication date: " + metadata['publication_date'])
         st.write("Link to buy: " + metadata['link'])
         st.divider()
