@@ -8,9 +8,14 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # Main packages to import
 import streamlit as st
+import folium
+from geopy.geocoders import Nominatim
 from sommelier_functions.sommelier_helpers import *
 from metrics import SEARCH_COUNT
 from state import count_sessions
+
+# Initialize geopy geocoder
+geolocator = Nominatim(user_agent="geoapiExercises", timeout=10)
 
 # Header + increment visit count
 count_sessions()
@@ -39,4 +44,20 @@ if submitted:
         st.write("🍷 " + metadata['designation'])
         st.write("Vineyard: " + metadata['winery'])
         st.write("Variety: " + metadata['variety'])
+        st.write("Points: " + metadata['points'])
+        st.write("Country: " + metadata['country'])
+        st.write("Location: " + metadata['province'] + ", " + metadata['region_1'] + ", " + metadata['region_2'])
+        st.write("Price: " + metadata['price'])
+
+        try: 
+            loc = geolocator.geocode(metadata['province'] + ", " + metadata['region_1'], timeout=10)
+            if loc:
+                m = folium.Map(location=[loc.latitude, loc.longitude], zoom_start=10)
+                folium.Marker([loc.latitude, loc.longitude], popup=metadata['winery']).add_to(m)
+                st.write(m)
+            else:
+                st.write("Could not find location")
+
+        except Exception as e:
+            print("An error occurred:", e)
         st.divider()

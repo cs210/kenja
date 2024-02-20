@@ -37,7 +37,7 @@ def load_data():
     """
     # Open the CSV file
     all_wines = []
-    with open(DATA_PATH, mode='r') as file:
+    with open(DATA_PATH, mode='r', encoding='utf-8') as file:
         reader = csv.reader(file)
         
         # Create a wine info object
@@ -58,7 +58,9 @@ def add_wines(collection, wine):
     collection.add(
         embeddings=[create_embedding(wine.description)],
         documents=[wine.description],
-        metadatas=[{"designation": wine.designation, "variety": wine.variety, "winery": wine.winery}],
+        metadatas=[{"designation": wine.designation, "variety": wine.variety, "winery": wine.winery, 
+                    "country": wine.country, "points": wine.points, "price": wine.price,
+                    "province": wine.province, "region_1": wine.region_1, "region_2": wine.region_2}],
         ids=[wine.id]
     )
 
@@ -71,6 +73,7 @@ def find_wine(collection, query):
         query_embeddings=[embedding],
         n_results=3
     )
+    
     return results
 
 def find_match(query):
@@ -89,6 +92,7 @@ def find_match(query):
     else:
         print("Populating data from existing chromadb collection")
 
+    print(collection)
 
     # Find a similar wine
     results = find_wine(collection, query)
