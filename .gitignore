@@ -9,3 +9,8 @@ env/
 __pycache__/
 .chroma/
 chromadb_data
+
+
+archive/
+
+testing.py
