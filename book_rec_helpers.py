@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
-chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
+chroma_client = chromadb.PersistentClient(path="./chromadb_data", settings=Settings(anonymized_telemetry=False))
 client = OpenAI()
 
 # Constants for data
@@ -199,9 +199,9 @@ def find_match(query):
     if collection.count() == 0:
         print("populating data from file")
         # Initialize all data
-        wines = load_data()
-        for i in range(25):
-            add_books(collection, wines[i])
+        books = load_data()
+        for i in range(len(books)):
+            add_books(collection, books[i])
     else:
         print("Populating data from existing chromadb collection")
 
