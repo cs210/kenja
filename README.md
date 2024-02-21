@@ -1,10 +1,9 @@
-# The Boys in the Boat
-MVP for initial wine recommendation algorithm, powered by Retrieval Augmented Generation (RAG).
+# 📚 🐛 Bookworm
+For all our booklovers out there: give us a description of a book you're dying to find, and we'll give you recs!
 
 ## Set-Up
 
 Simple set-up: create a virtual environment and install dependencies.
-
 ```bash
 python3 -m venv env
 source env/bin/activate
@@ -16,9 +15,17 @@ python3 -m pip install -r requirements.txt
 If you've installed all the dependencies above, run:
 
 ```bash
-streamlit run main.py
+streamlit run app.py
+```
+
+## Telemetry
+
+To query telemetry data, run the following after running Streamlit:
+
+```bash
+curl localhost:8501/_stcore/metrics
 ```
 
 ## Deployment
 
-To deploy, check the link [here](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app).
+[TO-DO] Will be looking into deploying onto a lightweight EC2 instance, routing to a url, and running!s

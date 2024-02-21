@@ -5,7 +5,7 @@ From one of the creators: https://gist.github.com/ash2shukla/ff180d7fbe8ec3a0240
 from streamlit.runtime import get_instance
 from streamlit.runtime.scriptrunner import get_script_run_ctx as get_report_ctx
 from streamlit.runtime.legacy_caching.hashing import _CodeHasher
-from metrics import VISIT_COUNT
+from helpers.metrics import VISIT_COUNT
 from streamlit_extras.prometheus import streamlit_registry
 registry = streamlit_registry()
 

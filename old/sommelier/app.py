@@ -9,8 +9,8 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 # Main packages to import
 import streamlit as st
 from sommelier_functions.sommelier_helpers import *
-from metrics import SEARCH_COUNT
-from state import count_sessions
+from helpers.metrics import SEARCH_COUNT
+from helpers.state import count_sessions
 
 # Header + increment visit count
 count_sessions()

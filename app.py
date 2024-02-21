@@ -8,9 +8,9 @@ Main interface for the Sommelier app.
 
 # Main packages to import
 import streamlit as st
-from book_rec_helpers import *
-from metrics import SEARCH_COUNT
-from state import count_sessions
+from helpers.book_rec_helpers import *
+from helpers.metrics import SEARCH_COUNT
+from helpers.state import count_sessions
 
 # Header + increment visit count
 count_sessions()
@@ -38,8 +38,8 @@ if submitted:
         metadata = results['metadatas'][0][i]
         st.write("📘 " + metadata['title'])
         st.write("Description: " + metadata['description'])
-        st.write("score: " + str(round(metadata['score'],1)))
-        st.write("publisher: " + metadata['publisher'])
-        st.write("publication date: " + metadata['publication_date'])
-        st.write("Link to buy: " + metadata['link'])
+        st.write("Score: " + str(round(metadata['score'],1)))
+        st.write("Publisher: " + metadata['publisher'])
+        st.write("Publication date: " + metadata['publication_date'])
+        st.write("Link to Buy: " + metadata['link'])
         st.divider()
