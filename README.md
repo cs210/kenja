@@ -28,4 +28,4 @@ curl localhost:8501/_stcore/metrics
 
 ## Deployment
 
-[TO-DO] Will be looking into deploying onto a lightweight EC2 instance, routing to a url, and running!s
+[TO-DO] Will be looking into deploying onto a lightweight EC2 instance, routing to a url, and running!

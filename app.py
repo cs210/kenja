@@ -14,14 +14,14 @@ from helpers.state import count_sessions
 
 # Header + increment visit count
 count_sessions()
-st.title("📚 Book Finder")
-st.subheader("You give us a request, we give you book recs.")
+st.title("📚🐛 Bookworm")
+st.subheader("Looking for a new read? Just tell us what you're looking to dive in next!")
 
 # Core form/search function
 submitted = False
 slider_val = ""
 with st.form("input_form"):
-   st.write("Describe what type of book you're looking for...")
+   st.write("Describe what type of book you're looking for below:")
    slider_val = st.text_input("Ex: \"I want a book that is about magic.\"")
 
    # Submit function
@@ -36,10 +36,13 @@ if submitted:
     # Display results
     for i in range(len(results['documents'][0])):
         metadata = results['metadatas'][0][i]
-        st.write("📘 " + metadata['title'])
-        st.write("Description: " + metadata['description'])
-        st.write("Score: " + str(round(metadata['score'],1)))
-        st.write("Publisher: " + metadata['publisher'])
-        st.write("Publication date: " + metadata['publication_date'])
-        st.write("Link to Buy: " + metadata['link'])
+        print(metadata)
+        st.write("## 📘 [" + metadata['title'] + "](" + metadata['link'] + ")")
+        score_str = ""
+        for i in range(int(metadata['score'])):
+            score_str += "⭐️"
+        st.write("### " + score_str)
+        st.write(metadata['description'])
+        st.write("**Publisher:** " + metadata['publisher'])
+        st.write("**Publication date:** " + metadata['publication_date'])
         st.divider()
