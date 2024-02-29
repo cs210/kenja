@@ -23,17 +23,24 @@ streamlit run app.py
 To query telemetry data, run the following after running Streamlit:
 
 ```bash
-curl localhost:8501/_stcore/metrics
+curl kenja.pro:8501/_stcore/metrics
 ```
 
 ## Coding Standards
 
-We use [Black](https://github.com/psf/black) as our Python code formatter. To use Black, install all of the requirements and then run:
+We use [Black](https://github.com/psf/black) as our Python code formatter and [Flake8](https://flake8.pycqa.org/en/latest/) as our linter. To use both, install all of the requirements. To check Black, try:
 
 ```bash
 black .
 ```
 
+To check Flake8, try:
+```bash
+flake8 .
+```
+
+We also set up `setup.cfg` to configure Flake8 to meet Black style.
+
 ## Deployment
 
-[TO-DO] Will be looking into deploying onto a lightweight EC2 instance, routing to a url, and running!
+Notes on deployment are [here](https://github.com/cs210/2024-Unusual-1/wiki/Prototyping:-A-New-Shopping-Experience)!

@@ -2,7 +2,7 @@
 Enabling Prometheus to get data from user sessions.
 """
 
-from prometheus_client import Counter, Histogram
+from prometheus_client import Counter
 from streamlit_extras.prometheus import streamlit_registry
 
 registry = streamlit_registry()

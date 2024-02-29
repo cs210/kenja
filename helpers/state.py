@@ -1,6 +1,7 @@
 """
 Way to track page views in Streamlit.
-From one of the creators: https://gist.github.com/ash2shukla/ff180d7fbe8ec3a0240f19f4452acde7
+From one of the creators:
+https://gist.github.com/ash2shukla/ff180d7fbe8ec3a0240f19f4452acde7
 """
 
 from streamlit.runtime import get_instance
@@ -51,7 +52,10 @@ class _SessionState:
         self._state["session"].request_rerun()
 
     def sync(self):
-        """Rerun the app with all state values up to date from the beginning to fix rollbacks."""
+        """
+        Rerun the app with all state values up to
+        date from the beginning to fix rollbacks.
+        """
 
         # Ensure to rerun only once to avoid infinite loops
         # caused by a constantly changing state value at each run.

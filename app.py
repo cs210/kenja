@@ -9,7 +9,7 @@ Main interface for the Sommelier app.
 
 # Main packages to import
 import streamlit as st
-from helpers.book_rec_helpers import *
+from helpers.book_rec_helpers import find_match
 from helpers.metrics import SEARCH_COUNT
 from helpers.state import count_sessions
 
