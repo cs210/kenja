@@ -1,6 +1,7 @@
 """
 Main interface for the Sommelier app.
 """
+
 # Stuff for Streamlit -- comment out for now
 # __import__('pysqlite3')
 # import sys
@@ -15,17 +16,19 @@ from helpers.state import count_sessions
 # Header + increment visit count
 count_sessions()
 st.title("📚🐛 Bookworm")
-st.subheader("Looking for a new read? Just tell us what you're looking to dive in next!")
+st.subheader(
+    "Looking for a new read? Just tell us what you're looking to dive in next!"
+)
 
 # Core form/search function
 submitted = False
 slider_val = ""
 with st.form("input_form"):
-   st.write("Describe what type of book you're looking for below:")
-   slider_val = st.text_input("Ex: \"I want a book that is about magic.\"")
+    st.write("Describe what type of book you're looking for below:")
+    slider_val = st.text_input('Ex: "I want a book that is about magic."')
 
-   # Submit function
-   submitted = st.form_submit_button("Submit")
+    # Submit function
+    submitted = st.form_submit_button("Submit")
 
 # Checking for submitted + increment count
 if submitted:
@@ -34,15 +37,15 @@ if submitted:
     results = find_match(slider_val)
 
     # Display results
-    for i in range(len(results['documents'][0])):
-        metadata = results['metadatas'][0][i]
+    for i in range(len(results["documents"][0])):
+        metadata = results["metadatas"][0][i]
         print(metadata)
-        st.write("## 📘 [" + metadata['title'] + "](" + metadata['link'] + ")")
+        st.write("## 📘 [" + metadata["title"] + "](" + metadata["link"] + ")")
         score_str = ""
-        for i in range(int(metadata['score'])):
+        for i in range(int(metadata["score"])):
             score_str += "⭐️"
         st.write("### " + score_str)
-        st.write(metadata['description'])
-        st.write("**Publisher:** " + metadata['publisher'])
-        st.write("**Publication date:** " + metadata['publication_date'])
+        st.write(metadata["description"])
+        st.write("**Publisher:** " + metadata["publisher"])
+        st.write("**Publication date:** " + metadata["publication_date"])
         st.divider()

@@ -20,6 +20,7 @@ class WineInfo:
     """
     Class for wine objects
     """
+
     def __init__(self, row):
         self.raw_content = row
         self.id = row[0]
@@ -78,10 +79,7 @@ def find_wine(collection, query):
     Find a similar wine based on our query.
     """
     embedding = create_embedding(query)
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=3
-    )
+    results = collection.query(query_embeddings=[embedding], n_results=3)
     return results
 
 
@@ -100,8 +98,6 @@ def find_match(query):
             add_wines(collection, wines[i])
     else:
         print("Populating data from existing chromadb collection")
-
-    print(collection)
 
     # Find a similar wine
     results = find_wine(collection, query)

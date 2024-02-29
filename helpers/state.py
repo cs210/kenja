@@ -2,12 +2,15 @@
 Way to track page views in Streamlit.
 From one of the creators: https://gist.github.com/ash2shukla/ff180d7fbe8ec3a0240f19f4452acde7
 """
+
 from streamlit.runtime import get_instance
 from streamlit.runtime.scriptrunner import get_script_run_ctx as get_report_ctx
 from streamlit.runtime.legacy_caching.hashing import _CodeHasher
 from helpers.metrics import VISIT_COUNT
 from streamlit_extras.prometheus import streamlit_registry
+
 registry = streamlit_registry()
+
 
 class _SessionState:
     def __init__(self, session, hash_funcs):
@@ -77,6 +80,7 @@ def _get_session():
 
     return session_info.session
 
+
 def get_state(hash_funcs=None):
     session = _get_session()
 
@@ -94,6 +98,7 @@ def provide_state(func):
         return return_value
 
     return wrapper
+
 
 def count_sessions():
     state = get_state(hash_funcs={})

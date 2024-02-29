@@ -26,6 +26,14 @@ To query telemetry data, run the following after running Streamlit:
 curl localhost:8501/_stcore/metrics
 ```
 
+## Coding Standards
+
+We use [Black](https://github.com/psf/black) as our Python code formatter. To use Black, install all of the requirements and then run:
+
+```bash
+black .
+```
+
 ## Deployment
 
 [TO-DO] Will be looking into deploying onto a lightweight EC2 instance, routing to a url, and running!

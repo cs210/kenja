@@ -29,7 +29,7 @@ slider_val = ""
 with st.form("input_form"):
     st.write("Describe what wine you're looking for...")
     slider_val = st.text_input(
-        'Ex: "I want a wine that goes well' ' with gouda and has notes of paprika."'
+        'Ex: "I want a wine that goes well with gouda and has notes of paprika."'
     )
 
     # Submit function

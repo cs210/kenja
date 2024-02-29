@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 load_dotenv()
-chroma_client = chromadb.PersistentClient(path="./chromadb_data", settings=Settings(anonymized_telemetry=False))
+chroma_client = chromadb.PersistentClient(
+    path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
+)
 client = OpenAI()
 
 # Constants for data
@@ -66,10 +68,13 @@ New notes:
 - Need to make sure to filter out bad books later (my assumption right now, though, is that books with many reviews will have ok ratings)
  - will just remove reviews that are less than 3 for now as to not confuse the model
 """
+
+
 class BookInfo:
     """
     Class for book objects
     """
+
     def __init__(self, row):
         # books data csv data
         self.title = row[0]
@@ -79,26 +84,31 @@ class BookInfo:
         self.google_preview_link = row[4]
         self.publisher = row[5]
         self.publish_date = row[6]
-        self.google_info_link = row[7] # Note: I am not sure how this is different from the google preview link
+        self.google_info_link = row[
+            7
+        ]  # Note: I am not sure how this is different from the google preview link
         self.category = row[8]
         # self.average_google_rating = row[9] I'm not actually sure what this value means, as it goes up to 4,900
 
         # books rating csv data
         self.id = None
         self.amazon_link = None
-        self.amazon_average_book_score = [] # this starts as a list of all the review scores, and then we take the average at the end
+        self.amazon_average_book_score = (
+            []
+        )  # this starts as a list of all the review scores, and then we take the average at the end
         self.review_summaries = []
         self.reviews = []
         # Note: could also look at price later
+
 
 def load_data():
     """
     Load data: currently in CSV file.
     """
 
-    all_books_dict = {} # hashmap of isbn to book information
+    all_books_dict = {}  # hashmap of isbn to book information
 
-    with open(BOOKS_DATA_PATH, mode='r') as data_file:
+    with open(BOOKS_DATA_PATH, mode="r") as data_file:
         data_reader = csv.reader(data_file)
         start = 1
 
@@ -115,14 +125,14 @@ def load_data():
                 continue
 
             # clean up the list of authors and the cetegory (only 1 category ever listed)
-            row[2] = row[2][1:len(row[2])-1]
+            row[2] = row[2][1 : len(row[2]) - 1]
             row[2] = row[2].replace("'", "")
-            row[8] = row[8][1:len(row[8])-1]
+            row[8] = row[8][1 : len(row[8]) - 1]
             row[8] = row[8].replace("'", "")
 
             all_books_dict[row[0]] = BookInfo(row)
 
-    with open(BOOKS_RATING_PATH, mode='r') as rating_file:
+    with open(BOOKS_RATING_PATH, mode="r") as rating_file:
         rating_reader = csv.reader(rating_file)
         start = 1
         for row in rating_reader:
@@ -137,29 +147,42 @@ def load_data():
                 if row[9] != "":
                     if current_book.id is None:
                         current_book.id = row[0]
-                        current_book.amazon_link = "http://www.amazon.com/dp/" + str(row[0])
+                        current_book.amazon_link = "http://www.amazon.com/dp/" + str(
+                            row[0]
+                        )
                     current_book.amazon_average_book_score.append(float(row[6]))
                     if float(row[6]) >= 4:
                         current_book.review_summaries.append(row[8])
                         current_book.reviews.append(row[9])
-    
+
     all_books_list = []
 
     for key in all_books_dict:
         current_book = all_books_dict[key]
         # set average review value
-        current_book.amazon_average_book_score = sum(current_book.amazon_average_book_score) / len(current_book.amazon_average_book_score)
+        current_book.amazon_average_book_score = sum(
+            current_book.amazon_average_book_score
+        ) / len(current_book.amazon_average_book_score)
         # we want at least 30 reviews for a book
-        if len(current_book.reviews) < 30 or current_book.amazon_average_book_score < 4.2:
+        if (
+            len(current_book.reviews) < 30
+            or current_book.amazon_average_book_score < 4.2
+        ):
             continue
         all_books_list.append(current_book)
     return all_books_list
+
 
 def create_embedding(description):
     """
     Given a description, return an embedding.
     """
-    return client.embeddings.create(input = [description], model=EMBEDDING_MODEL).data[0].embedding
+    return (
+        client.embeddings.create(input=[description], model=EMBEDDING_MODEL)
+        .data[0]
+        .embedding
+    )
+
 
 def add_books(collection, book):
     """
@@ -167,27 +190,38 @@ def add_books(collection, book):
     """
     # do some prompt engineering on the input --> we will pass in the book description and 3 reviews to start
     # we know that these reviews are associated with ratings of at least 4
-    book_info = 'Title: ' + book.title + '\n' + "Description: " + book.description + "\n"
-    for i in range(1,4,1):
+    book_info = (
+        "Title: " + book.title + "\n" + "Description: " + book.description + "\n"
+    )
+    for i in range(1, 4, 1):
         book_info += "Review " + str(i) + ":" + book.reviews[i] + "\n"
 
     collection.add(
         embeddings=[create_embedding(book_info)],
         documents=[book_info],
-        metadatas=[{"title": book.title, "description": book.description, "category": book.category, "score": book.amazon_average_book_score, "link": book.amazon_link, "publisher": book.publisher, "publication_date": book.publish_date}],
-        ids=[book.id]
+        metadatas=[
+            {
+                "title": book.title,
+                "description": book.description,
+                "category": book.category,
+                "score": book.amazon_average_book_score,
+                "link": book.amazon_link,
+                "publisher": book.publisher,
+                "publication_date": book.publish_date,
+            }
+        ],
+        ids=[book.id],
     )
+
 
 def find_book(collection, query):
     """
     Find a similar book based on our query.
     """
     embedding = create_embedding(query)
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=3
-    )
+    results = collection.query(query_embeddings=[embedding], n_results=3)
     return results
+
 
 def find_match(query):
     """
