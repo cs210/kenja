@@ -3,7 +3,14 @@ For all our booklovers out there: give us a description of a book you're dying t
 
 ## Set-Up
 
-Simple set-up: create a virtual environment and install dependencies.
+### Frontend
+To set up our frontend, enter the `frontend` directory and then install dependencies:
+```bash
+npm install
+```
+
+### Backend
+To set up our backend, create a virtual environment and install dependencies.
 ```bash
 python3 -m venv env
 source env/bin/activate
@@ -12,10 +19,16 @@ python3 -m pip install -r requirements.txt
 
 ## To Run
 
-If you've installed all the dependencies above, run:
-
+First, run the backend API:
 ```bash
-streamlit run app.py
+cd backend
+uvicorn api:app --reload
+```
+
+Then, run the frontend:
+```bash
+cd frontend
+npm run start
 ```
 
 ## Telemetry

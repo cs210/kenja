@@ -5,12 +5,12 @@ env/
 # API keys
 .env
 
+# Chroma
+.chroma/
+backend/chromadb_data
+
 # Miscellany
 __pycache__/
-.chroma/
-chromadb_data
-
-
+.DS_Store
 archive/
-
 testing.py
