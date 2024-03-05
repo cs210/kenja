@@ -27,8 +27,7 @@ function App() {
       })
       .then(data => {
         // Update the state with the fetched posts
-        console.log(data);
-        //setResults(data);
+        setResults(data.metadatas[0]);
       })
       .catch(error => {
         // Log any errors to the console
@@ -48,7 +47,6 @@ function App() {
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <button type="submit" className="btn btn-primary mb-3">Submit</button>
       </form>
-
       <div>
         <h2>Posts:</h2>
         <ul>
