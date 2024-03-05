@@ -6,14 +6,17 @@ function App() {
 
   const [results, setResults] = useState([]);
 
+  const fetchMatches = (evt) => {
+    // Define scope of the request
+    evt.preventDefault();
+    const apiUrl = 'http://127.0.0.1:8000/query';
+    const queryValue = evt.target.children.query.value;
+    const queryParams = { description: String(queryValue) };
+    const queryString = new URLSearchParams(queryParams).toString();
+    const finalUrl = `${apiUrl}?${queryString}`;
 
-  const fetchPosts = (evt) => {
-    evt.preventDefault()
-    // Define the URL of the API
-    const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
-
-    // Make a GET request to the API using fetch
-    fetch(apiUrl)
+    // Make the actual request
+    fetch(finalUrl)
       .then(response => {
         // Check if the response is successful (status code 200)
         if (!response.ok) {
@@ -24,7 +27,8 @@ function App() {
       })
       .then(data => {
         // Update the state with the fetched posts
-        setResults(data);
+        console.log(data);
+        //setResults(data);
       })
       .catch(error => {
         // Log any errors to the console
@@ -40,7 +44,7 @@ function App() {
       <h3>
         Looking for a new read? Tell me what you're looking for.
       </h3>
-      <form onSubmit={fetchPosts}>
+      <form onSubmit={fetchMatches}>
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <button type="submit" className="btn btn-primary mb-3">Submit</button>
       </form>
@@ -49,9 +53,9 @@ function App() {
         <h2>Posts:</h2>
         <ul>
           {results.map(post => (
-            <li key={post.id}>
+            <li key={post.title}>
               <h3>{post.title}</h3>
-              <p>{post.body}</p>
+              <p>{post.description}</p>
             </li>
           ))}
         </ul>
