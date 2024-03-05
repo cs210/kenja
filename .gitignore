@@ -8,7 +8,7 @@ env/
 # Miscellany
 __pycache__/
 .chroma/
-chromadb_data
+backend/chromadb_data
 
 
 archive/
