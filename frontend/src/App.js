@@ -50,23 +50,29 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>
-        Bookworm
-      </h1>
-      <h3>
-        Looking for a new read? Tell me what you're looking for.
-      </h3>
-      <div flex-direction='row'>
-        <h2>Example:</h2>
-        <button type="submit" onClick={submitExample}>{exampleQueries[Math.floor(Math.random() * 6)]}</button>
+    <div className="container" id="main-div">
+      <div className="header">
+        <h1> Bookworm </h1>
+        <h3> Find a new read using just a description. </h3>
       </div>
-      <form onSubmit={querySubmitted}>
+      <div className="examples row" flex-direction='row'>
+        <div class="col">
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[0]}</button>
+        </div>
+        <div class="col">
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[1]}</button>
+        </div>
+        <div class="col">
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[2]}</button>
+        </div>
+      </div>
+      <form className="search-form" onSubmit={querySubmitted}>
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
-        <button type="submit" className="btn btn-primary mb-3">Submit</button>
+        <br />
+        <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
       </form>
-      <div>
-        <h2>Posts:</h2>
+      <div className="results">
+        {results.length > 0 && <h2>Books:</h2>}
         <ul>
           {results.map(post => (
             <li key={post.title}>
