@@ -31,6 +31,14 @@ cd frontend
 npm run start
 ```
 
+## Deployment
+
+For deployment, run the backend API on our EC2 instance. To deploy the frontend, run:
+```bash
+cd frontend
+sudo sh deploy.sh
+```
+
 ## Telemetry
 
 To query telemetry data, run the following after running Streamlit:
