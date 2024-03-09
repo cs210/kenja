@@ -11,42 +11,23 @@ function App() {
     "An autobiography of a United States President", "A page turner about a war between three nations"];
 
   const submitExample = (evt) => {
-    // Define scope of the request
     evt.preventDefault();
-    const apiUrl = 'http://127.0.0.1:8000/query';
-    const queryValue = evt.target.textContent;
-    const queryParams = { description: String(queryValue) };
-    const queryString = new URLSearchParams(queryParams).toString();
-    const finalUrl = `${apiUrl}?${queryString}`;
-
-    // Make the actual request
-    fetch(finalUrl)
-      .then(response => {
-        // Check if the response is successful (status code 200)
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Parse the JSON response
-        return response.json();
-      })
-      .then(data => {
-        // Update the state with the fetched posts
-        setResults(data.metadatas[0]);
-      })
-      .catch(error => {
-        // Log any errors to the console
-        console.error('There was a problem with the fetch operation:', error);
-      });
+    fetchMatches(evt.target.textContent);
   }
 
-  const fetchMatches = (evt) => {
-    // Define scope of the request
+  const querySubmitted = (evt) => {
     evt.preventDefault();
+    fetchMatches(evt.target.children.query.value);
+  }
+
+  const fetchMatches = (query) => {
+    // Define scope of the request
     const apiUrl = 'http://127.0.0.1:8000/query';
-    const queryValue = evt.target.children.query.value;
+    const queryValue = query;
     const queryParams = { description: String(queryValue) };
     const queryString = new URLSearchParams(queryParams).toString();
     const finalUrl = `${apiUrl}?${queryString}`;
+    console.log(queryValue);
 
     // Make the actual request
     fetch(finalUrl)
@@ -80,7 +61,7 @@ function App() {
         <h2>Example:</h2>
         <button type="submit" onClick={submitExample}>{exampleQueries[Math.floor(Math.random() * 6)]}</button>
       </div>
-      <form onSubmit={fetchMatches}>
+      <form onSubmit={querySubmitted}>
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <button type="submit" className="btn btn-primary mb-3">Submit</button>
       </form>

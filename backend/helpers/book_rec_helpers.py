@@ -26,32 +26,40 @@ Extra TODOs:
 """
 - only 5796 books considered right now
 
-*** Notes *** : 
+*** Notes *** :
 - there are books that have isbn values but no title --> make sure to ignore these
 - number of unique titles -> 212404
 - number of unique isbn values -> 221790
 - the id does not necessarily correlate to an isbn, but often does
-    - I think that if the id starts with a value that is not a number, this means that it is not an isbn
-      and is just Amazon's assigned value --> we will ignore these values and only work with books that 
-     start with numerical values
-    - upon further investigation it appears (by just checking manually) that the above assumption is
-      correct, however the same book can still have the same isbn number --> this only occurs for 
-      3237 books out of 138,960 so in these cases we will make the assumption for now that the books are
-      the same and just pick one of the isbn values
-    - note that we will assume that no two books can have the same title (not sure if this is true, can
-      only be a problem if the 3237 books above are actually different)
-      - upon further investigation, popular books like harry potter are being tagged with these non-isbn ids
-       these ids are the Amazon product numbers, or ASIN
-- we will only consider books that have all values filled out in books_data.csv --> reduced number to *** 40635 *** books
-- Adding the restriction of only considering isbns --> number of books is reduced to 26522
+    - I think that if the id starts with a value that is not a number, this means that
+      it is not an isbn and is just Amazon's assigned value --> we will ignore these
+      values and only work with books that
+      start with numerical values
+    - upon further investigation it appears (by just checking manually) that the above
+      assumption is correct, however the same book can still have the same isbn number
+      --> this only occurs for 3237 books out of 138,960 so in these cases we will make
+      the assumption for now that the books are the same and just pick one of the isbn
+      values
+    - note that we will assume that no two books can have the same title (not sure if
+      this is true, can only be a problem if the 3237 books above are actually
+      different)
+      - upon further investigation, popular books like harry potter are being tagged
+        with these non-isbn ids these ids are the Amazon product numbers, or ASIN
+- we will only consider books that have all values filled out in books_data.csv -->
+  reduced number to *** 40635 *** books
+- Adding the restriction of only considering isbns --> number of books is reduced
+  to 26522
     - 832 books have multiple isbns, however, so the true value is 25,690
-- upon further reflection, we have removed ratings count as a requried value for google, but will be keeping description
+- upon further reflection, we have removed ratings count as a requried value for
+  google, but will be keeping description
 
 New notes:
-- Ok, so it seems like books that do not have an ASIN and are being tracked with their isbns are actually the more obscure books,
-  so switched to including ASIN values and got a TON more options (when using isbn --> none of the books had more than 1 review. Now,
-  more than 60,000 books have 5 or more reviews)
-- probably want to filter on genre more specifically at some point (only filtering out books with no genre label right now)
+- Ok, so it seems like books that do not have an ASIN and are being tracked with their
+  isbns are actually the more obscure books, so switched to including ASIN values and
+  got a TON more options (when using isbn --> none of the books had more than 1 review.
+  Now, more than 60,000 books have 5 or more reviews)
+- probably want to filter on genre more specifically at some point (only filtering out
+  books with no genre label right now)
 - Note: these values are for not fitlering out reviews with a rating less than 3:
     - at least 10 reviews: 33291
     - at least 15 reviews: 22880
@@ -61,11 +69,14 @@ New notes:
     - at least 25 reviews: 10832
 - Filtering out reviews that are less than 3:
     - at least 25 reviews: 12,077
-- Filtering out reviews that are less than 4 and books with an average review rating less than 4:
+- Filtering out reviews that are less than 4 and books with an average review rating
+  less than 4:
     - at least 25 reviews: 8651
-- Filtering out reviews that are less than 4 and books with an average review rating less than 4.2:
+- Filtering out reviews that are less than 4 and books with an average review rating
+  less than 4.2:
     - at least 30 reviews: 5796 books
-- Need to make sure to filter out bad books later (my assumption right now, though, is that books with many reviews will have ok ratings)
+- Need to make sure to filter out bad books later (my assumption right now, though, is
+  that books with many reviews will have ok ratings)
  - will just remove reviews that are less than 3 for now as to not confuse the model
 """
 
@@ -88,14 +99,18 @@ class BookInfo:
             7
         ]  # Note: I am not sure how this is different from the google preview link
         self.category = row[8]
-        # self.average_google_rating = row[9] I'm not actually sure what this value means, as it goes up to 4,900
+        # self.average_google_rating = row[9] I'm not actually sure what this value
+        # means, as it goes up to 4,900
 
         # books rating csv data
         self.id = None
         self.amazon_link = None
         self.amazon_average_book_score = (
             []
-        )  # this starts as a list of all the review scores, and then we take the average at the end
+        )
+        # this starts as a list of all the review scores, and then we take the
+        # average at the end
+
         self.review_summaries = []
         self.reviews = []
         # Note: could also look at price later
@@ -124,7 +139,8 @@ def load_data():
             if skip:
                 continue
 
-            # clean up the list of authors and the cetegory (only 1 category ever listed)
+            # clean up the list of authors and the category
+            # (only 1 category ever listed)
             row[2] = row[2][1 : len(row[2]) - 1]
             row[2] = row[2].replace("'", "")
             row[8] = row[8][1 : len(row[8]) - 1]
@@ -142,7 +158,8 @@ def load_data():
 
             if row[1] in all_books_dict:
                 # Note that for books that have multiple ids, we just pick one for now
-                # also filter out reviews that gave a rating of less than 3 (don't want to overly confuse the model)
+                # also filter out reviews that gave a rating of less than 3
+                # (don't want to overly confuse the model)
                 current_book = all_books_dict[row[1]]
                 if row[9] != "":
                     if current_book.id is None:
@@ -188,7 +205,8 @@ def add_books(collection, book):
     """
     Add book to our vector database.
     """
-    # do some prompt engineering on the input --> we will pass in the book description and 3 reviews to start
+    # do some prompt engineering on the input --> we will pass in the book description
+    # and 3 reviews to start
     # we know that these reviews are associated with ratings of at least 4
     book_info = (
         "Title: " + book.title + "\n" + "Description: " + book.description + "\n"

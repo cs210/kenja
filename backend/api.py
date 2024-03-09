@@ -13,6 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Set up initial query API
 @app.get("/query")
 async def read_root(description: str):
