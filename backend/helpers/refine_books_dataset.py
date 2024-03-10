@@ -2,6 +2,8 @@ from book_rec_helpers import BookInfo
 import csv
 import os
 import pickle
+import pandas as pd
+import uuid
 
 BOOKS_DATA_PATH = "archive/books_data.csv"
 BOOKS_RATING_PATH = "archive/books_rating.csv"
@@ -12,6 +14,12 @@ def load_kaggle_data(num_reviews, min_rating, min_review_length):
     """
     all_books_dict = {}  # hashmap of id to book information
 
+    books_df = pd.read_csv(BOOKS_DATA_PATH, nrows=100)
+    books_df = books_df.dropna(subset=['description', 'categories'])
+    books_df = books_df[books_df['description'].str.len() >= 20]
+    books_df = books_df[books_df['categories'].str.len() >= 1]
+
+    """
     with open(BOOKS_DATA_PATH, mode="r") as data_file:
         data_reader = csv.reader(data_file)
         start = 1
@@ -35,6 +43,19 @@ def load_kaggle_data(num_reviews, min_rating, min_review_length):
             row[8] = row[8].replace("'", "")
 
             all_books_dict[row[0]] = BookInfo(row)
+    """
+
+
+    reviews_df = pd.read_csv(BOOKS_RATING_PATH, nrows=100)
+    reviews_df = reviews_df.dropna(subset=['review/text'])
+    reviews_df = reviews_df[reviews_df['Title'].isin(reviews_df['Title'])]
+    reviews_df = reviews_df[reviews_df['review/text'].str.len() >= 1]
+    # reviews_df['reviewId'] = reviews_df['ColumnToHash'].apply(lambda x: hash(x))
+    reviews_df['reviewId'] = reviews_df.apply(lambda row: uuid.uuid3(uuid.NAMESPACE_DNS, f"{row['Title'], row['review/text']}"), axis=1)
+
+    grouped = reviews_df.groupby('Title')['review/score'].mean().reset_index()
+    books_df = pd.merge(grouped, books_df, on="Title", how="inner")
+
 
     with open(BOOKS_RATING_PATH, mode="r") as rating_file:
         rating_reader = csv.reader(rating_file)
@@ -90,7 +111,11 @@ def create_new_subset(num_reviews, min_rating, min_review_length):
         pickle.dump(books, f)
 
 if __name__ == "__main__":
-    num_reviews = input("Enter minumum number of reviews for each book: ")
-    min_rating = input("Enter minumum overall rating for each book: ")
-    min_review_length = input("Enter minumum length of a review: ")
+    # num_reviews = input("Enter minumum number of reviews for each book: ")
+    # min_rating = input("Enter minumum overall rating for each book: ")
+    # min_review_length = input("Enter minumum length of a review: ")
+
+    num_reviews = 30
+    min_rating = 4.2
+    min_review_length = 50
     create_new_subset(num_reviews, min_rating, min_review_length)
