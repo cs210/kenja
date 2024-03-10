@@ -4,12 +4,19 @@ import React, { useState } from 'react';
 
 function App() {
 
-  const [results, setResults] = useState([]);
+  // Set title dynamically
+  document.title = "Bookworm | Find New Books";
 
+  // Managing state
+  const [results, setResults] = useState([]);
+  const [spinning, setSpinning] = useState(false);
+
+  // Example prompts for users
   const exampleQueries = ["A fantasy adventure that has dragons", "A hearwarming love story of two childhood friends",
     "A story about an up and coming basketball team", "A nonfiction novel about the ancient roman empire",
     "An autobiography of a United States President", "A page turner about a war between three nations"];
-
+  
+  // Hooks for using prompts
   const submitExample = (evt) => {
     evt.preventDefault();
     fetchMatches(evt.target.textContent);
@@ -20,14 +27,15 @@ function App() {
     fetchMatches(evt.target.children.query.value);
   }
 
+  // Fetch the appropriate matches
   const fetchMatches = (query) => {
     // Define scope of the request
+    setSpinning(true);
     const apiUrl = 'http://127.0.0.1:8000/query';
     const queryValue = query;
     const queryParams = { description: String(queryValue) };
     const queryString = new URLSearchParams(queryParams).toString();
     const finalUrl = `${apiUrl}?${queryString}`;
-    console.log(queryValue);
 
     // Make the actual request
     fetch(finalUrl)
@@ -42,6 +50,7 @@ function App() {
       .then(data => {
         // Update the state with the fetched posts
         setResults(data.metadatas[0]);
+        setSpinning(false);
       })
       .catch(error => {
         // Log any errors to the console
@@ -56,13 +65,13 @@ function App() {
         <h3> Find a new read using just a description. </h3>
       </div>
       <div className="examples row" flex-direction='row'>
-        <div class="col">
+        <div className="col">
           <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[0]}</button>
         </div>
-        <div class="col">
+        <div className="col">
           <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[1]}</button>
         </div>
-        <div class="col">
+        <div className="col">
           <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[2]}</button>
         </div>
       </div>
@@ -72,15 +81,20 @@ function App() {
         <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
       </form>
       <div className="results">
-        {results.length > 0 && <h2>Books:</h2>}
-        <ul>
-          {results.map(post => (
-            <li key={post.title}>
-              <h3>{post.title}</h3>
-              <p>{post.description}</p>
-            </li>
-          ))}
-        </ul>
+        { spinning === true && <div className="spinner-border" role="status"></div> }
+        { results.length > 0 && <h2>Books:</h2>}
+        {results.map(book => (
+          <div className="result" key={book.title}>
+            <div className="card">
+              <div className="card-body">
+                <h2 className="book-title">{book.title}</h2>
+                <span className="badge text-bg-dark book-category">{book.category}</span>
+                <p className="book-details">{book.publisher} · {book.publication_date} · <a href={book.link}>Link</a></p>
+                <p className="book-description">{book.description}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
