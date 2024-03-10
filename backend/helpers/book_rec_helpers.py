@@ -13,7 +13,7 @@ client = OpenAI()
 # Constants for data
 CONFIG_FILE = "config.json"
 EMBEDDING_MODEL = "text-embedding-3-small"
-DATASET_PATH = "./defined_datasets/5796_books_30_min_reviews_4.2_min_rating.pkl"
+DATASET_PATH = "./defined_datasets/5782_books_30_min_reviews_4.2_min_rating_50_min_review_length.pkl"
 
 
 class BookInfo:
@@ -101,17 +101,16 @@ def find_match(query, update_collections = False):
         with open(DATASET_PATH, "rb") as f:
             books = pickle.load(f)
             index = 0
-            total_calls = 0
             for book in books:
-                print("BRUH", index)
+                if index == 500:
+                    break
+                print(index)
                 for i in range(len(book.reviews)):
+                    if i == 10:
+                        break
                     current_id = f"{book.id,i}"
                     add_to_collection(reviews_collection, book.reviews[i], current_id, book)
-                    total_calls += 1
-                    print(total_calls)
                 add_to_collection(descriptions_collection, book.description , book.id , book)
-                total_calls += 1
-                print(total_calls)
                 index += 1
     else:
         print("Populating data from existing chromadb collection")
@@ -120,5 +119,4 @@ def find_match(query, update_collections = False):
     print("here1!")
     description_search_results = embedding_search(descriptions_collection, query, 20)
     print("here2!")
-
     # return description_results

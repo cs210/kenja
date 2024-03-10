@@ -6,7 +6,7 @@ import pickle
 BOOKS_DATA_PATH = "archive/books_data.csv"
 BOOKS_RATING_PATH = "archive/books_rating.csv"
 
-def load_kaggle_data(num_reviews, min_rating):
+def load_kaggle_data(num_reviews, min_rating, min_review_length):
     """
     Load data from the original Kaggle dataset.
     """
@@ -55,7 +55,7 @@ def load_kaggle_data(num_reviews, min_rating):
                             row[0]
                         )
                     current_book.amazon_average_book_score.append(float(row[6]))
-                    if float(row[6]) >= 4:
+                    if float(row[6]) >= 4 and len(row[9]) > min_review_length:
                         current_book.review_summaries.append(row[8])
                         current_book.reviews.append(row[9])
 
@@ -76,15 +76,15 @@ def load_kaggle_data(num_reviews, min_rating):
         all_books_list.append(current_book)
     return all_books_list
 
-def create_new_subset(num_reviews, min_rating):
+def create_new_subset(num_reviews, min_rating, min_review_length):
     folder_path = "./defined_datasets"
     if not os.path.exists(folder_path):
         # Create the folder
         os.makedirs(folder_path)
 
-    books = load_kaggle_data(float(num_reviews), float(min_rating))
+    books = load_kaggle_data(float(num_reviews), float(min_rating), float(min_review_length))
 
-    file_name = str(len(books)) + "_books_" + str(num_reviews) + "_min_reviews_" + str(min_rating) + "_min_rating.pkl"
+    file_name = str(len(books)) + "_books_" + str(num_reviews) + "_min_reviews_" + str(min_rating) + "_min_rating_" + str(min_review_length) + "_min_review_length.pkl"
     file_path = "./defined_datasets/" + file_name
     with open(file_path, "wb") as f:
         pickle.dump(books, f)
@@ -92,4 +92,5 @@ def create_new_subset(num_reviews, min_rating):
 if __name__ == "__main__":
     num_reviews = input("Enter minumum number of reviews for each book: ")
     min_rating = input("Enter minumum overall rating for each book: ")
-    create_new_subset(num_reviews, min_rating)
+    min_review_length = input("Enter minumum length of a review: ")
+    create_new_subset(num_reviews, min_rating, min_review_length)
