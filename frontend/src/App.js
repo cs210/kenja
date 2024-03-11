@@ -68,8 +68,8 @@ function App() {
   return (
     <div className="container" id="main-div">
       <div className="header">
-        <h1> Bookworm </h1>
-        <h3> Find a new read using just a description. </h3>
+        <h1>🐛 Bookworm </h1>
+        <h3>Find a new read using just a description. </h3>
       </div>
       <div className="examples row" flex-direction='row'>
         <div className="col">
