@@ -39,11 +39,12 @@ h3 {
   padding: 10px 15px;
   background-color: transparent;
   font-size: 16px !important;
+  color: black !important;
 }
 
 .prompt-button:hover {
   background-color: black;
-  color: white;
+  color: white !important;
 }
 
 .col {

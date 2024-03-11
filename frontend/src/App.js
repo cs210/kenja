@@ -38,7 +38,7 @@ function App() {
   const fetchMatches = (query) => {
     // Define scope of the request
     setSpinning(true);
-    const apiUrl = 'http://127.0.0.1:8000/query';
+    const apiUrl = 'http://kenja.pro/api';
     const queryValue = query;
     const queryParams = { description: String(queryValue) };
     const queryString = new URLSearchParams(queryParams).toString();
@@ -68,8 +68,8 @@ function App() {
   return (
     <div className="container" id="main-div">
       <div className="header">
-        <h1> Bookworm </h1>
-        <h3> Find a new read using just a description. </h3>
+        <h1>🐛 Bookworm </h1>
+        <h3>Find a new read using just a description. </h3>
       </div>
       <div className="examples row" flex-direction='row'>
         <div className="col">
