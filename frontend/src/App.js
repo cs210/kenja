@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 
+const randomNumber = Math.floor(Math.random() * 4);
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
 
   // Example prompts for users
   const exampleQueries = ["A fantasy adventure that has dragons", "A hearwarming love story of two childhood friends",
-    "A story about an up and coming basketball team", "A nonfiction novel about the ancient roman empire",
+    "A story about an up and coming basketball team", "A nonfiction novel about the Ancient Roman Empire",
     "An autobiography of a United States President", "A page turner about a war between three nations"];
   
   // Hooks for using prompts
@@ -72,16 +73,16 @@ function App() {
       </div>
       <div className="examples row" flex-direction='row'>
         <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[0]}</button>
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber]}</button>
         </div>
         <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[1]}</button>
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber + 1]}</button>
         </div>
         <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[2]}</button>
+          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber + 2]}</button>
         </div>
       </div>
-      <form className="search-form" onSubmit={querySubmitted} autoComplete="off">
+      <form className="search-form" onSubmit={querySubmitted} autocomplete="off">
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <br />
         <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
