@@ -19,7 +19,13 @@ function App() {
   // Hooks for using prompts
   const submitExample = (evt) => {
     evt.preventDefault();
-    fetchMatches(evt.target.textContent);
+    const inputElement = document.querySelector('input[name="query"]');
+    if (inputElement) {
+        inputElement.value = evt.target.textContent;
+    } else {
+        console.error('Input field not found!');
+    }
+    fetchMatches(evt.target.textContent)
   }
 
   const querySubmitted = (evt) => {
@@ -75,7 +81,7 @@ function App() {
           <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[2]}</button>
         </div>
       </div>
-      <form className="search-form" onSubmit={querySubmitted}>
+      <form className="search-form" onSubmit={querySubmitted} autoComplete="off">
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <br />
         <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
