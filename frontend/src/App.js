@@ -38,7 +38,7 @@ function App() {
   const fetchMatches = (query) => {
     // Define scope of the request
     setSpinning(true);
-    const apiUrl = 'http://127.0.0.1:8000/query';
+    const apiUrl = 'http://kenja.pro/api';
     const queryValue = query;
     const queryParams = { description: String(queryValue) };
     const queryString = new URLSearchParams(queryParams).toString();
