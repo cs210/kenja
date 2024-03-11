@@ -1,4 +1,3 @@
-from book_rec_helpers import BookInfo
 import csv
 import os
 import pickle
@@ -18,6 +17,9 @@ def load_kaggle_data(min_num_reviews, min_rating, min_review_length, min_descrip
 
     reviews_df = pd.read_csv(BOOKS_RATING_PATH)
     reviews_df = reviews_df.dropna(subset=['review/text'])
+
+    # remove any duplicate reviews
+    reviews_df = reviews_df.drop_duplicates(subset=["review/text"])
 
     # only keep books that haven't already been filtered out
     reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
