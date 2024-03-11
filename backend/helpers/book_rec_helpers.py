@@ -5,6 +5,8 @@ import pickle
 from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
+import uuid
+import re
 
 load_dotenv()
 chroma_client = chromadb.PersistentClient(
@@ -15,8 +17,8 @@ client = OpenAI()
 # Constants for data
 CONFIG_FILE = "config.json"
 EMBEDDING_MODEL = "text-embedding-3-small"
-BOOKS_DATASET_PATH = "./defined_datasets/books_df_5776_books_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
-REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_633987_total_reviews_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
+BOOKS_DATASET_PATH = "./defined_datasets/books_df_4494_books_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
+REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_448893_total_reviews_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
 
 def create_embedding(text):
     """
@@ -64,7 +66,7 @@ def find_match(query, update_collections = False):
         print("populating data from file")
 
         # FIRST LEVEL
-        books_df = pd.read_csv(BOOKS_DATASET_PATH, nrows=5)
+        books_df = pd.read_csv(BOOKS_DATASET_PATH, nrows=10)
 
         reviews_df = pd.read_csv(REVIEWS_DATASET_PATH)
         reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
@@ -119,18 +121,71 @@ def find_match(query, update_collections = False):
         add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
     else:
         print("Populating data from existing chromadb collection")
-    review_search_results = embedding_search(reviews_collection, query, 2)
+    review_search_results = embedding_search(reviews_collection, query, 20)
     titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
     titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 2)
+    description_search_results = embedding_search(descriptions_collection, query, 3)
     titles_list.extend(description_search_results["ids"][0])
     titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
 
     # SECOND LEVEL
     extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
     # probably want to be more clever with this name
-    extract_collection = chroma_client.create_collection(name=query)
+    client_name = str(uuid.uuid1())
+    extract_collection = chroma_client.create_collection(name=client_name)
     add_to_collection(extract_collection, extract_dict["embeddings"], extract_dict["documents"], extract_dict["metadatas"], extract_dict["ids"])
-    middle_search_results = embedding_search(extract_collection, query, 1)
-    chroma_client.delete_collection(name=query)
-    print(middle_search_results)
+    option_count = 2
+    middle_search_results = embedding_search(extract_collection, query, option_count)
+    chroma_client.delete_collection(name=client_name)
+    
+    super_prompt_engineer = (
+f"""Hey ChatGPT. I have a question for you. of the {option_count} words I am hoping for you to provide the option you think best matches the request/description
+{query}
+
+These are the options\n\n
+""")
+
+    book_features = zip(middle_search_results["documents"][0])
+    for i, defining_tuple in enumerate(book_features):
+        super_prompt_engineer += (
+f"""
+Option{i}:
+{defining_tuple[0]}
+
+
+"""
+        )
+    
+    super_prompt_engineer += (
+f"""
+Please choose from the options as provided like \'option0\' or \'option1\'. Please explain your reasoning but you absolutely MUST make the final sentence clearly say your final answer.
+"""
+    )
+
+    response = client.chat.completions.create(
+    model="gpt-3.5-turbo-0125",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": super_prompt_engineer}
+    ]
+    )
+
+    options = []
+    for i in range(len(middle_search_results["documents"][0])):
+        options.append(f"Option{i}")
+
+    text = response.choices[0].message.content
+    print(text)
+
+    # Create a regex pattern to search for the options
+    pattern = '|'.join(re.escape(option) for option in options)
+    print(pattern)
+
+    # Find all matches in the string, along with their positions
+    matches = [(m.start(), m.group()) for m in re.finditer(pattern, text)]
+    print(matches)
+
+    # Get the last match, if there are any matches
+    last_match = max(matches, key=lambda x: x[0])[1] if matches else None
+    print(last_match)
+
