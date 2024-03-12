@@ -13,7 +13,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Set up initial query API
-@app.get("/query")
+@app.get("/api")
 async def read_root(description: str):
     return find_match(description)

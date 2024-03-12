@@ -1,34 +1,99 @@
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Body style */
+body {
+  background-color: #F7F4EA !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* The entire search interface component */
+#main-div {
+  font-family: "PT Serif", serif;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Header style */
+.header {
+  padding-bottom: 1.5%;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+h1 {
+  font-size: 50px !important;
+  font-weight: 700 !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h3 {
+  font-size: 30px !important;
+  font-weight: 500 !important;
+}
+
+/* Examples style */
+.examples {
+  text-align: center;
+  padding-bottom: 1.5%;
+}
+
+.prompt-button {
+  border: 2px solid black;
+  padding: 10px 15px;
+  background-color: transparent;
+  font-size: 16px !important;
+  color: black !important;
+}
+
+.prompt-button:hover {
+  background-color: black;
+  color: white !important;
+}
+
+.col {
+  padding-right: 1%;
+}
+
+/* Form style */
+form {
+  padding-top: 1.5% !important;
+}
+
+.form-control {
+  font-size: 20px !important;
+  border-radius: 0px !important;
+}
+
+#submit-prompt {
+  font-size: 17px !important;
+  border-radius: 0px !important;
+  border: 2px solid black;
+  background-color: black;
+}
+
+#submit-prompt:hover {
+  background-color: transparent !important;
+  color: black;
+}
+
+/* Results style */
+.results {
+  padding-top: 1% !important;
+}
+
+.result {
+  padding-top: 2%;
+}
+
+.book-details {
+  padding-top: 0.5% !important;
+  font-size: 13px !important;
+  color: #82878d !important;
+}
+
+.card {
+  border: 1px solid black !important;
+  background-color: transparent !important;
+}
+
+.book-description {
+  font-size: 15px !important;
+  padding-top: 0.5% !important;
 }
