@@ -17,4 +17,4 @@ app.add_middleware(
 # Set up initial query API
 @app.get("/api")
 async def read_root(description: str):
-    return find_match(description)
+    return find_match(description, False)

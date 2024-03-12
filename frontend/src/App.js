@@ -38,7 +38,7 @@ function App() {
   const fetchMatches = (query) => {
     // Define scope of the request
     setSpinning(true);
-    const apiUrl = 'http://kenja.pro/api';
+    const apiUrl = 'http://127.0.0.1:8000/api';
     const queryValue = query;
     const queryParams = { description: String(queryValue) };
     const queryString = new URLSearchParams(queryParams).toString();
@@ -56,7 +56,8 @@ function App() {
       })
       .then(data => {
         // Update the state with the fetched posts
-        setResults(data.metadatas[0]);
+        console.log(data);
+        setResults(data);
         setSpinning(false);
       })
       .catch(error => {
@@ -82,7 +83,7 @@ function App() {
           <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber + 2]}</button>
         </div>
       </div>
-      <form className="search-form" onSubmit={querySubmitted} autocomplete="off">
+      <form className="search-form" onSubmit={querySubmitted} autoComplete="off">
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <br />
         <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
@@ -91,13 +92,14 @@ function App() {
         { spinning === true && <div className="spinner-border" role="status"></div> }
         { results.length > 0 && <h2>Books:</h2>}
         {results.map(book => (
-          <div className="result" key={book.title}>
+          <div className="result" key={book.Title}>
             <div className="card">
               <div className="card-body">
-                <h2 className="book-title">{book.title}</h2>
-                <span className="badge text-bg-dark book-category">{book.category}</span>
-                <p className="book-details">{book.publisher} · {book.publication_date} · <a href={book.link}>Link</a></p>
-                <p className="book-description">{book.description}</p>
+                <h2 className="book-title">{book.Title}</h2>
+                <h3 className="book-author">By: {book.authors.substring(2, book.authors.length - 2)} </h3>
+                <span className="badge text-bg-dark book-category">{book.categories.substring(2, book.categories.length - 2)}</span>
+                <p className="book-details">{book.publisher} · {book.publishedDate} · <a href={book.infoLink}>Link</a></p>
+                <p className="book-description">{book.combined_text.substring(0, book.combined_text.indexOf("Review:"))}</p>
               </div>
             </div>
           </div>
