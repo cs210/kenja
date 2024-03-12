@@ -1,272 +1,191 @@
+from venv import create
 import chromadb
 from chromadb.config import Settings
-import csv
+import pickle
 from dotenv import load_dotenv
 from openai import OpenAI
+import pandas as pd
+import uuid
+import re
 
 load_dotenv()
 chroma_client = chromadb.PersistentClient(
-    path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
+    path="../chromadb_data", settings=Settings(anonymized_telemetry=False)
 )
 client = OpenAI()
 
 # Constants for data
 CONFIG_FILE = "config.json"
-BOOKS_RATING_PATH = "archive/books_rating.csv"
-BOOKS_DATA_PATH = "archive/books_data.csv"
 EMBEDDING_MODEL = "text-embedding-3-small"
+BOOKS_DATASET_PATH = "./defined_datasets/books_df_4494_books_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
+REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_448893_total_reviews_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
 
-"""
-Extra TODOs:
-- filter out low rated books (use google or amazon review values)
-- only use reviews from amazon that give a rating of 3 or above
-"""
-
-
-"""
-- only 5796 books considered right now
-
-*** Notes *** :
-- there are books that have isbn values but no title --> make sure to ignore these
-- number of unique titles -> 212404
-- number of unique isbn values -> 221790
-- the id does not necessarily correlate to an isbn, but often does
-    - I think that if the id starts with a value that is not a number, this means that
-      it is not an isbn and is just Amazon's assigned value --> we will ignore these
-      values and only work with books that
-      start with numerical values
-    - upon further investigation it appears (by just checking manually) that the above
-      assumption is correct, however the same book can still have the same isbn number
-      --> this only occurs for 3237 books out of 138,960 so in these cases we will make
-      the assumption for now that the books are the same and just pick one of the isbn
-      values
-    - note that we will assume that no two books can have the same title (not sure if
-      this is true, can only be a problem if the 3237 books above are actually
-      different)
-      - upon further investigation, popular books like harry potter are being tagged
-        with these non-isbn ids these ids are the Amazon product numbers, or ASIN
-- we will only consider books that have all values filled out in books_data.csv -->
-  reduced number to *** 40635 *** books
-- Adding the restriction of only considering isbns --> number of books is reduced
-  to 26522
-    - 832 books have multiple isbns, however, so the true value is 25,690
-- upon further reflection, we have removed ratings count as a requried value for
-  google, but will be keeping description
-
-New notes:
-- Ok, so it seems like books that do not have an ASIN and are being tracked with their
-  isbns are actually the more obscure books, so switched to including ASIN values and
-  got a TON more options (when using isbn --> none of the books had more than 1 review.
-  Now, more than 60,000 books have 5 or more reviews)
-- probably want to filter on genre more specifically at some point (only filtering out
-  books with no genre label right now)
-- Note: these values are for not fitlering out reviews with a rating less than 3:
-    - at least 10 reviews: 33291
-    - at least 15 reviews: 22880
-    - at least 20 reviews: 17321
-    - at least 25 reviews: 13760
-- Note: filtering out reviews that are less than 4
-    - at least 25 reviews: 10832
-- Filtering out reviews that are less than 3:
-    - at least 25 reviews: 12,077
-- Filtering out reviews that are less than 4 and books with an average review rating
-  less than 4:
-    - at least 25 reviews: 8651
-- Filtering out reviews that are less than 4 and books with an average review rating
-  less than 4.2:
-    - at least 30 reviews: 5796 books
-- Need to make sure to filter out bad books later (my assumption right now, though, is
-  that books with many reviews will have ok ratings)
- - will just remove reviews that are less than 3 for now as to not confuse the model
-"""
-
-
-class BookInfo:
-    """
-    Class for book objects
-    """
-
-    def __init__(self, row):
-        # books data csv data
-        self.title = row[0]
-        self.description = row[1]
-        self.authors = row[2]
-        self.book_cover_url = row[3]
-        self.google_preview_link = row[4]
-        self.publisher = row[5]
-        self.publish_date = row[6]
-        self.google_info_link = row[
-            7
-        ]  # Note: I am not sure how this is different from the google preview link
-        self.category = row[8]
-        # self.average_google_rating = row[9] I'm not actually sure what this value
-        # means, as it goes up to 4,900
-
-        # books rating csv data
-        self.id = None
-        self.amazon_link = None
-        self.amazon_average_book_score = (
-            []
-        )
-        # this starts as a list of all the review scores, and then we take the
-        # average at the end
-
-        self.review_summaries = []
-        self.reviews = []
-        # Note: could also look at price later
-
-
-def load_data():
-    """
-    Load data: currently in CSV file.
-    """
-
-    all_books_dict = {}  # hashmap of isbn to book information
-
-    with open(BOOKS_DATA_PATH, mode="r") as data_file:
-        data_reader = csv.reader(data_file)
-        start = 1
-
-        # we already know every row has a unique value in this csv
-        for row in data_reader:
-            if start:
-                start = 0
-                continue
-            skip = 0
-            # if the description for this book is not filled out, skip this book
-            if row[1] == "" or row[8] == "":
-                skip = 1
-            if skip:
-                continue
-
-            # clean up the list of authors and the category
-            # (only 1 category ever listed)
-            row[2] = row[2][1 : len(row[2]) - 1]
-            row[2] = row[2].replace("'", "")
-            row[8] = row[8][1 : len(row[8]) - 1]
-            row[8] = row[8].replace("'", "")
-
-            all_books_dict[row[0]] = BookInfo(row)
-
-    with open(BOOKS_RATING_PATH, mode="r") as rating_file:
-        rating_reader = csv.reader(rating_file)
-        start = 1
-        for row in rating_reader:
-            if start:
-                start = 0
-                continue
-
-            if row[1] in all_books_dict:
-                # Note that for books that have multiple ids, we just pick one for now
-                # also filter out reviews that gave a rating of less than 3
-                # (don't want to overly confuse the model)
-                current_book = all_books_dict[row[1]]
-                if row[9] != "":
-                    if current_book.id is None:
-                        current_book.id = row[0]
-                        current_book.amazon_link = "http://www.amazon.com/dp/" + str(
-                            row[0]
-                        )
-                    current_book.amazon_average_book_score.append(float(row[6]))
-                    if float(row[6]) >= 4:
-                        current_book.review_summaries.append(row[8])
-                        current_book.reviews.append(row[9])
-
-    all_books_list = []
-
-    for key in all_books_dict:
-        current_book = all_books_dict[key]
-        # set average review value
-        current_book.amazon_average_book_score = sum(
-            current_book.amazon_average_book_score
-        ) / len(current_book.amazon_average_book_score)
-        # we want at least 30 reviews for a book
-        if (
-            len(current_book.reviews) < 30
-            or current_book.amazon_average_book_score < 4.2
-        ):
-            continue
-        all_books_list.append(current_book)
-    return all_books_list
-
-
-def create_embedding(description):
+def create_embedding(text):
     """
     Given a description, return an embedding.
     """
     return (
-        client.embeddings.create(input=[description], model=EMBEDDING_MODEL)
+        client.embeddings.create(input=[text], model=EMBEDDING_MODEL)
         .data[0]
         .embedding
     )
 
-
-def add_books(collection, book):
+def add_to_collection(collection, embeddings, documents, metadatas, ids):
     """
-    Add book to our vector database.
+    Add an embedding to the appropriate vector database.
     """
-    # do some prompt engineering on the input --> we will pass in the book description
-    # and 3 reviews to start
-    # we know that these reviews are associated with ratings of at least 4
-    book_info = (
-        "Title: " + book.title + "\n" + "Description: " + book.description + "\n"
-    )
-    for i in range(1, 4, 1):
-        book_info += "Review " + str(i) + ":" + book.reviews[i] + "\n"
-
     collection.add(
-        embeddings=[create_embedding(book_info)],
-        documents=[book_info],
-        metadatas=[
-            {
-                "title": book.title,
-                "description": book.description,
-                "category": book.category,
-                "score": book.amazon_average_book_score,
-                "link": book.amazon_link,
-                "publisher": book.publisher,
-                "publication_date": book.publish_date,
-            }
-        ],
-        ids=[book.id],
+        embeddings=embeddings,
+        documents=documents,
+        metadatas=metadatas,
+        ids=ids,
     )
 
-
-def find_book(collection, query):
-    """
-    Find a similar book based on our query.
-    """
+def embedding_search(collection, query, n_results):
     embedding = create_embedding(query)
-    results = collection.query(query_embeddings=[embedding], n_results=3)
+    results = collection.query(query_embeddings=embedding, n_results=n_results)
     return results
 
 
-def find_match(query):
+def find_match(query, update_collections = False):
     """
     Call all functions.
     """
-    # Initialize all data
-    collection = chroma_client.get_or_create_collection(name="books")
+    descriptions_collection = chroma_client.get_or_create_collection(name="book_descriptions")
+    reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
+    middle_collection = chroma_client.get_or_create_collection(name="middle_collection")
+    if update_collections:
+        chroma_client.delete_collection(name="book_descriptions")
+        chroma_client.delete_collection(name="book_reviews")
+        chroma_client.delete_collection(name="middle_collection")
+        descriptions_collection = chroma_client.create_collection(name="book_descriptions")
+        reviews_collection = chroma_client.create_collection(name="book_reviews")
+        middle_collection = chroma_client.create_collection(name="middle_collection")
 
-    if collection.count() == 0:
+    if reviews_collection.count() == 0:
         print("populating data from file")
-        # Initialize all data
-        books = load_data()
-        for i in range(len(books)):
-            add_books(collection, books[i])
+
+        # FIRST LEVEL
+        books_df = pd.read_csv(BOOKS_DATASET_PATH, nrows=10)
+
+        reviews_df = pd.read_csv(REVIEWS_DATASET_PATH)
+        reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
+
+        reviews_df["helpful_votes"] = reviews_df["review/helpfulness"].apply(lambda x: str(x)[:x.find("/")])
+        reviews_df["helpful_votes"] = pd.to_numeric(reviews_df["helpful_votes"])
+
+        # only take the top 10 reviews for each book based on the number of helpful upvotes for now
+        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(10, "helpful_votes")).reset_index(drop=True)
+
+        books_metadatas = books_df.to_dict(orient="records")
+        reviews_metadatas = top_reviews_df.to_dict(orient="records")
+        
+        books_df["description_embedding"] = books_df["description"].apply(lambda x: create_embedding(x))
+        top_reviews_df["review_embedding"] = top_reviews_df["review/text"].apply(lambda x: create_embedding(x))
+
+        books_embeddings = books_df["description_embedding"].tolist()
+        reviews_embeddings = top_reviews_df["review_embedding"].tolist()
+
+        books_ids = books_df["Title"].tolist()
+        reviews_ids = top_reviews_df["reviewId"].tolist()
+
+        books_documents = books_df["description"].tolist()
+        reviews_documents = top_reviews_df["review/text"].to_list()
+
+        add_to_collection(reviews_collection, reviews_embeddings, reviews_documents, reviews_metadatas, reviews_ids)
+        add_to_collection(descriptions_collection, books_embeddings, books_documents, books_metadatas, books_ids)
+
+        # SECOND LEVEL
+        exclude = ["description_embedding", "description_length"]
+        middle_df = books_df[[col for col in books_df.columns if col not in exclude]]
+        middle_df["description"] = "Description: " + middle_df["description"] + "\n\n"
+
+        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(4, "helpful_votes")).reset_index(drop=True)
+
+        top_reviews_df = top_reviews_df[["Title", "review/text"]]
+        top_reviews_df["review/text"] = "Review: " + top_reviews_df["review/text"]
+        top_reviews_df = top_reviews_df.groupby("Title").agg({'review/text': lambda x: '\n\n'.join(map(str, x))}).reset_index()
+
+        middle_df = pd.merge(middle_df, top_reviews_df, on="Title", how="inner")
+        
+        middle_df["combined_text"] = middle_df["description"] + middle_df["review/text"]
+        middle_df = middle_df.drop("description", axis=1)
+        middle_df = middle_df.drop("review/text", axis=1)
+        middle_df["text_length"] = middle_df["combined_text"].apply(lambda x: len(str(x)))
+
+        middle_metadatas = middle_df.to_dict(orient="records")
+        middle_df["combined_text_embedding"] = middle_df["combined_text"].apply(lambda x: create_embedding(x))
+        middle_embeddings = middle_df["combined_text_embedding"].tolist()
+        middle_ids = middle_df["Title"].tolist()
+        middle_documents = middle_df["combined_text"].to_list()
+        add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
     else:
         print("Populating data from existing chromadb collection")
+    review_search_results = embedding_search(reviews_collection, query, 20)
+    titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
+    titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
+    description_search_results = embedding_search(descriptions_collection, query, 3)
+    titles_list.extend(description_search_results["ids"][0])
+    titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
 
-    # Find a similar wine
-    results = find_book(collection, query)
-    return results
-    """
-    books = load_data()
-    collection = chroma_client.create_collection(name="books")
-    for i in range(25):
-        add_books(collection, books[i])
+    # SECOND LEVEL
+    extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
+    # probably want to be more clever with this name
+    client_name = str(uuid.uuid1())
+    extract_collection = chroma_client.create_collection(name=client_name)
+    add_to_collection(extract_collection, extract_dict["embeddings"], extract_dict["documents"], extract_dict["metadatas"], extract_dict["ids"])
+    option_count = 2
+    middle_search_results = embedding_search(extract_collection, query, option_count)
+    chroma_client.delete_collection(name=client_name)
+    
+    super_prompt_engineer = (
+f"""Hey ChatGPT. I have a question for you. of the {option_count} words I am hoping for you to provide the option you think best matches the request/description
+{query}
 
-    # Find a similar wine
-    results = find_book(collection, query)
-    return results
-    """
+These are the options\n\n
+""")
+
+    book_features = zip(middle_search_results["documents"][0])
+    for i, defining_tuple in enumerate(book_features):
+        super_prompt_engineer += (
+f"""
+Option{i}:
+{defining_tuple[0]}
+
+
+"""
+        )
+    
+    super_prompt_engineer += (
+f"""
+Please choose from the options as provided like \'option0\' or \'option1\'. Please explain your reasoning but you absolutely MUST make the final sentence clearly say your final answer.
+"""
+    )
+
+    response = client.chat.completions.create(
+    model="gpt-3.5-turbo-0125",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": super_prompt_engineer}
+    ]
+    )
+
+    options = []
+    for i in range(len(middle_search_results["documents"][0])):
+        options.append(f"Option{i}")
+
+    text = response.choices[0].message.content
+    print(text)
+
+    # Create a regex pattern to search for the options
+    pattern = '|'.join(re.escape(option) for option in options)
+    print(pattern)
+
+    # Find all matches in the string, along with their positions
+    matches = [(m.start(), m.group()) for m in re.finditer(pattern, text)]
+    print(matches)
+
+    # Get the last match, if there are any matches
+    last_match = max(matches, key=lambda x: x[0])[1] if matches else None
+    print(last_match)
+

@@ -1,0 +1,49 @@
+Extra TODOs:
+- filter out low rated books (use google or amazon review values)
+- only use reviews from amazon that give a rating of 3 or above
+
+
+
+- only 5796 books considered right now
+
+*** Notes *** : 
+- there are books that have isbn values but no title --> make sure to ignore these
+- number of unique titles -> 212404
+- number of unique isbn values -> 221790
+- the id does not necessarily correlate to an isbn, but often does
+    - I think that if the id starts with a value that is not a number, this means that it is not an isbn
+      and is just Amazon's assigned value --> we will ignore these values and only work with books that 
+     start with numerical values
+    - upon further investigation it appears (by just checking manually) that the above assumption is
+      correct, however the same book can still have the same isbn number --> this only occurs for 
+      3237 books out of 138,960 so in these cases we will make the assumption for now that the books are
+      the same and just pick one of the isbn values
+    - note that we will assume that no two books can have the same title (not sure if this is true, can
+      only be a problem if the 3237 books above are actually different)
+      - upon further investigation, popular books like harry potter are being tagged with these non-isbn ids
+       these ids are the Amazon product numbers, or ASIN
+- we will only consider books that have all values filled out in books_data.csv --> reduced number to *** 40635 *** books
+- Adding the restriction of only considering isbns --> number of books is reduced to 26522
+    - 832 books have multiple isbns, however, so the true value is 25,690
+- upon further reflection, we have removed ratings count as a requried value for google, but will be keeping description
+
+New notes:
+- Ok, so it seems like books that do not have an ASIN and are being tracked with their isbns are actually the more obscure books,
+  so switched to including ASIN values and got a TON more options (when using isbn --> none of the books had more than 1 review. Now,
+  more than 60,000 books have 5 or more reviews)
+- probably want to filter on genre more specifically at some point (only filtering out books with no genre label right now)
+- Note: these values are for not fitlering out reviews with a rating less than 3:
+    - at least 10 reviews: 33291
+    - at least 15 reviews: 22880
+    - at least 20 reviews: 17321
+    - at least 25 reviews: 13760
+- Note: filtering out reviews that are less than 4
+    - at least 25 reviews: 10832
+- Filtering out reviews that are less than 3:
+    - at least 25 reviews: 12,077
+- Filtering out reviews that are less than 4 and books with an average review rating less than 4:
+    - at least 25 reviews: 8651
+- Filtering out reviews that are less than 4 and books with an average review rating less than 4.2:
+    - at least 30 reviews: 5796 books
+- Need to make sure to filter out bad books later (my assumption right now, though, is that books with many reviews will have ok ratings)
+ - will just remove reviews that are less than 3 for now as to not confuse the model
