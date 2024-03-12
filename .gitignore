@@ -9,8 +9,11 @@ env/
 .chroma/
 backend/chromadb_data
 
+# Data
+archive/
+backend/helpers/defined_datasets
+
 # Miscellany
 __pycache__/
 .DS_Store
-archive/
 testing.py
