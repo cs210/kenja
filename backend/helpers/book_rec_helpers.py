@@ -10,7 +10,7 @@ import re
 
 load_dotenv()
 chroma_client = chromadb.PersistentClient(
-    path="../chromadb_data", settings=Settings(anonymized_telemetry=False)
+    path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
 )
 client = OpenAI()
 
@@ -124,7 +124,7 @@ def find_match(query, update_collections = False):
     review_search_results = embedding_search(reviews_collection, query, 20)
     titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
     titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 3)
+    description_search_results = embedding_search(descriptions_collection, query, 10)
     titles_list.extend(description_search_results["ids"][0])
     titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
 
@@ -134,58 +134,95 @@ def find_match(query, update_collections = False):
     client_name = str(uuid.uuid1())
     extract_collection = chroma_client.create_collection(name=client_name)
     add_to_collection(extract_collection, extract_dict["embeddings"], extract_dict["documents"], extract_dict["metadatas"], extract_dict["ids"])
-    option_count = 2
+    option_count = 5
     middle_search_results = embedding_search(extract_collection, query, option_count)
     chroma_client.delete_collection(name=client_name)
     
-    super_prompt_engineer = (
-f"""Hey ChatGPT. I have a question for you. of the {option_count} words I am hoping for you to provide the option you think best matches the request/description
+    '''super_prompt_engineer = (
+f"""Hey ChatGPT. I have a question for you. of the {option_count} words I am hoping for you to provide the top 3 options you think best matches the request/description
 {query}
 
 These are the options\n\n
-""")
+""")'''
+
+    '''super_prompt_engineer = 
+    """
+    Pretend you are an expert at books 
+    """'''
+
+    system_prompt = (
+        f"""
+        You are are an expert at reading books. In particular, you have read every book that has ever been published, and have also perused sites like Goodreads.
+        """
+    )
+
+    super_prompt_engineer = (
+        f"""
+        Now, given a request of an ideal book, you will be given {option_count} books and asked to provide the top 3 options. In particular, each of the options will be labeled `Option #`, and will have a corresponding 
+        description and several reviews of the book. After parsing through all of this information, please first explain your reasoning behind your decision-making. After explaining yourself, then return the options,
+        as well as the reasons for choosing each option, in the following format:
+
+        Reasoning:
+        <REASONING_FOR_CHOICES>
+
+        Options:
+        - Option #<FIRST_CHOICE>: <TITLE_OF_FIRST_CHOICE>
+        - Reasoning for #<FIRST_CHOICE>: <REASONING_FOR_FIRST_CHOICE>
+        - Option #<SECOND_CHOICE>: <TITLE_OF_SECOND_CHOICE>
+        - Reasoning for #<SECOND_CHOICE>: <REASONING_FOR_SECOND_CHOICE>
+        - Option #<THIRD_CHOICE>
+        - Reasoning for #<THIRD_CHOICE>: <REASONING_FOR_THIRD_CHOICE>
+
+        Each of the options are now below:
+        """
+    )
 
     book_features = zip(middle_search_results["documents"][0])
     for i, defining_tuple in enumerate(book_features):
         super_prompt_engineer += (
 f"""
-Option{i}:
+Option #{i}:
 {defining_tuple[0]}
 
 
 """
         )
     
-    super_prompt_engineer += (
+    '''super_prompt_engineer += (
 f"""
 Please choose from the options as provided like \'option0\' or \'option1\'. Please explain your reasoning but you absolutely MUST make the final sentence clearly say your final answer.
 """
-    )
-
+    )'''
+    #print(super_prompt_engineer)
     response = client.chat.completions.create(
     model="gpt-3.5-turbo-0125",
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": super_prompt_engineer}
     ]
     )
 
     options = []
+    d = {}
     for i in range(len(middle_search_results["documents"][0])):
-        options.append(f"Option{i}")
+        options.append(f"- Option #{i}")
+        d[f"- Option #{i}"] = middle_search_results["metadatas"][0][i]
 
     text = response.choices[0].message.content
-    print(text)
+
+    # print(text)
 
     # Create a regex pattern to search for the options
     pattern = '|'.join(re.escape(option) for option in options)
-    print(pattern)
+    # print(pattern)
 
     # Find all matches in the string, along with their positions
     matches = [(m.start(), m.group()) for m in re.finditer(pattern, text)]
-    print(matches)
+    # print(matches)
 
     # Get the last match, if there are any matches
-    last_match = max(matches, key=lambda x: x[0])[1] if matches else None
-    print(last_match)
+    last_matches = [i[1] for i in matches][-3:]
+
+    return [d[last_match] for last_match in last_matches]
+
 
