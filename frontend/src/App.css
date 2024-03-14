@@ -88,6 +88,18 @@ form {
   color: #82878d !important;
 }
 
+.book-img {
+  text-align: center;
+}
+
+.description-button {
+  display: block !important;
+  background-color: transparent !important;
+  text-align: left !important;
+  border: none !important;
+  padding-left: 0px;
+}
+
 .card {
   border: 1px solid black !important;
   background-color: transparent !important;

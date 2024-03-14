@@ -160,7 +160,7 @@ These are the options\n\n
         f"""
         Now, given a request of an ideal book, you will be given {option_count} books and asked to provide the top 3 options. In particular, each of the options will be labeled `Option #`, and will have a corresponding 
         description and several reviews of the book. After parsing through all of this information, please first explain your reasoning behind your decision-making. After explaining yourself, then return the options,
-        as well as the reasons for choosing each option, in the following format:
+        as well as the reasons for choosing each option, in the following format. Please include all of the dashes, and make sure to always include three options:
 
         Reasoning:
         <REASONING_FOR_CHOICES>
@@ -188,12 +188,7 @@ Option #{i}:
 """
         )
     
-    '''super_prompt_engineer += (
-f"""
-Please choose from the options as provided like \'option0\' or \'option1\'. Please explain your reasoning but you absolutely MUST make the final sentence clearly say your final answer.
-"""
-    )'''
-    #print(super_prompt_engineer)
+    # Make the call!
     response = client.chat.completions.create(
     model="gpt-3.5-turbo-0125",
     messages=[
@@ -201,27 +196,38 @@ Please choose from the options as provided like \'option0\' or \'option1\'. Plea
         {"role": "user", "content": super_prompt_engineer}
     ]
     )
-
+    
+    # Collect all of the data
     options = []
+    reasonings = []
     d = {}
     for i in range(len(middle_search_results["documents"][0])):
         options.append(f"- Option #{i}")
+        reasonings.append(f"- Reasoning for #{i}")
         d[f"- Option #{i}"] = middle_search_results["metadatas"][0][i]
 
+    # Get the text
     text = response.choices[0].message.content
 
-    # print(text)
-
-    # Create a regex pattern to search for the options
+    # Create a regex pattern to search for the options and reasonings
     pattern = '|'.join(re.escape(option) for option in options)
-    # print(pattern)
+    reasoning_pattern = '|'.join(re.escape(reasoning) for reasoning in reasonings)
 
     # Find all matches in the string, along with their positions
     matches = [(m.start(), m.group()) for m in re.finditer(pattern, text)]
-    # print(matches)
+    reasoning_matches = [(m.start(), m.group()) for m in re.finditer(reasoning_pattern, text)]
 
     # Get the last match, if there are any matches
     last_matches = [i[1] for i in matches][-3:]
+    reasoning_matches = [i for i in reasoning_matches][-3:]
+
+    # Extract the right text
+    for i in range(len(reasoning_matches)):
+        new_text = text[reasoning_matches[i][0]:]
+        next_section = new_text.find("\n")
+        gpt_review = new_text[len("- Reasoning for #1: "):next_section]
+        last_match = last_matches[i]
+        d[last_match]['gpt_review'] = gpt_review
 
     return [d[last_match] for last_match in last_matches]
 
