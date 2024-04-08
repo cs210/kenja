@@ -1,4 +1,9 @@
 from venv import create
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import chromadb
 from chromadb.config import Settings
 import pickle
@@ -7,6 +12,16 @@ from openai import OpenAI
 import pandas as pd
 import uuid
 import re
+
+# for RAG embedding model
+import torch
+import torch.nn.functional as F
+from transformers import AutoTokenizer, AutoModel
+tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', model_max_length=8192)
+model = AutoModel.from_pretrained('nomic-ai/nomic-embed-text-v1', trust_remote_code=True, rotary_scaling_factor=2)
+model.eval()
+model.to("cuda")
+
 
 load_dotenv()
 chroma_client = chromadb.PersistentClient(
@@ -17,18 +32,38 @@ client = OpenAI()
 # Constants for data
 CONFIG_FILE = "config.json"
 EMBEDDING_MODEL = "text-embedding-3-small"
+# BOOKS_DATASET_PATH = "./defined_datasets/books_df_36203_books_5_min_num_reviews_4_min_rating_10_min_description_length_10_min_review_length.csv"
+# REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_888775_total_reviews_5_min_num_reviews_4_min_rating_10_min_description_length_10_min_review_length.csv"
 BOOKS_DATASET_PATH = "./defined_datasets/books_df_4494_books_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
 REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_448893_total_reviews_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
 
-def create_embedding(text):
-    """
-    Given a description, return an embedding.
-    """
-    return (
-        client.embeddings.create(input=[text], model=EMBEDDING_MODEL)
-        .data[0]
-        .embedding
-    )
+# def create_embedding(text, is_document):
+#     """
+#     Given a description, return an embedding.
+#     """
+#     value = (client.embeddings.create(input=[text], model=EMBEDDING_MODEL)
+#         .data[0]
+#         .embedding)
+#     type(value)
+#     return value
+
+# With new model this could probably now be batched -> look into this later
+def create_embedding(text, is_document):
+    if is_document:
+        text = "search_document: " + text
+    else: # is query
+        text = "search_query: " + text
+    def mean_pooling(model_output, attention_mask):
+        token_embeddings = model_output[0]
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+    encoded_input = tokenizer(text, padding=True, truncation=True, return_tensors='pt').to("cuda")
+    with torch.no_grad():
+        model_output = model(**encoded_input)
+    embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
+    embeddings = F.normalize(embeddings, p=2, dim=1)
+    return embeddings[0].cpu().tolist()
+
 
 def add_to_collection(collection, embeddings, documents, metadatas, ids):
     """
@@ -42,7 +77,7 @@ def add_to_collection(collection, embeddings, documents, metadatas, ids):
     )
 
 def embedding_search(collection, query, n_results):
-    embedding = create_embedding(query)
+    embedding = create_embedding(query, False)
     results = collection.query(query_embeddings=embedding, n_results=n_results)
     return results
 
@@ -66,7 +101,7 @@ def find_match(query, update_collections = False):
         print("populating data from file")
 
         # FIRST LEVEL
-        books_df = pd.read_csv(BOOKS_DATASET_PATH, nrows=10)
+        books_df = pd.read_csv(BOOKS_DATASET_PATH)
 
         reviews_df = pd.read_csv(REVIEWS_DATASET_PATH)
         reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
@@ -74,14 +109,14 @@ def find_match(query, update_collections = False):
         reviews_df["helpful_votes"] = reviews_df["review/helpfulness"].apply(lambda x: str(x)[:x.find("/")])
         reviews_df["helpful_votes"] = pd.to_numeric(reviews_df["helpful_votes"])
 
-        # only take the top 10 reviews for each book based on the number of helpful upvotes for now
-        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(10, "helpful_votes")).reset_index(drop=True)
+        # only take the top 9 reviews for each book based on the number of helpful upvotes for now
+        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(9, "helpful_votes")).reset_index(drop=True)
 
         books_metadatas = books_df.to_dict(orient="records")
         reviews_metadatas = top_reviews_df.to_dict(orient="records")
         
-        books_df["description_embedding"] = books_df["description"].apply(lambda x: create_embedding(x))
-        top_reviews_df["review_embedding"] = top_reviews_df["review/text"].apply(lambda x: create_embedding(x))
+        books_df["description_embedding"] = books_df["description"].apply(lambda x: create_embedding(x, True))
+        top_reviews_df["review_embedding"] = top_reviews_df["review/text"].apply(lambda x: create_embedding(x, True))
 
         books_embeddings = books_df["description_embedding"].tolist()
         reviews_embeddings = top_reviews_df["review_embedding"].tolist()
@@ -114,7 +149,7 @@ def find_match(query, update_collections = False):
         middle_df["text_length"] = middle_df["combined_text"].apply(lambda x: len(str(x)))
 
         middle_metadatas = middle_df.to_dict(orient="records")
-        middle_df["combined_text_embedding"] = middle_df["combined_text"].apply(lambda x: create_embedding(x))
+        middle_df["combined_text_embedding"] = middle_df["combined_text"].apply(lambda x: create_embedding(x, True))
         middle_embeddings = middle_df["combined_text_embedding"].tolist()
         middle_ids = middle_df["Title"].tolist()
         middle_documents = middle_df["combined_text"].to_list()
