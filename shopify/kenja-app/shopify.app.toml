@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "73f510bedd1cfb7a8f83d6f11eb40768"
+name = "kenja-app"
+handle = "kenja-app"
+application_url = "https://germany-declare-raw-lay.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "quickstart-42e4cd07.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://germany-declare-raw-lay.trycloudflare.com/auth/callback",
+  "https://germany-declare-raw-lay.trycloudflare.com/auth/shopify/callback",
+  "https://germany-declare-raw-lay.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
