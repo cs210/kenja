@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /* Body style */
 body {
@@ -7,7 +7,7 @@ body {
 
 /* The entire search interface component */
 #main-div {
-  font-family: "Inter", sans-serif;
+  font-family: "PT Serif", serif;
   padding-top: 2%;
   padding-bottom: 2%;
 }
@@ -15,6 +15,7 @@ body {
 /* Header style */
 .header {
   padding-bottom: 1.5%;
+  text-align: center;
 }
 
 h1 {
@@ -23,28 +24,31 @@ h1 {
 }
 
 h3 {
-  font-size: 20px !important;
-  font-weight: 300 !important;
+  font-size: 30px !important;
+  font-weight: 500 !important;
 }
 
-/* Step style */
-.step {
-  padding-top: 3%;
-  padding-bottom: 3%;
+/* Examples style */
+.examples {
+  text-align: center;
+  padding-bottom: 1.5%;
 }
 
-h2 {
-  font-size: 35px !important;
-  font-weight: 600 !important;
+.prompt-button {
+  border: 2px solid black;
+  padding: 10px 15px;
+  background-color: transparent;
+  font-size: 16px !important;
+  color: black !important;
 }
 
-h4 {
-  font-size: 18px !important;
-  font-weight: 300 !important;
+.prompt-button:hover {
+  background-color: black;
+  color: white !important;
 }
 
-.spinner-border {
-  margin-top: 2% !important;
+.col {
+  padding-right: 1%;
 }
 
 /* Form style */
