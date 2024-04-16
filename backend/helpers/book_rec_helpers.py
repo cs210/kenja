@@ -1,5 +1,6 @@
 from venv import create
 
+# For chromadb
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
@@ -32,37 +33,42 @@ client = OpenAI()
 # Constants for data
 CONFIG_FILE = "config.json"
 EMBEDDING_MODEL = "text-embedding-3-small"
-# BOOKS_DATASET_PATH = "./defined_datasets/books_df_36203_books_5_min_num_reviews_4_min_rating_10_min_description_length_10_min_review_length.csv"
-# REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_888775_total_reviews_5_min_num_reviews_4_min_rating_10_min_description_length_10_min_review_length.csv"
-BOOKS_DATASET_PATH = "./defined_datasets/books_df_4494_books_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
-REVIEWS_DATASET_PATH = "./defined_datasets/reviews_df_448893_total_reviews_30_min_num_reviews_4.2_min_rating_20_min_description_length_50_min_review_length.csv"
 
-# def create_embedding(text, is_document):
-#     """
-#     Given a description, return an embedding.
-#     """
-#     value = (client.embeddings.create(input=[text], model=EMBEDDING_MODEL)
-#         .data[0]
-#         .embedding)
-#     type(value)
-#     return value
+def openai_create_embedding(text, is_document):
+    """
+    Given a description, return an embedding.
+    """
+    value = (client.embeddings.create(input=[text], model=EMBEDDING_MODEL)
+        .data[0]
+        .embedding)
+    type(value)
+    return value
 
-# With new model this could probably now be batched -> look into this later
-def create_embedding(text, is_document):
+def open_source_create_embeddings(texts_list, is_document):
+    """
+    Use the new local embeddings model to handle embeddings.
+    """
+    # Embed based on a document or a query
     if is_document:
-        text = "search_document: " + text
-    else: # is query
-        text = "search_query: " + text
+        texts_list = ["search_document: " + item for item in texts_list]
+    else:
+        texts_list = ["search_query: " +  item for item in texts_list]
+    
+    # Mean pooling function to help with embeddings
     def mean_pooling(model_output, attention_mask):
         token_embeddings = model_output[0]
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
-    encoded_input = tokenizer(text, padding=True, truncation=True, return_tensors='pt').to("cuda")
+    
+    # Encode input and run through the model
+    encoded_input = tokenizer(texts_list, padding=True, truncation=True, return_tensors='pt').to("cuda")
     with torch.no_grad():
         model_output = model(**encoded_input)
+
+    # Return the embeddings
     embeddings = mean_pooling(model_output, encoded_input['attention_mask'])
     embeddings = F.normalize(embeddings, p=2, dim=1)
-    return embeddings[0].cpu().tolist()
+    return embeddings
 
 
 def add_to_collection(collection, embeddings, documents, metadatas, ids):
@@ -77,85 +83,171 @@ def add_to_collection(collection, embeddings, documents, metadatas, ids):
     )
 
 def embedding_search(collection, query, n_results):
-    embedding = create_embedding(query, False)
+    embedding = open_source_create_embeddings([query], False).tolist()
     results = collection.query(query_embeddings=embedding, n_results=n_results)
     return results
+
+def process_data(books_path, reviews_path, min_num_reviews, min_rating, min_review_length, min_description_length):
+    """
+    Load data from the original Kaggle dataset.
+    """
+    books_df = pd.read_csv(books_path)
+    books_df = books_df.dropna(subset=['description', 'categories'])
+    books_df = books_df[books_df['description'].str.len() >= min_description_length]
+
+    reviews_df = pd.read_csv(reviews_path)
+    reviews_df = reviews_df.dropna(subset=['review/text'])
+
+    # remove any duplicate reviews
+    reviews_df = reviews_df.drop_duplicates(subset=["review/text"])
+
+    # only keep books that haven't already been filtered out
+    reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
+
+    # give the review an id using deterministic hash function
+    reviews_df['reviewId'] = reviews_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row['Title'], row['review/text']}")), axis=1)
+
+    # drop any books that don't have the specified minimum average rating
+    average_rating_df = reviews_df.groupby('Title')['review/score'].mean().reset_index()
+    average_rating_df = average_rating_df[average_rating_df["review/score"] >= min_rating]
+    average_rating_df = average_rating_df.rename(columns = {"review/score": "average_rating"})
+    books_df = pd.merge(average_rating_df, books_df, on="Title", how="inner")
+    reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
+
+    # only keep reviews that are long enough
+    reviews_df = reviews_df[reviews_df["review/text"].str.len() >= min_review_length]
+
+    # only want reviews that give a score of at least 4
+    reviews_df = reviews_df[reviews_df["review/score"] >= 4]
+
+    # want at least num_reviews for a book
+    title_counts = reviews_df["Title"].value_counts()
+    title_counts = title_counts[title_counts >= min_num_reviews]
+    enough_reviews_df = pd.DataFrame({"Title":title_counts.index})
+    reviews_df = reviews_df[reviews_df['Title'].isin(enough_reviews_df['Title'])]
+
+    # add the review length as an entry
+    reviews_df["review_length"] = reviews_df["review/text"].apply(lambda x: len(str(x)))
+
+    # update books df for any titles removed from reviews df
+    books_df = books_df[books_df['Title'].isin(reviews_df['Title'])]
+
+    # add the description length as an entry
+    books_df["description_length"] = books_df["description"].apply(lambda x: len(str(x)))
+
+    return books_df, reviews_df
+
+def create_collections(books_path, reviews_path):
+    """
+    Create the embeddings for vector database search.
+    """
+    # We want to reset these collections, so try to get collection if it exists and delete it
+    descriptions_collection = chroma_client.get_or_create_collection(name="book_descriptions")
+    reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
+    middle_collection = chroma_client.get_or_create_collection(name="middle_collection")
+    descriptions_collection = chroma_client.delete_collection(name="book_descriptions")
+    reviews_collection = chroma_client.delete_collection(name="book_reviews")
+    middle_collection = chroma_client.delete_collection(name="middle_collection")
+    
+    descriptions_collection = chroma_client.get_or_create_collection(name="book_descriptions")
+    reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
+    middle_collection = chroma_client.get_or_create_collection(name="middle_collection")
+
+    # FIRST LEVEL
+
+    books_df, reviews_df = process_data(books_path, reviews_path, 30, 4.2, 50, 20)
+
+    reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
+
+    reviews_df["helpful_votes"] = reviews_df["review/helpfulness"].apply(lambda x: str(x)[:x.find("/")])
+    reviews_df["helpful_votes"] = pd.to_numeric(reviews_df["helpful_votes"])
+
+    # only take the top 9 reviews for each book based on the number of helpful upvotes for now
+    top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(9, "helpful_votes")).reset_index(drop=True)
+
+    books_metadatas = books_df.to_dict(orient="records")
+    reviews_metadatas = top_reviews_df.to_dict(orient="records")
+
+    start_index = 0
+    next_index = 5
+    description_list = books_df["description"].tolist()
+    torch.cuda.empty_cache()
+    descriptions_embeddings = []
+    while (start_index < len(description_list)):
+        print(start_index)
+        current_slice = description_list[start_index:next_index]
+        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
+        descriptions_embeddings += slice_embeddings
+        start_index = next_index
+        next_index += 5
+    
+    start_index = 0
+    next_index = 5
+    reviews_list = top_reviews_df["review/text"].tolist()
+    torch.cuda.empty_cache()
+    reviews_embeddings = []
+    while (start_index < len(reviews_list)):
+        print(start_index)
+        current_slice = reviews_list[start_index:next_index]
+        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
+        reviews_embeddings += slice_embeddings
+        start_index = next_index
+        next_index += 5
+
+    books_ids = books_df["Title"].tolist()
+    reviews_ids = top_reviews_df["reviewId"].tolist()
+
+    books_documents = books_df["description"].tolist()
+    reviews_documents = top_reviews_df["review/text"].tolist()
+
+    add_to_collection(descriptions_collection, descriptions_embeddings, books_documents, books_metadatas, books_ids)
+
+    add_to_collection(reviews_collection, reviews_embeddings, reviews_documents, reviews_metadatas, reviews_ids)
+
+    # SECOND LEVEL
+    exclude = ["description_embedding", "description_length"]
+    middle_df = books_df[[col for col in books_df.columns if col not in exclude]]
+    middle_df["description"] = "Description: " + middle_df["description"] + "\n\n"
+
+    top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(4, "helpful_votes")).reset_index(drop=True)
+
+    top_reviews_df = top_reviews_df[["Title", "review/text"]]
+    top_reviews_df["review/text"] = "Review: " + top_reviews_df["review/text"]
+    top_reviews_df = top_reviews_df.groupby("Title").agg({'review/text': lambda x: '\n\n'.join(map(str, x))}).reset_index()
+
+    middle_df = pd.merge(middle_df, top_reviews_df, on="Title", how="inner")
+    
+    middle_df["combined_text"] = middle_df["description"] + middle_df["review/text"]
+    middle_df = middle_df.drop("description", axis=1)
+    middle_df = middle_df.drop("review/text", axis=1)
+    middle_df["text_length"] = middle_df["combined_text"].apply(lambda x: len(str(x)))
+
+    middle_metadatas = middle_df.to_dict(orient="records")
+
+    start_index = 0
+    next_index = 5
+    middle_list = middle_df["combined_text"].tolist()
+    torch.cuda.empty_cache()
+    middle_embeddings = []
+    while (start_index < len(reviews_list)):
+        print(start_index)
+        current_slice = reviews_list[start_index:next_index]
+        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
+        middle_embeddings += slice_embeddings
+        start_index = next_index
+        next_index += 5
+    middle_ids = middle_df["Title"].tolist()
+    middle_documents = middle_df["combined_text"].tolist()
+    add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
 
 
 def find_match(query, update_collections = False):
     """
     Call all functions.
     """
-    descriptions_collection = chroma_client.get_or_create_collection(name="book_descriptions")
-    reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
-    middle_collection = chroma_client.get_or_create_collection(name="middle_collection")
-    if update_collections:
-        chroma_client.delete_collection(name="book_descriptions")
-        chroma_client.delete_collection(name="book_reviews")
-        chroma_client.delete_collection(name="middle_collection")
-        descriptions_collection = chroma_client.create_collection(name="book_descriptions")
-        reviews_collection = chroma_client.create_collection(name="book_reviews")
-        middle_collection = chroma_client.create_collection(name="middle_collection")
-
-    if reviews_collection.count() == 0:
-        print("populating data from file")
-
-        # FIRST LEVEL
-        books_df = pd.read_csv(BOOKS_DATASET_PATH)
-
-        reviews_df = pd.read_csv(REVIEWS_DATASET_PATH)
-        reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
-
-        reviews_df["helpful_votes"] = reviews_df["review/helpfulness"].apply(lambda x: str(x)[:x.find("/")])
-        reviews_df["helpful_votes"] = pd.to_numeric(reviews_df["helpful_votes"])
-
-        # only take the top 9 reviews for each book based on the number of helpful upvotes for now
-        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(9, "helpful_votes")).reset_index(drop=True)
-
-        books_metadatas = books_df.to_dict(orient="records")
-        reviews_metadatas = top_reviews_df.to_dict(orient="records")
-        
-        books_df["description_embedding"] = books_df["description"].apply(lambda x: create_embedding(x, True))
-        top_reviews_df["review_embedding"] = top_reviews_df["review/text"].apply(lambda x: create_embedding(x, True))
-
-        books_embeddings = books_df["description_embedding"].tolist()
-        reviews_embeddings = top_reviews_df["review_embedding"].tolist()
-
-        books_ids = books_df["Title"].tolist()
-        reviews_ids = top_reviews_df["reviewId"].tolist()
-
-        books_documents = books_df["description"].tolist()
-        reviews_documents = top_reviews_df["review/text"].to_list()
-
-        add_to_collection(reviews_collection, reviews_embeddings, reviews_documents, reviews_metadatas, reviews_ids)
-        add_to_collection(descriptions_collection, books_embeddings, books_documents, books_metadatas, books_ids)
-
-        # SECOND LEVEL
-        exclude = ["description_embedding", "description_length"]
-        middle_df = books_df[[col for col in books_df.columns if col not in exclude]]
-        middle_df["description"] = "Description: " + middle_df["description"] + "\n\n"
-
-        top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(4, "helpful_votes")).reset_index(drop=True)
-
-        top_reviews_df = top_reviews_df[["Title", "review/text"]]
-        top_reviews_df["review/text"] = "Review: " + top_reviews_df["review/text"]
-        top_reviews_df = top_reviews_df.groupby("Title").agg({'review/text': lambda x: '\n\n'.join(map(str, x))}).reset_index()
-
-        middle_df = pd.merge(middle_df, top_reviews_df, on="Title", how="inner")
-        
-        middle_df["combined_text"] = middle_df["description"] + middle_df["review/text"]
-        middle_df = middle_df.drop("description", axis=1)
-        middle_df = middle_df.drop("review/text", axis=1)
-        middle_df["text_length"] = middle_df["combined_text"].apply(lambda x: len(str(x)))
-
-        middle_metadatas = middle_df.to_dict(orient="records")
-        middle_df["combined_text_embedding"] = middle_df["combined_text"].apply(lambda x: create_embedding(x, True))
-        middle_embeddings = middle_df["combined_text_embedding"].tolist()
-        middle_ids = middle_df["Title"].tolist()
-        middle_documents = middle_df["combined_text"].to_list()
-        add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
-    else:
-        print("Populating data from existing chromadb collection")
+    descriptions_collection = chroma_client.get_collection(name="book_descriptions")
+    reviews_collection = chroma_client.get_collection(name="book_reviews")
+    middle_collection = chroma_client.get_collection(name="middle_collection")
     review_search_results = embedding_search(reviews_collection, query, 20)
     titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
     titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
