@@ -155,7 +155,7 @@ def create_collections(books_path, reviews_path):
 
     # FIRST LEVEL
 
-    books_df, reviews_df = process_data(books_path, reviews_path, 30, 4.2, 20, 50)
+    books_df, reviews_df = process_data(books_path, reviews_path, 30, 4.2, 50, 20)
 
     reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
 
@@ -173,7 +173,7 @@ def create_collections(books_path, reviews_path):
     description_list = books_df["description"].tolist()
     torch.cuda.empty_cache()
     descriptions_embeddings = []
-    while (start_index <= len(description_list)):
+    while (start_index < len(description_list)):
         print(start_index)
         current_slice = description_list[start_index:next_index]
         slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
@@ -186,7 +186,7 @@ def create_collections(books_path, reviews_path):
     reviews_list = top_reviews_df["review/text"].tolist()
     torch.cuda.empty_cache()
     reviews_embeddings = []
-    while (start_index <= len(reviews_list)):
+    while (start_index < len(reviews_list)):
         print(start_index)
         current_slice = reviews_list[start_index:next_index]
         slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
@@ -198,7 +198,7 @@ def create_collections(books_path, reviews_path):
     reviews_ids = top_reviews_df["reviewId"].tolist()
 
     books_documents = books_df["description"].tolist()
-    reviews_documents = top_reviews_df["review/text"].to_list()
+    reviews_documents = top_reviews_df["review/text"].tolist()
 
     add_to_collection(descriptions_collection, descriptions_embeddings, books_documents, books_metadatas, books_ids)
 
@@ -229,7 +229,7 @@ def create_collections(books_path, reviews_path):
     middle_list = middle_df["combined_text"].tolist()
     torch.cuda.empty_cache()
     middle_embeddings = []
-    while (start_index <= len(reviews_list)):
+    while (start_index < len(reviews_list)):
         print(start_index)
         current_slice = reviews_list[start_index:next_index]
         slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
@@ -237,7 +237,7 @@ def create_collections(books_path, reviews_path):
         start_index = next_index
         next_index += 5
     middle_ids = middle_df["Title"].tolist()
-    middle_documents = middle_df["combined_text"].to_list()
+    middle_documents = middle_df["combined_text"].tolist()
     add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
 
 
