@@ -231,7 +231,7 @@ def create_collections(books_path, reviews_path):
     middle_embeddings = []
     while (start_index < len(reviews_list)):
         print(start_index)
-        current_slice = reviews_list[start_index:next_index]
+        current_slice = middle_list[start_index:next_index]
         slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
         middle_embeddings += slice_embeddings
         start_index = next_index
@@ -241,13 +241,15 @@ def create_collections(books_path, reviews_path):
     add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
 
 
-def find_match(query, update_collections = False):
+def find_match(query):
     """
     Call all functions.
     """
     descriptions_collection = chroma_client.get_collection(name="book_descriptions")
     reviews_collection = chroma_client.get_collection(name="book_reviews")
     middle_collection = chroma_client.get_collection(name="middle_collection")
+
+    # FIRST LEVEL
     review_search_results = embedding_search(reviews_collection, query, 20)
     titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
     titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
