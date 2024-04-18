@@ -138,6 +138,20 @@ def process_data(books_path, reviews_path, min_num_reviews, min_rating, min_revi
     return books_df, reviews_df
 
 def create_collections(books_path, reviews_path):
+    def create_collection_embeddings(collection, documents, metadatas, ids):
+        start_index = 0
+        next_index = 5
+        torch.cuda.empty_cache()
+        while (start_index < len(documents)):
+            print(start_index)
+            current_documents = documents[start_index:next_index]
+            current_metadatas = metadatas[start_index:next_index]
+            current_ids = ids[start_index:next_index]
+            current_embeddings = open_source_create_embeddings(current_documents, True).tolist()
+            add_to_collection(collection, current_embeddings, current_documents, current_metadatas, current_ids)
+            start_index = next_index
+            next_index += 5
+        
     """
     Create the embeddings for vector database search.
     """
@@ -153,92 +167,46 @@ def create_collections(books_path, reviews_path):
     reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
     middle_collection = chroma_client.get_or_create_collection(name="middle_collection")
 
-    # FIRST LEVEL
-
+    # Process and clean up data
     books_df, reviews_df = process_data(books_path, reviews_path, 30, 4.2, 50, 20)
-
     reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
-
     reviews_df["helpful_votes"] = reviews_df["review/helpfulness"].apply(lambda x: str(x)[:x.find("/")])
     reviews_df["helpful_votes"] = pd.to_numeric(reviews_df["helpful_votes"])
+    # Only take the top 10 reviews for each book based on the number of helpful upvotes for now
+    top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(10, "helpful_votes")).reset_index(drop=True)
 
-    # only take the top 9 reviews for each book based on the number of helpful upvotes for now
-    top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(9, "helpful_votes")).reset_index(drop=True)
-
-    books_metadatas = books_df.to_dict(orient="records")
-    reviews_metadatas = top_reviews_df.to_dict(orient="records")
-
-    start_index = 0
-    next_index = 5
-    description_list = books_df["description"].tolist()
-    torch.cuda.empty_cache()
-    descriptions_embeddings = []
-    while (start_index < len(description_list)):
-        print(start_index)
-        current_slice = description_list[start_index:next_index]
-        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
-        descriptions_embeddings += slice_embeddings
-        start_index = next_index
-        next_index += 5
-    
-    start_index = 0
-    next_index = 5
-    reviews_list = top_reviews_df["review/text"].tolist()
-    torch.cuda.empty_cache()
-    reviews_embeddings = []
-    while (start_index < len(reviews_list)):
-        print(start_index)
-        current_slice = reviews_list[start_index:next_index]
-        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
-        reviews_embeddings += slice_embeddings
-        start_index = next_index
-        next_index += 5
-
-    books_ids = books_df["Title"].tolist()
-    reviews_ids = top_reviews_df["reviewId"].tolist()
-
+    # FIRST LEVEL COLLECTIONS
     books_documents = books_df["description"].tolist()
-    reviews_documents = top_reviews_df["review/text"].tolist()
+    books_metadatas = books_df.to_dict(orient="records")
+    books_ids = books_df["Title"].tolist()
+    create_collection_embeddings(descriptions_collection, books_documents, books_metadatas, books_ids)
+    
+    top_reviews_documents = top_reviews_df["review/text"].tolist()
+    top_reviews_metadatas = top_reviews_df.to_dict(orient="records")
+    top_reviews_ids = top_reviews_df["reviewId"].tolist()
+    create_collection_embeddings(reviews_collection, top_reviews_documents, top_reviews_metadatas, top_reviews_ids)
 
-    add_to_collection(descriptions_collection, descriptions_embeddings, books_documents, books_metadatas, books_ids)
-
-    add_to_collection(reviews_collection, reviews_embeddings, reviews_documents, reviews_metadatas, reviews_ids)
-
-    # SECOND LEVEL
+    # Clean up data for second level
     exclude = ["description_embedding", "description_length"]
     middle_df = books_df[[col for col in books_df.columns if col not in exclude]]
     middle_df["description"] = "Description: " + middle_df["description"] + "\n\n"
 
     top_reviews_df = reviews_df.groupby("Title").apply(lambda x: x.nlargest(4, "helpful_votes")).reset_index(drop=True)
-
     top_reviews_df = top_reviews_df[["Title", "review/text"]]
     top_reviews_df["review/text"] = "Review: " + top_reviews_df["review/text"]
     top_reviews_df = top_reviews_df.groupby("Title").agg({'review/text': lambda x: '\n\n'.join(map(str, x))}).reset_index()
 
     middle_df = pd.merge(middle_df, top_reviews_df, on="Title", how="inner")
-    
     middle_df["combined_text"] = middle_df["description"] + middle_df["review/text"]
     middle_df = middle_df.drop("description", axis=1)
     middle_df = middle_df.drop("review/text", axis=1)
     middle_df["text_length"] = middle_df["combined_text"].apply(lambda x: len(str(x)))
 
-    middle_metadatas = middle_df.to_dict(orient="records")
-
-    start_index = 0
-    next_index = 5
-    middle_list = middle_df["combined_text"].tolist()
-    torch.cuda.empty_cache()
-    middle_embeddings = []
-    while (start_index < len(reviews_list)):
-        print(start_index)
-        current_slice = middle_list[start_index:next_index]
-        slice_embeddings = open_source_create_embeddings(current_slice, True).tolist()
-        middle_embeddings += slice_embeddings
-        start_index = next_index
-        next_index += 5
-    middle_ids = middle_df["Title"].tolist()
+    # SECOND LEVEL COLLECTIONS
     middle_documents = middle_df["combined_text"].tolist()
-    add_to_collection(middle_collection, middle_embeddings, middle_documents, middle_metadatas, middle_ids)
+    middle_metadatas = middle_df.to_dict(orient="records")
+    middle_ids = middle_df["Title"].tolist()
+    create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
 
 
 def find_match(query):
