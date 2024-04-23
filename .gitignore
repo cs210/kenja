@@ -12,6 +12,7 @@ backend/chromadb_data
 # Data
 archive/
 backend/helpers/defined_datasets
+backend/data
 
 # Miscellany
 __pycache__/

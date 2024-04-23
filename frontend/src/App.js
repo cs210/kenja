@@ -1,146 +1,107 @@
 import './App.css';
 import React, { useState } from 'react';
 
-// Set the random number to use when shuffling random choices.
-const randomNumber = Math.floor(Math.random() * 4);
-const maxBooks = 3;
-
 /*
  * Describes the core single page web component.
  */
 function App() {
 
   // Set title dynamically
-  document.title = "Bookworm | Find New Books";
+  document.title = "Setup | Kenja";
 
-  // Managing state
-  const [results, setResults] = useState([]);
-  const [spinning, setSpinning] = useState(false);
-  const [isOpen, setIsOpen] = useState(Array(maxBooks).fill(false));
+  // State for selected files
+  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [inPipeline, setInPipeline] = useState(false);
+  const [createEmbeddings, setCreateEmbeddings] = useState(false);
+  const [gotSuccess, setGotSuccess] = useState(false);
 
-  // Example prompts for users
-  const exampleQueries = ["A fantasy adventure that has dragons", "A hearwarming love story of two childhood friends",
-    "A story about an up and coming basketball team", "A nonfiction novel about the Ancient Roman Empire",
-    "An autobiography of a United States President", "A page turner about a war between three nations"];
-  
-  // Function to toggle the dropdown state of a specific book
-  const toggleDropdown = (index) => {
-    const updatedOpenState = [...isOpen];
-    updatedOpenState[index] = !updatedOpenState[index];
-    setIsOpen(updatedOpenState);
+  /*
+   * Set the updated product catalog files.
+   */
+  const handleFileChange = (event) => {
+    setSelectedFiles(event.target.files);
   };
 
-  // Hooks for using prompts
-  const submitExample = (evt) => {
-    evt.preventDefault();
-    const inputElement = document.querySelector('input[name="query"]');
-    if (inputElement) {
-        inputElement.value = evt.target.textContent;
-    } else {
-        console.error('Input field not found!');
-    }
-    fetchMatches(evt.target.textContent)
-  }
+  /*
+   * Upload files to the backend.
+   */
+  const handleUpload = () => {
+    // Create a new data structure with the files
+    if (selectedFiles) {
+      const formData = new FormData();
+      Array.from(selectedFiles).forEach((file) => {
+        formData.append('files', file);
+      });
 
-  const querySubmitted = (evt) => {
-    evt.preventDefault();
-    fetchMatches(evt.target.children.query.value);
-  }
-
-  // Fetch the appropriate matches
-  const fetchMatches = (query) => {
-    // Set initial state
-    setSpinning(true);
-    setResults([]);
-
-    // Define scope of the request
-    const apiUrl = 'http://127.0.0.1:8000/api';
-    const queryValue = query;
-    const queryParams = { description: String(queryValue) };
-    const queryString = new URLSearchParams(queryParams).toString();
-    const finalUrl = `${apiUrl}?${queryString}`;
-
-    // Make the actual request
-    fetch(finalUrl)
-      .then(response => {
-        // Check if the response is successful (status code 200)
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Parse the JSON response
-        return response.json();
+      // Set generation step on and submit to backend
+      setInPipeline(true);
+      fetch("http://127.0.0.1:8000/upload", {
+        method: 'POST',
+        body: formData,
       })
-      .then(data => {
-        // Update the state with the fetched posts
-        console.log(data);
-        setResults(data);
-        setSpinning(false);
+      .then(response => {
+        // If we got a good response, then we can start creating embeddings!
+        if (response.ok) {
+          setCreateEmbeddings(true);
+          callCreate();
+        }
       })
       .catch(error => {
-        // Log any errors to the console
-        console.error('There was a problem with the fetch operation:', error);
+        // Handle error
       });
+    }
+  };
+
+  /*
+   * Upload files to the backend.
+   */
+  const callCreate = () => {
+    // Set embeddings step on and submit to backend
+    setCreateEmbeddings(true);
+    fetch("http://127.0.0.1:8000/create", {
+      method: 'POST',
+    })
+    .then(response => {
+      // If we got a good response, then we can start creating embeddings!
+      if (response.ok) {
+        setGotSuccess(true);
+      }
+    })
+    .catch(error => {
+      // Handle error
+    });
   };
 
   return (
     <div className="container" id="main-div">
       <div className="header">
-        <h1>🐛 Bookworm </h1>
-        <h3>Find a new read using just a description. </h3>
+        <h1>Set-Up</h1>
+        <h3>Set up your dataset to create a new search endpoint.</h3>
       </div>
-      <div className="examples row" flex-direction='row'>
-        <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber]}</button>
-        </div>
-        <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber + 1]}</button>
-        </div>
-        <div className="col">
-          <button type="submit" className="prompt-button" onClick={submitExample}>{exampleQueries[randomNumber + 2]}</button>
-        </div>
+      <div className="step">
+        <h2>Step 1: Upload Your Data</h2>
+        <h4>Upload all of your product catalog in the form of csv or text files.</h4>
+        <input type="file" accept=".txt, .pdf, .doc, .docx" multiple onChange={handleFileChange} />
+        <button onClick={handleUpload} className="btn btn-dark">Upload</button>
       </div>
-      <form className="search-form" onSubmit={querySubmitted} autoComplete="off">
-        <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
-        <br />
-        <button type="submit" className="btn btn-primary mb-3" id="submit-prompt">Submit</button>
-      </form>
-      <div className="results">
-        { spinning === true && <div className="spinner-border" role="status"></div> }
-        { results.length > 0 && <h2>Books:</h2>}
-        {results.map((book, index) => (
-          <div className="result" key={book.Title}>
-            <div className="card">
-              <div className="card-body">
-                <div className="row">
-                <div className="col-2 order-sm-1 book-img">
-                    <img src={book.image} alt={"Book cover for " + book.Title}/>
-                  </div>
-                  <div className="col-10 order-sm-2">
-                    <h2 className="book-title">{book.Title}</h2>
-                    <h3 className="book-author">By: {book.authors.substring(2, book.authors.length - 2)} </h3>
-                    <span className="badge text-bg-dark book-category">{book.categories.substring(2, book.categories.length - 2)}</span>
-                    <p className="book-details">{book.publisher} · {book.publishedDate} · <a href={book.infoLink}>Link</a></p>
-                    <p className="book-ai-response">{book.gpt_review}</p>
-                    <button
-                      className="description-button dropdown-toggle"
-                      type="button"
-                      onClick={() => toggleDropdown(index)}
-                      aria-expanded={isOpen[index] ? "true" : "false"}
-                      aria-controls={"collapse" + book.Title}
-                      data-bs-toggle="dropdown"
-                    >
-                      <b>Read Description</b>
-                    </button>
-                    <div className={`collapse ${isOpen[index] ? 'show' : ''}`} id={"collapse" + book.Title}>
-                      <p className="book-description">{book.combined_text.substring(12, book.combined_text.indexOf("Review:"))}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      { inPipeline ? <div className="step">
+        <h2>Step 2: Sending Over Data</h2>
+        <h4>We're first sending over your files to be processed.</h4>
+        { createEmbeddings ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</svg>  Successfully uploaded!</div> : <div className="spinner-border text-dark" role="status"></div>}
+        </div> : null}
+        { createEmbeddings ? <div className="step">
+        <h2>Step 3: Making Product Data Searchable</h2>
+        <h4>Next, we're making your data usable for our algorithm.</h4>
+        { gotSuccess ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</svg>  Successfully created embeddings!</div> : <div className="spinner-border text-dark" role="status"></div>}
+        </div> : null}
+        { gotSuccess ? <div className="step">
+        <h2>Step 4: Use Search APIs</h2>
+        <h4>Congrats! Your data is now searchable -- try calling one of our REST APIs to try it out!</h4>
+        </div> : null}
     </div>
   );
 }
