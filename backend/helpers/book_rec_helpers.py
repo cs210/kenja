@@ -198,23 +198,34 @@ def create_collections(books_path, reviews_path):
     middle_ids = middle_df["Title"].tolist()
     create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
 
+# Contains names of relavent collections
+class ProductDescription:
+    #User specified features 
+    feature_collections: list[str]
+    hidden_collections: list[str]
+    middle_collection: str
 
-def find_match(query):
+def find_match(query, product_description: ProductDescription):
     """
     Call all functions.
     """
-    descriptions_collection = chroma_client.get_collection(name="book_descriptions")
-    reviews_collection = chroma_client.get_collection(name="book_reviews")
-    middle_collection = chroma_client.get_collection(name="middle_collection")
+    feature_collections = []
+    for collection in product_description.feature_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    for collection in product_description.hidden_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    
+    middle_collection = chroma_client.get_collection(name=product_description.middle_collection)
 
     # FIRST LEVEL
-    review_search_results = embedding_search(reviews_collection, query, 20)
-    titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
-    titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 10)
-    titles_list.extend(description_search_results["ids"][0])
-    titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
-
+    titles_list = []
+    for feature_collection in feature_collections:
+        partial_search_results = embedding_search(feature_collection, query, max(20, .05 * feature_collection.count()))
+        partial_titles_list = [dictionary["ids"] for dictionary in partial_search_results["metadatas"][0]]
+        partial_titles_list = list(set(partial_titles_list)) # there is a chance that the same book will appear multiple times
+        titles_list.extend(partial_titles_list)
+        titles_list = list(set(titles_list))
+        
     # SECOND LEVEL
     extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
     # probably want to be more clever with this name
