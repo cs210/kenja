@@ -1,6 +1,8 @@
+from dotenv import load_dotenv
 from openai import OpenAI
 import re
 
+load_dotenv()
 client = OpenAI()
 
 EMBEDDING_MODEL = "text-embedding-3-small"
