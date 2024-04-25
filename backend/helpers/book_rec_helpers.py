@@ -5,7 +5,7 @@ from venv import create
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-from generation_helpers import get_generation
+# from generation_helpers import get_generation
 
 import chromadb
 from chromadb.config import Settings
@@ -21,7 +21,8 @@ from transformers import AutoTokenizer, AutoModel
 tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', model_max_length=8192)
 model = AutoModel.from_pretrained('nomic-ai/nomic-embed-text-v1', trust_remote_code=True, rotary_scaling_factor=2)
 model.eval()
-model.to("cuda")
+if torch.cuda.is_available():
+    model.to("cuda")
 
 OPTION_COUNT = 5
 
@@ -77,56 +78,88 @@ def embedding_search(collection, query, n_results):
     results = collection.query(query_embeddings=embedding, n_results=n_results)
     return results
 
-def process_data(books_path, reviews_path, min_num_reviews, min_rating, min_review_length, min_description_length):
+"""
+In the structured csv:
+    - specified features (for books, think reviews and descriptions)
+    - other features will still be present, but these will just be included as metadata 
+      -> only if they are the same for every entry
+
+def create_collections(structured_csv, specified_features_list):
+
+"""
+def create_collections(csv_list, id, features_list):
+    assert(len(csv_list) > 0)
     """
-    Load data from the original Kaggle dataset.
+    Join all the data into a single csv
     """
-    books_df = pd.read_csv(books_path)
-    books_df = books_df.dropna(subset=['description', 'categories'])
-    books_df = books_df[books_df['description'].str.len() >= min_description_length]
+    if len(csv_list) > 1:
+        dataframe = pd.merge(pd.read_csv(csv_list[0]), pd.read_csv(csv_list[1]), on=str(id), how="outer")
+        for i in range(2, len(csv_list)):
+            dataframe = pd.merge(dataframe, pd.read_csv(csv_list[i]), on=str(id), how="outer")
+    else:
+        dataframe = pd.read_csv(csv_list[0])
 
-    reviews_df = pd.read_csv(reviews_path)
-    reviews_df = reviews_df.dropna(subset=['review/text'])
+    def create_collection_embeddings(collection, documents, metadatas, ids):
+        start_index = 0
+        next_index = 5
+        torch.cuda.empty_cache()
+        while (start_index < len(documents)):
+            print(start_index)
+            current_documents = documents[start_index:next_index]
+            current_metadatas = metadatas[start_index:next_index]
+            current_ids = ids[start_index:next_index]
+            current_embeddings = open_source_create_embeddings(current_documents, True).tolist()
+            add_to_collection(collection, current_embeddings, current_documents, current_metadatas, current_ids)
+            start_index = next_index
+            next_index += 5
+    
+    # FIRST LEVEL COLLECTIONS
+    drop_cols = [col for col in dataframe.columns if dataframe[[id, col]].duplicated().sum() == dataframe[id].duplicated().sum()]
+    feature_metadatas = (dataframe.drop(columns=drop_cols)).to_dict(orient="records")
+    for feature in features_list:
+        feature = str(feature)
 
-    # remove any duplicate reviews
-    reviews_df = reviews_df.drop_duplicates(subset=["review/text"])
+        # We want to reset these collections, so try to get collection if it exists and delete it
+        chroma_client.get_or_create_collection(name=feature)
+        chroma_client.delete_collection(name=feature)
+        feature_collection = chroma_client.create_collection(name=feature)
 
-    # only keep books that haven't already been filtered out
-    reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
+        feature_documents = dataframe[feature].unique().tolist()
+        
+        feature_ids = list((dataframe.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        create_collection_embeddings(feature_collection, feature_documents, feature_metadatas, feature_ids)
+    
+    # MIDDLE LEVEL COLLECTION
+    num_ids = len(dataframe[id].unique())
+    unique_ids = dataframe[id].unique()
+    string_list = []
+    for i in range(num_ids):
+        string_list.append([unique_ids[i],""])
+    middle_df = pd.DataFrame(string_list, columns=[id, "combined_texts"])
+    for feature in features_list:
+        # get number of unique entries for the feature
+        unique_entries_df = dataframe.groupby(id)[feature].nunique()
+        num_unique_entries = unique_entries_df.min()
+        if num_unique_entries > 3:
+            num_unique_entries = 3
+        dataframe["feature_length"] = dataframe[feature].apply(len)
+        feature_df = dataframe.groupby(id).apply(lambda x: x.nlargest(num_unique_entries, "feature_length")).reset_index(drop=True)
+        feature_prefix =  feature + ": "
+        feature_df[feature] = feature_prefix + feature_df[feature]
+        feature_df = feature_df.groupby(id).agg({feature: lambda x: '\n\n'.join(map(str, x))}).reset_index()
+        feature_df[feature] = feature_df[feature] + "\n\n"
+        middle_df["combined_texts"] = middle_df["combined_texts"] + feature_df[feature]
+    
+    chroma_client.get_or_create_collection(name="middle_collection")
+    chroma_client.delete_collection(name="middle_collection")
+    # keep the metadatas the same for the middle layer
+    middle_metadatas = feature_metadatas
+    middle_collection = chroma_client.create_collection(name="middle_collection")
+    middle_documents = middle_df["combined_texts"].tolist()
+    middle_ids = list((dataframe.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row['middle_collection']}")), axis=1)))
+    create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
 
-    # give the review an id using deterministic hash function
-    reviews_df['reviewId'] = reviews_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row['Title'], row['review/text']}")), axis=1)
-
-    # drop any books that don't have the specified minimum average rating
-    average_rating_df = reviews_df.groupby('Title')['review/score'].mean().reset_index()
-    average_rating_df = average_rating_df[average_rating_df["review/score"] >= min_rating]
-    average_rating_df = average_rating_df.rename(columns = {"review/score": "average_rating"})
-    books_df = pd.merge(average_rating_df, books_df, on="Title", how="inner")
-    reviews_df = reviews_df[reviews_df['Title'].isin(books_df['Title'])]
-
-    # only keep reviews that are long enough
-    reviews_df = reviews_df[reviews_df["review/text"].str.len() >= min_review_length]
-
-    # only want reviews that give a score of at least 4
-    reviews_df = reviews_df[reviews_df["review/score"] >= 4]
-
-    # want at least num_reviews for a book
-    title_counts = reviews_df["Title"].value_counts()
-    title_counts = title_counts[title_counts >= min_num_reviews]
-    enough_reviews_df = pd.DataFrame({"Title":title_counts.index})
-    reviews_df = reviews_df[reviews_df['Title'].isin(enough_reviews_df['Title'])]
-
-    # add the review length as an entry
-    reviews_df["review_length"] = reviews_df["review/text"].apply(lambda x: len(str(x)))
-
-    # update books df for any titles removed from reviews df
-    books_df = books_df[books_df['Title'].isin(reviews_df['Title'])]
-
-    # add the description length as an entry
-    books_df["description_length"] = books_df["description"].apply(lambda x: len(str(x)))
-
-    return books_df, reviews_df
-
+"""
 def create_collections(books_path, reviews_path):
     def create_collection_embeddings(collection, documents, metadatas, ids):
         start_index = 0
@@ -142,9 +175,7 @@ def create_collections(books_path, reviews_path):
             start_index = next_index
             next_index += 5
         
-    """
     Create the embeddings for vector database search.
-    """
     # We want to reset these collections, so try to get collection if it exists and delete it
     descriptions_collection = chroma_client.get_or_create_collection(name="book_descriptions")
     reviews_collection = chroma_client.get_or_create_collection(name="book_reviews")
@@ -197,31 +228,32 @@ def create_collections(books_path, reviews_path):
     middle_metadatas = middle_df.to_dict(orient="records")
     middle_ids = middle_df["Title"].tolist()
     create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
+"""
 
 
-def find_match(query):
-    """
-    Call all functions.
-    """
-    descriptions_collection = chroma_client.get_collection(name="book_descriptions")
-    reviews_collection = chroma_client.get_collection(name="book_reviews")
-    middle_collection = chroma_client.get_collection(name="middle_collection")
+# def find_match(query):
+#     """
+#     Call all functions.
+#     """
+#     descriptions_collection = chroma_client.get_collection(name="book_descriptions")
+#     reviews_collection = chroma_client.get_collection(name="book_reviews")
+#     middle_collection = chroma_client.get_collection(name="middle_collection")
 
-    # FIRST LEVEL
-    review_search_results = embedding_search(reviews_collection, query, 20)
-    titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
-    titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 10)
-    titles_list.extend(description_search_results["ids"][0])
-    titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
+#     # FIRST LEVEL
+#     review_search_results = embedding_search(reviews_collection, query, 20)
+#     titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
+#     titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
+#     description_search_results = embedding_search(descriptions_collection, query, 10)
+#     titles_list.extend(description_search_results["ids"][0])
+#     titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
 
-    # SECOND LEVEL
-    extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
-    # probably want to be more clever with this name
-    client_name = str(uuid.uuid1())
-    extract_collection = temp_client.create_collection(name=client_name)
-    add_to_collection(extract_collection, extract_dict["embeddings"], extract_dict["documents"], extract_dict["metadatas"], extract_dict["ids"])
-    middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
-    temp_client.delete_collection(name=client_name)
+#     # SECOND LEVEL
+#     extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
+#     # probably want to be more clever with this name
+#     client_name = str(uuid.uuid1())
+#     extract_collection = temp_client.create_collection(name=client_name)
+#     add_to_collection(extract_collection, extract_dict["embeddings"], extract_dict["documents"], extract_dict["metadatas"], extract_dict["ids"])
+#     middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
+#     temp_client.delete_collection(name=client_name)
 
-    return get_generation(middle_search_results, option_count=OPTION_COUNT)
+    # return get_generation(middle_search_results, option_count=OPTION_COUNT)
