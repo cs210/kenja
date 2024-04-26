@@ -67,7 +67,7 @@ def process_book_data(books_path, reviews_path, min_num_reviews, min_rating, min
 
     # # combine the two dataframes and create a new, structured csv
     structered_books_csv_df = pd.merge(books_df, reviews_df, on="Title", how="outer")
-    # structered_books_csv_df.to_csv("structured_book_dataset.csv", index=False)
+    structered_books_csv_df.to_csv("structured_book_dataset.csv", index=False)
 
 # 60, 4.9, 50, 20 for mini size of 27
 process_book_data(BOOKS_PATH, REVIEWS_PATH, 60, 4.9, 50, 20)
