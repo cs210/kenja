@@ -53,6 +53,8 @@ def open_source_create_embeddings(texts_list, is_document):
     
     # Encode input and run through the model
     encoded_input = tokenizer(texts_list, padding=True, truncation=True, return_tensors='pt').to("cuda")
+    if torch.cuda.is_available():
+        encoded_input = encoded_input.to("cuda")
     with torch.no_grad():
         model_output = model(**encoded_input)
 
@@ -102,7 +104,8 @@ def create_collections(csv_list, id, features_list):
     def create_collection_embeddings(collection, documents, metadatas, ids):
         start_index = 0
         next_index = 5
-        torch.cuda.empty_cache()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         while (start_index < len(documents)):
             print(start_index)
             current_documents = documents[start_index:next_index]
@@ -118,15 +121,16 @@ def create_collections(csv_list, id, features_list):
     feature_metadatas = (dataframe.drop(columns=drop_cols)).to_dict(orient="records")
     for feature in features_list:
         feature = str(feature)
+        current_dataframe = dataframe[[id,feature]].drop_duplicates()
 
         # We want to reset these collections, so try to get collection if it exists and delete it
         chroma_client.get_or_create_collection(name=feature)
         chroma_client.delete_collection(name=feature)
         feature_collection = chroma_client.create_collection(name=feature)
 
-        feature_documents = dataframe[feature].unique().tolist()
+        feature_documents = current_dataframe[feature].to_list()
         
-        feature_ids = list((dataframe.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        feature_ids = list((current_dataframe.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
         create_collection_embeddings(feature_collection, feature_documents, feature_metadatas, feature_ids)
     
     # MIDDLE LEVEL COLLECTION
@@ -138,8 +142,8 @@ def create_collections(csv_list, id, features_list):
     middle_df = pd.DataFrame(string_list, columns=[id, "combined_texts"])
     for feature in features_list:
         # get number of unique entries for the feature
-        unique_entries_df = dataframe.groupby(id)[feature].nunique()
-        num_unique_entries = unique_entries_df.min()
+        unique_entries_series = dataframe.groupby(id)[feature].nunique()
+        num_unique_entries = unique_entries_series.min()
         if num_unique_entries > 3:
             num_unique_entries = 3
         dataframe["feature_length"] = dataframe[feature].apply(len)
@@ -152,11 +156,11 @@ def create_collections(csv_list, id, features_list):
     
     chroma_client.get_or_create_collection(name="middle_collection")
     chroma_client.delete_collection(name="middle_collection")
+    middle_collection = chroma_client.create_collection(name="middle_collection")
     # keep the metadatas the same for the middle layer
     middle_metadatas = feature_metadatas
-    middle_collection = chroma_client.create_collection(name="middle_collection")
     middle_documents = middle_df["combined_texts"].tolist()
-    middle_ids = list((dataframe.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row['middle_collection']}")), axis=1)))
+    middle_ids = list((middle_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row['combined_texts']}")), axis=1)))
     create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
 
 """
