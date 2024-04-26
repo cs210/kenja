@@ -1,9 +1,9 @@
 from venv import create
 
 # For chromadb
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # from generation_helpers import get_generation
 
@@ -117,16 +117,26 @@ def create_collections(csv_list, id, features_list):
             next_index += 5
     
     # FIRST LEVEL COLLECTIONS
-    drop_cols = [col for col in dataframe.columns if dataframe[[id, col]].duplicated().sum() == dataframe[id].duplicated().sum()]
-    feature_metadatas = (dataframe.drop(columns=drop_cols)).to_dict(orient="records")
     for feature in features_list:
-        feature = str(feature)
+        collection_name = ""
+        for i in range(len(feature)):
+            if feature[i] == "/" or  feature[i] == "\'":
+                collection_name += "-"
+            elif not feature[i].isalnum() and feature[i] != "_" and feature[i] != "-":
+                continue
+            else:
+                collection_name += feature[i]
+                
+        
         current_dataframe = dataframe[[id,feature]].drop_duplicates()
 
         # We want to reset these collections, so try to get collection if it exists and delete it
-        chroma_client.get_or_create_collection(name=feature)
-        chroma_client.delete_collection(name=feature)
-        feature_collection = chroma_client.create_collection(name=feature)
+        chroma_client.get_or_create_collection(name=collection_name)
+        chroma_client.delete_collection(name=collection_name)
+        feature_collection = chroma_client.create_collection(name=collection_name)
+
+        drop_cols = [col for col in dataframe.columns if col != feature and dataframe[[id, col]].duplicated().sum() != dataframe[id].duplicated().sum()]
+        feature_metadatas = (dataframe.drop(columns=drop_cols)).drop_duplicates().to_dict(orient="records")
 
         feature_documents = current_dataframe[feature].to_list()
         
@@ -158,7 +168,8 @@ def create_collections(csv_list, id, features_list):
     chroma_client.delete_collection(name="middle_collection")
     middle_collection = chroma_client.create_collection(name="middle_collection")
     # keep the metadatas the same for the middle layer
-    middle_metadatas = feature_metadatas
+    drop_cols = [col for col in dataframe.columns if dataframe[[id, col]].duplicated().sum() != dataframe[id].duplicated().sum()]
+    middle_metadatas = (dataframe.drop(columns=drop_cols)).drop_duplicates().to_dict(orient="records")
     middle_documents = middle_df["combined_texts"].tolist()
     middle_ids = list((middle_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row['combined_texts']}")), axis=1)))
     create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
