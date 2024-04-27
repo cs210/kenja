@@ -7,11 +7,11 @@ env/
 
 # Chroma
 .chroma/
-backend/chromadb_data
+chromadb_data
 
 # Data
 archive/
-backend/helpers/defined_datasets
+backend/helpers/books_information/books_datasets
 backend/data
 
 # Miscellany

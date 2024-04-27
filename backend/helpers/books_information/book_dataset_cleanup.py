@@ -4,7 +4,7 @@ import uuid
 BOOKS_PATH = "./archive/books_data.csv"
 REVIEWS_PATH = "./archive/books_rating.csv"
 
-def process_book_data(books_path, reviews_path, min_num_reviews, min_rating, min_review_length, min_description_length):
+def process_book_data(books_path, reviews_path, min_num_reviews, min_rating, min_review_length, min_description_length, merge):
     """
     Load data from the original book Kaggle dataset.
     """
@@ -65,9 +65,13 @@ def process_book_data(books_path, reviews_path, min_num_reviews, min_rating, min
 
     print(len(books_df))
 
-    # # combine the two dataframes and create a new, structured csv
-    structered_books_csv_df = pd.merge(books_df, reviews_df, on="Title", how="outer")
-    structered_books_csv_df.to_csv("structured_book_dataset.csv", index=False)
+    if merge: 
+        # combine the two dataframes and create a new, structured csv
+        structered_books_csv_df = pd.merge(books_df, reviews_df, on="Title", how="outer")
+        structered_books_csv_df.to_csv(".//structured_book_dataset.csv", index=False)
+    else: 
+        books_df.to_csv("./books_datasets/mini_books_data.csv", index=False)
+        reviews_df.to_csv("./books_datasets/mini_books_rating.csv", index=False)
 
-# 60, 4.9, 50, 20 for mini size of 27
-process_book_data(BOOKS_PATH, REVIEWS_PATH, 60, 4.9, 50, 20)
+# Parameters of 60, 4.9, 50, 20 for mini dataset size of 27
+process_book_data(BOOKS_PATH, REVIEWS_PATH, 60, 4.9, 50, 20, True)
