@@ -4,7 +4,6 @@ import re
 from dotenv import load_dotenv
 load_dotenv()
 
-load_dotenv()
 client = OpenAI()
 
 EMBEDDING_MODEL = "text-embedding-3-small"
