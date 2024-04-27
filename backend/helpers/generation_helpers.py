@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 from openai import OpenAI
 import re
+from dotenv import load_dotenv
+load_dotenv()
 
 load_dotenv()
 client = OpenAI()
