@@ -8,7 +8,7 @@ if torch.cuda.is_available():
     import sys
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-from generation_helpers import get_generation
+from .generation_helpers import get_generation
 
 import chromadb
 from chromadb.config import Settings

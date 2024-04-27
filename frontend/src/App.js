@@ -43,6 +43,7 @@ function App() {
 
         // Set generation step on and submit to backend
         setInPipeline(true);
+        console.log(formData);
         const response = await fetch(
           "http://127.0.0.1:8000/upload", 
           { method: 'POST', body: formData }
@@ -99,28 +100,29 @@ function App() {
       .map(([key, value]) => key);
 
     // Do something with the features
-    console.log(relevantFeatures);
-  }
+    const response = await fetch(
+      "http://127.0.0.1:8000/create", 
+      { method: 'POST', headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify(relevantFeatures) }
+    )
 
-  /*
-   * Upload files to the backend.
-   */
-  const callCreate = () => {
-    // Set embeddings step on and submit to backend
-    setCreateEmbeddings(true);
-    fetch("http://127.0.0.1:8000/create", {
-      method: 'POST',
-    })
-    .then(response => {
-      // If we got a good response, then we can start creating embeddings!
-      if (response.ok) {
-        setGotSuccess(true);
-      }
-    })
-    .catch(error => {
-      // Handle error
-    });
-  };
+    // Check for success
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    // Extract data from response
+    const responseData = await response.json();
+    const { status } = responseData;
+
+    // Set features if successful
+    if (status === 'SUCCESS') {
+      setGotSuccess(true);
+    } else {
+      console.error('Failed to create embeddings');
+    }
+  }
 
   return (
     <div className="container" id="main-div">
@@ -172,7 +174,7 @@ function App() {
 </svg>  Successfully created embeddings!</div> : <div className="spinner-border text-dark" role="status"></div>}
         </div> : null}
         { gotSuccess ? <div className="step">
-        <h2>Step 4: Use Search APIs</h2>
+        <h2>Step 5: Use Search APIs</h2>
         <h4>Congrats! Your data is now searchable -- try calling one of our REST APIs to try it out!</h4>
         </div> : null}
     </div>

@@ -1,17 +1,20 @@
 """
-Basic FastAPI Endpoint. Also records hacky telemetry for now.
+Basic API endpoint that will allow us to save files.
 """
-import csv
-from datetime import datetime
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from helpers.f_and_f_helpers import find_match
+from fastapi.responses import JSONResponse
+from helpers.faf_helpers import *
+from helpers.preprocessing import *
+import os
+from typing import List
+import uuid
 
-# Set up app and telemetry file
+# Sample for now -- storing some metadata
+mapping = {}
+
+# Set up Fast API and allow requests from all sources
 app = FastAPI()
-TELEMETRY_FILE = "telemetry.csv"
-
-# Allow requests from all origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,17 +23,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Set up initial query API, as well as save telemetry
-@app.get("/api")
-async def read_root(description: str):
-    # Get the current date and time
-    current_datetime = datetime.now()
-    current_datetime_str = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+@app.post("/upload")
+async def upload_file(files: List[UploadFile] = File(...)):
+    """
+    Upload files to server; return exception if unsuccessful
+    """
+    # Generate UUID
+    features = None
+    new_uuid = str(uuid.uuid4())
+    mapping["id"] = new_uuid
 
-    # Write to CSV file
-    with open(TELEMETRY_FILE, 'a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([current_datetime_str, description])
-    
-    # Call API
-    return find_match(description, False)
+    # Try saving file
+    try:
+        file_path = upload(files[0], new_uuid)
+        features = get_header(file_path)
+
+    # Return error or success depending on status
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"status": "SUCCESS", "features": features}
+
+@app.post("/create")
+async def create_embeddings(features: List[str]):
+    """
+    Create embeddings under the hood.
+    """
+    # Get a list of all the files in the CSV and create collections
+    try:
+        csv_files = os.listdir(DATA_PATH + mapping["id"])
+        csv_files = [DATA_PATH + mapping["id"] + "/" + file for file in csv_files]
+        create_collections(csv_files, "ProductID", features)
+
+    # Return error or success depending on status
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"status": "SUCCESS"}
