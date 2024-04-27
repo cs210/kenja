@@ -13,6 +13,7 @@ chromadb_data
 archive/
 backend/helpers/books_information/books_datasets
 backend/data
+defined_datasets
 
 # Miscellany
 __pycache__/
