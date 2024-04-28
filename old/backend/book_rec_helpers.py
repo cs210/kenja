@@ -198,7 +198,7 @@ def create_collections(books_path, reviews_path):
     middle_ids = middle_df["Title"].tolist()
     create_collection_embeddings(middle_collection, middle_documents, middle_metadatas, middle_ids)
 
-# Contains names of relavent collections
+# Contains names of relevant collections
 class ProductDescription:
     #User specified features 
     feature_collections: list[str]
