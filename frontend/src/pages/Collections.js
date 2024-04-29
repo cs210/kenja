@@ -50,7 +50,9 @@ const CollectionsPage = () => {
             <div className="collections-list">
                 <ul className="list-group">
                     { collections.map((option, index) => (
-                        <li key={index} className="list-group-item">{option}</li>
+                        <li key={index} className="list-group-item">
+                          <a href={"/collections/" + option}>{option}</a>
+                        </li>
                     ))}
                 </ul>
             </div> }

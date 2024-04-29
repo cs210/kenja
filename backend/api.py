@@ -63,3 +63,9 @@ async def create_embeddings(features: List[str]):
 async def get_collections():
     files = os.listdir(EMBEDDINGS_PATH)
     return {"status" : "SUCCESS", "files" : files}
+
+@app.get("/collections/{id}")
+async def read_collections(id: str):
+    # Get list of files
+    files = os.listdir(DATA_PATH + id)
+    return {"status": "SUCCESS", "files": files}
