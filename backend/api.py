@@ -52,9 +52,14 @@ async def create_embeddings(features: List[str]):
     try:
         csv_files = os.listdir(DATA_PATH + mapping["id"])
         csv_files = [DATA_PATH + mapping["id"] + "/" + file for file in csv_files]
-        create_collections(csv_files, "ProductID", features)
+        create_collections(csv_files, "ProductID", features, mapping["id"])
 
     # Return error or success depending on status
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
     return {"status": "SUCCESS"}
+
+@app.get("/collections")
+async def get_collections():
+    files = os.listdir(EMBEDDINGS_PATH)
+    return {"status" : "SUCCESS", "files" : files}

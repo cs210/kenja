@@ -29,6 +29,7 @@ if torch.cuda.is_available():
 OPTION_COUNT = 5
 
 load_dotenv()
+EMBEDDINGS_PATH = "./embeddings/"
 chroma_client = chromadb.PersistentClient(
     path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
 )
@@ -96,7 +97,7 @@ def feature_to_collection_name(feature):
             collection_name += feature[i]
     return collection_name
 
-def create_collections(csv_list, id, features_list):
+def create_collections(csv_list, id, features_list, file_id):
     """
     Create the collections for the first layer that corresponds to given features and 
     the middle collection. At the moment, the collections for the feature layer is created
@@ -104,6 +105,14 @@ def create_collections(csv_list, id, features_list):
     """
     # There should be at least 1 csv passed in to the function
     assert(len(csv_list) > 0)
+    
+    # Create chroma and temp clients for specific file
+    chroma_client = chromadb.PersistentClient(
+    path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    temp_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
 
     # If more than one csv file is given, all the csv files are outer joined in the supplied id
     # shared by all the csv files.
