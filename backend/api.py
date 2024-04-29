@@ -61,11 +61,37 @@ async def create_embeddings(features: List[str]):
 
 @app.get("/collections")
 async def get_collections():
+    """
+    Get list of all collections that a user has created.
+    """
     files = os.listdir(EMBEDDINGS_PATH)
     return {"status" : "SUCCESS", "files" : files}
 
 @app.get("/collections/{id}")
-async def read_collections(id: str):
-    # Get list of files
+async def read_collection(id: str):
+    """
+    Get metadata for a collection (to add more features).
+    """
     files = os.listdir(DATA_PATH + id)
     return {"status": "SUCCESS", "files": files}
+
+@app.get("/search/{id}")
+async def search_collection(id: str, query: str):
+    """
+    Search a specific collection (to add more security).
+    """
+    # Find all features
+    collections = find_chroma_collections(id)
+    features = []
+    for col in collections:
+        if (col.name != "middle_collection"):
+            features.append(col.name)
+
+    # Form description and call find match
+    description = ProductDescription(
+        feature_collections=features,
+        hidden_collections=[],
+        middle_collection="middle_collection"
+    )
+    results = find_match(query, description, id)
+    return {"status": "SUCCESS", "results": results}

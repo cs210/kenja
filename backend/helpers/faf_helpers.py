@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
 import uuid
+from typing import List
 
 # for RAG embedding model
 import torch.nn.functional as F
@@ -201,23 +202,53 @@ def create_collections(csv_list, id, features_list, file_id):
     
     populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts")
 
+def find_chroma_collections(file_id):
+    """
+    Helper function to get a list of all collections.
+    """
+    chroma_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    return chroma_client.list_collections()
 
-def find_match(query):
+# Contains names of relevant collections
+class ProductDescription:
+    def __init__(self, feature_collections: List[str], hidden_collections: List[str], middle_collection: str):
+        self.feature_collections = feature_collections
+        self.hidden_collections = hidden_collections
+        self.middle_collection = middle_collection
+
+def find_match(query, product_description: ProductDescription, file_id):
     """
     Call all functions.
     """
-    descriptions_collection = chroma_client.get_collection(name="book_descriptions")
-    reviews_collection = chroma_client.get_collection(name="book_reviews")
-    middle_collection = chroma_client.get_collection(name="middle_collection")
+    # Create chroma and temp clients for specific file
+    chroma_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    temp_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    print(chroma_client.list_collections())
+
+    # Create all feature collections
+    feature_collections = []
+    for collection in product_description.feature_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    for collection in product_description.hidden_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    
+    middle_collection = chroma_client.get_collection(name=product_description.middle_collection)
 
     # FIRST LEVEL
-    review_search_results = embedding_search(reviews_collection, query, 20)
-    titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
-    titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 10)
-    titles_list.extend(description_search_results["ids"][0])
-    titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
-
+    titles_list = []
+    for feature_collection in feature_collections:
+        partial_search_results = embedding_search(feature_collection, query, max(20, int(.05 * feature_collection.count())))
+        partial_titles_list = [dictionary["ids"] for dictionary in partial_search_results["metadatas"][0]]
+        partial_titles_list = list(set(partial_titles_list)) # there is a chance that the same book will appear multiple times
+        titles_list.extend(partial_titles_list)
+        titles_list = list(set(titles_list))
+        
     # SECOND LEVEL
     extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
     # probably want to be more clever with this name

@@ -59,20 +59,7 @@ form {
 }
 
 .form-control {
-  font-size: 20px !important;
-  border-radius: 0px !important;
-}
-
-#submit-prompt {
-  font-size: 17px !important;
-  border-radius: 0px !important;
-  border: 2px solid black;
-  background-color: black;
-}
-
-#submit-prompt:hover {
-  background-color: transparent !important;
-  color: black;
+  font-size: 15px !important;
 }
 
 /* Results style */

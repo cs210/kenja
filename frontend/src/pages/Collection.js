@@ -12,6 +12,7 @@ const CollectionPage = () => {
     // State for collection
     const [collection, setCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [results, setResults] = useState([]);
 
     // Populate collection page
     useEffect(() => {
@@ -40,6 +41,36 @@ const CollectionPage = () => {
         fetchData();
       }, []); 
 
+    // Handling submission of query
+    const testQuerySubmitted = (evt) => {
+        evt.preventDefault();
+        fetchMatches(evt.target.children.query.value);
+    }
+
+    // Code to actually handle fetching matches
+    const fetchMatches = async (query) => {
+        console.log(query);
+        try {
+            // Form request
+            const apiUrl = 'http://127.0.0.1:8000/search/' + id;
+            const queryValue = query;
+            const queryParams = { query: String(queryValue) };
+            const queryString = new URLSearchParams(queryParams).toString();
+            const finalUrl = `${apiUrl}?${queryString}`;
+
+            // Make request
+            const response = await fetch(finalUrl);
+            if (!response.ok) {
+              throw new Error('Failed to fetch data');
+            }
+            const result = await response.json();
+    
+            // Update state with fetched data
+            setResults(result["results"]);
+          } catch (error) {
+            console.log("ERROR");
+          }
+    };
 
     return (
     <>
@@ -52,13 +83,20 @@ const CollectionPage = () => {
             <div>
                 <h2>Files</h2>
                 <h4>View files that are a part of this collection.</h4>
-                { isLoading ?  <div className="spinner-border text-dark" role="status"></div> : <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
+                { isLoading ?  <div className="spinner-border text-dark" role="status"></div> : <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-file-earmark" viewBox="0 0 16 16">
   <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
 </svg> {collection["files"]}</p> }
             </div>
             <div>
                 <h2>Playground</h2>
                 <h4>Experiment with the search before integration!</h4>
+                <form className="search-form" onSubmit={testQuerySubmitted} autoComplete="off">
+                    <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
+                    <br />
+                    <button type="submit" className="btn btn-dark" id="submit-prompt">Submit</button>
+                </form>
+                <br />
+                <p>{ results }</p>
             </div>
         </div>
     </>
