@@ -8,6 +8,7 @@ env/
 # Chroma
 .chroma/
 chromadb_data
+embeddings/
 
 # Data
 archive/

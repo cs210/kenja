@@ -11,14 +11,14 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 def get_generation(middle_search_results, option_count = 5):
     system_prompt = (
         f"""
-        You are are an expert at reading books. In particular, you have read every book that has ever been published, and have also perused sites like Goodreads.
+        You are are an expert at looking at different products. In particular, you have shopped for every item known to man, and constantly peruse sites like Amazon and EBay.
         """
     )
 
     super_prompt_engineer = (
         f"""
-        Now, given a request of an ideal book, you will be given {option_count} books and asked to provide the top 3 options. In particular, each of the options will be labeled `Option #`, and will have a corresponding 
-        description and several reviews of the book. After parsing through all of this information, please first explain your reasoning behind your decision-making. After explaining yourself, then return the options,
+        Now, given a request of an ideal item, you will be given {option_count} items and asked to provide the top 3 options. In particular, each of the options will be labeled `Option #`, and will have a corresponding 
+        description and several properties of the item. After parsing through all of this information, please first explain your reasoning behind your decision-making. After explaining yourself, then return the options,
         as well as the reasons for choosing each option, in the following format. Please include all of the dashes, and make sure to always include three options:
 
         Reasoning:

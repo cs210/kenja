@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import pandas as pd
 import uuid
+from typing import List
 
 # for RAG embedding model
 import torch.nn.functional as F
@@ -29,6 +30,7 @@ if torch.cuda.is_available():
 OPTION_COUNT = 5
 
 load_dotenv()
+EMBEDDINGS_PATH = "./embeddings/"
 chroma_client = chromadb.PersistentClient(
     path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
 )
@@ -96,7 +98,7 @@ def feature_to_collection_name(feature):
             collection_name += feature[i]
     return collection_name
 
-def create_collections(csv_list, id, features_list):
+def create_collections(csv_list, id, features_list, file_id):
     """
     Create the collections for the first layer that corresponds to given features and 
     the middle collection. At the moment, the collections for the feature layer is created
@@ -104,6 +106,14 @@ def create_collections(csv_list, id, features_list):
     """
     # There should be at least 1 csv passed in to the function
     assert(len(csv_list) > 0)
+    
+    # Create chroma and temp clients for specific file
+    chroma_client = chromadb.PersistentClient(
+    path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    temp_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
 
     # If more than one csv file is given, all the csv files are outer joined in the supplied id
     # shared by all the csv files.
@@ -137,7 +147,7 @@ def create_collections(csv_list, id, features_list):
 
     # A helper function to initialize the collection and relevant data 
     # needed to create embeddings
-    def populate_collection(cur_df, main_df, collection_name, feature):
+    def populate_collection(cur_df, main_df, collection_name, feature, is_middle):
          # We want to reset these collections, so try to get collection if it exists and delete it
         chroma_client.get_or_create_collection(name=collection_name)
         chroma_client.delete_collection(name=collection_name)
@@ -147,18 +157,26 @@ def create_collections(csv_list, id, features_list):
         # (for example, if data corresponding to the same id have different timestamps but all have the same 
         # description, keep the description and get rid of the timestamp)
         drop_cols = [col for col in main_df.columns if col != feature and main_df[[id, col]].duplicated().sum() != main_df[id].duplicated().sum()]
-        feature_metadatas = (main_df.drop(columns=drop_cols)).drop_duplicates().to_dict(orient="records")
+        feature_metadatas = (main_df.drop(columns=drop_cols)).drop_duplicates() # we make this a dict later now
         feature_documents = cur_df[feature].to_list()
-
-        # Use a deterministic hash function on the id and feature to create ids
-        feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        if is_middle:
+            print("HERE1!")
+            feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id]}")), axis=1)))
+            print("HERE2!")
+            print(len(feature_ids))
+        else:
+            feature_metadatas["VALUE_ID"] = cur_df[id]
+            # Use a deterministic hash function on the id and feature to create ids
+            feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        feature_metadatas = feature_metadatas.to_dict(orient="records")
         create_collection_embeddings(feature_collection, feature_documents, feature_metadatas, feature_ids)
     
+
     # FIRST LEVEL COLLECTIONS
     for feature in features_list:
         collection_name = feature_to_collection_name(feature)        
         current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
-        populate_collection(current_dataframe, main_dataframe, collection_name, feature)
+        populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
     
     # MIDDLE LEVEL COLLECTION
 
@@ -190,27 +208,57 @@ def create_collections(csv_list, id, features_list):
         feature_df[feature] = feature_df[feature] + "\n\n"
         middle_dataframe["combined_texts"] = middle_dataframe["combined_texts"] + feature_df[feature]
     
-    populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts")
+    print("HELLO WORLD")
+    populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True)
 
+def find_chroma_collections(file_id):
+    """
+    Helper function to get a list of all collections.
+    """
+    chroma_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    return chroma_client.list_collections()
 
-def find_match(query):
+# Contains names of relevant collections
+class ProductDescription:
+    def __init__(self, feature_collections: List[str], hidden_collections: List[str], middle_collection: str):
+        self.feature_collections = feature_collections
+        self.hidden_collections = hidden_collections
+        self.middle_collection = middle_collection
+
+def find_match(query, product_description: ProductDescription, file_id):
     """
     Call all functions.
     """
-    descriptions_collection = chroma_client.get_collection(name="book_descriptions")
-    reviews_collection = chroma_client.get_collection(name="book_reviews")
-    middle_collection = chroma_client.get_collection(name="middle_collection")
+    # Create chroma and temp clients for specific file
+    chroma_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+    temp_client = chromadb.PersistentClient(
+        path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
+    )
+
+    # Create all feature collections
+    feature_collections = []
+    for collection in product_description.feature_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    for collection in product_description.hidden_collections:
+        feature_collections.append(chroma_client.get_collection(name=collection))
+    
+    middle_collection = chroma_client.get_collection(name=product_description.middle_collection)
 
     # FIRST LEVEL
-    review_search_results = embedding_search(reviews_collection, query, 20)
-    titles_list = [dictionary["Title"] for dictionary in review_search_results["metadatas"][0]]
-    titles_list = list(set(titles_list)) # there is a chance that the same book will appear multiple times
-    description_search_results = embedding_search(descriptions_collection, query, 10)
-    titles_list.extend(description_search_results["ids"][0])
-    titles_list = list(set(titles_list)) # same book could have been given by both reviews and descriptions
-
+    ids_list = []
+    for feature_collection in feature_collections:
+        partial_search_results = embedding_search(feature_collection, query, max(20, int(.05 * feature_collection.count())))
+        partial_ids_list = [str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{dictionary['VALUE_ID']}")) for dictionary in partial_search_results["metadatas"][0]]
+        partial_ids_list = list(set(partial_ids_list)) # there is a chance that the same book will appear multiple times
+        ids_list.extend(partial_ids_list)
+        ids_list = list(set(ids_list))
+    
     # SECOND LEVEL
-    extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
+    extract_dict = middle_collection.get(ids=ids_list, include=["embeddings", "documents", "metadatas"])
     # probably want to be more clever with this name
     client_name = str(uuid.uuid1())
     extract_collection = temp_client.create_collection(name=client_name)
@@ -218,4 +266,5 @@ def find_match(query):
     middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
     temp_client.delete_collection(name=client_name)
 
+    # Run the G part of RAG
     return get_generation(middle_search_results, option_count=OPTION_COUNT)
