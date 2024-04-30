@@ -147,7 +147,7 @@ def create_collections(csv_list, id, features_list, file_id):
 
     # A helper function to initialize the collection and relevant data 
     # needed to create embeddings
-    def populate_collection(cur_df, main_df, collection_name, feature):
+    def populate_collection(cur_df, main_df, collection_name, feature, is_middle):
          # We want to reset these collections, so try to get collection if it exists and delete it
         chroma_client.get_or_create_collection(name=collection_name)
         chroma_client.delete_collection(name=collection_name)
@@ -157,18 +157,26 @@ def create_collections(csv_list, id, features_list, file_id):
         # (for example, if data corresponding to the same id have different timestamps but all have the same 
         # description, keep the description and get rid of the timestamp)
         drop_cols = [col for col in main_df.columns if col != feature and main_df[[id, col]].duplicated().sum() != main_df[id].duplicated().sum()]
-        feature_metadatas = (main_df.drop(columns=drop_cols)).drop_duplicates().to_dict(orient="records")
+        feature_metadatas = (main_df.drop(columns=drop_cols)).drop_duplicates() # we make this a dict later now
         feature_documents = cur_df[feature].to_list()
-
-        # Use a deterministic hash function on the id and feature to create ids
-        feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        if is_middle:
+            print("HERE1!")
+            feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id]}")), axis=1)))
+            print("HERE2!")
+            print(len(feature_ids))
+        else:
+            feature_metadatas["VALUE_ID"] = cur_df[id]
+            # Use a deterministic hash function on the id and feature to create ids
+            feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")), axis=1)))
+        feature_metadatas = feature_metadatas.to_dict(orient="records")
         create_collection_embeddings(feature_collection, feature_documents, feature_metadatas, feature_ids)
     
+
     # FIRST LEVEL COLLECTIONS
     for feature in features_list:
         collection_name = feature_to_collection_name(feature)        
         current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
-        populate_collection(current_dataframe, main_dataframe, collection_name, feature)
+        populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
     
     # MIDDLE LEVEL COLLECTION
 
@@ -200,7 +208,8 @@ def create_collections(csv_list, id, features_list, file_id):
         feature_df[feature] = feature_df[feature] + "\n\n"
         middle_dataframe["combined_texts"] = middle_dataframe["combined_texts"] + feature_df[feature]
     
-    populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts")
+    print("HELLO WORLD")
+    populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True)
 
 def find_chroma_collections(file_id):
     """
@@ -229,7 +238,6 @@ def find_match(query, product_description: ProductDescription, file_id):
     temp_client = chromadb.PersistentClient(
         path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
     )
-    print(chroma_client.list_collections())
 
     # Create all feature collections
     feature_collections = []
@@ -241,16 +249,16 @@ def find_match(query, product_description: ProductDescription, file_id):
     middle_collection = chroma_client.get_collection(name=product_description.middle_collection)
 
     # FIRST LEVEL
-    titles_list = []
+    ids_list = []
     for feature_collection in feature_collections:
         partial_search_results = embedding_search(feature_collection, query, max(20, int(.05 * feature_collection.count())))
-        partial_titles_list = [dictionary["ids"] for dictionary in partial_search_results["metadatas"][0]]
-        partial_titles_list = list(set(partial_titles_list)) # there is a chance that the same book will appear multiple times
-        titles_list.extend(partial_titles_list)
-        titles_list = list(set(titles_list))
-        
+        partial_ids_list = [str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{dictionary['VALUE_ID']}")) for dictionary in partial_search_results["metadatas"][0]]
+        partial_ids_list = list(set(partial_ids_list)) # there is a chance that the same book will appear multiple times
+        ids_list.extend(partial_ids_list)
+        ids_list = list(set(ids_list))
+    
     # SECOND LEVEL
-    extract_dict = middle_collection.get(ids=titles_list, include=["embeddings", "documents", "metadatas"])
+    extract_dict = middle_collection.get(ids=ids_list, include=["embeddings", "documents", "metadatas"])
     # probably want to be more clever with this name
     client_name = str(uuid.uuid1())
     extract_collection = temp_client.create_collection(name=client_name)
@@ -258,4 +266,5 @@ def find_match(query, product_description: ProductDescription, file_id):
     middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
     temp_client.delete_collection(name=client_name)
 
+    # Run the G part of RAG
     return get_generation(middle_search_results, option_count=OPTION_COUNT)

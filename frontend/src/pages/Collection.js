@@ -12,7 +12,7 @@ const CollectionPage = () => {
     // State for collection
     const [collection, setCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(null);
 
     // Populate collection page
     useEffect(() => {
@@ -66,6 +66,7 @@ const CollectionPage = () => {
             const result = await response.json();
     
             // Update state with fetched data
+            console.log(result);
             setResults(result["results"]);
           } catch (error) {
             console.log("ERROR");
@@ -96,7 +97,16 @@ const CollectionPage = () => {
                     <button type="submit" className="btn btn-dark" id="submit-prompt">Submit</button>
                 </form>
                 <br />
-                <p>{ results }</p>
+                { results ? <div className="collections-list">
+                <ul className="list-group">
+                    { results.map((option, index) => (
+                        <li key={index} className="list-group-item">
+                          <h3>{option["ProductName"]}</h3>
+                          <p>{option["Description"]}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div> : null }
             </div>
         </div>
     </>
