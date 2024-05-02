@@ -136,7 +136,7 @@ function Setup() {
         <div className="step">
           <h2>Step 1: Upload Your Data</h2>
           <h4>Upload all of your product catalog in the form of csv or text files.</h4>
-          <input type="file" accept=".txt, .pdf, .doc, .docx" multiple onChange={handleFileChange} />
+          <input type="file" accept=".txt, .pdf, .doc, .docx, .csv" multiple onChange={handleFileChange} />
           <button onClick={handleUpload} className="btn btn-dark">Upload</button>
         </div>
         { inPipeline ? <div className="step">
