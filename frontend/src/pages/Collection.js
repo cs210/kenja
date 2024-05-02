@@ -12,6 +12,7 @@ const CollectionPage = () => {
     // State for collection
     const [collection, setCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSearching, setIsSearching] = useState(false);
     const [results, setResults] = useState(null);
 
     // Populate collection page
@@ -49,7 +50,7 @@ const CollectionPage = () => {
 
     // Code to actually handle fetching matches
     const fetchMatches = async (query) => {
-        console.log(query);
+        setIsSearching(true);
         try {
             // Form request
             const apiUrl = 'http://127.0.0.1:8000/search/' + id;
@@ -66,9 +67,10 @@ const CollectionPage = () => {
             const result = await response.json();
     
             // Update state with fetched data
-            console.log(result);
             setResults(result["results"]);
+            setIsSearching(false);
           } catch (error) {
+            setIsSearching(false);
             console.log("ERROR");
           }
     };
@@ -97,16 +99,21 @@ const CollectionPage = () => {
                     <button type="submit" className="btn btn-dark" id="submit-prompt">Submit</button>
                 </form>
                 <br />
-                { results ? <div className="collections-list">
+                { isSearching ? <div className="spinner-border text-dark" role="status"></div> : 
+                  <>
+                  { results ? <div className="collections-list">
                 <ul className="list-group">
                     { results.map((option, index) => (
                         <li key={index} className="list-group-item">
                           <h3>{option["ProductName"]}</h3>
-                          <p>{option["Description"]}</p>
+                          <p>{option["gpt_review"]}</p>
+                          <p><b>Description:</b> {option["Description"]}</p>
                         </li>
                     ))}
                 </ul>
             </div> : null }
+                  </>
+                }
             </div>
         </div>
     </>
