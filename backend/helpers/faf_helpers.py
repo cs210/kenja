@@ -194,7 +194,6 @@ def create_collections(csv_list, id, features_list, file_id):
         ).drop_duplicates()  # we make this a dict later now
         feature_documents = cur_df[feature].to_list()
         if is_middle:
-            print("HERE1!")
             feature_ids = list(
                 (
                     cur_df.apply(
@@ -203,8 +202,6 @@ def create_collections(csv_list, id, features_list, file_id):
                     )
                 )
             )
-            print("HERE2!")
-            print(len(feature_ids))
         else:
             feature_metadatas["VALUE_ID"] = cur_df[id]
             # Use a deterministic hash function on the id and feature to create ids
@@ -225,12 +222,12 @@ def create_collections(csv_list, id, features_list, file_id):
 
     # FIRST LEVEL COLLECTIONS
     for feature in features_list:
-        collection_name = feature_to_collection_name(feature)
-        current_dataframe = main_dataframe[[id, feature]].drop_duplicates()
-        populate_collection(
-            current_dataframe, main_dataframe, collection_name, feature, False
-        )
-
+        collection_name = feature_to_collection_name(feature)     
+        if feature != id:
+            current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
+        else:
+            current_dataframe = main_dataframe[[id]].drop_duplicates()
+        populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
     # MIDDLE LEVEL COLLECTION
 
     # Create a dataframe that can be populated with the combined information for each id.
@@ -270,12 +267,9 @@ def create_collections(csv_list, id, features_list, file_id):
         middle_dataframe["combined_texts"] = (
             middle_dataframe["combined_texts"] + feature_df[feature]
         )
-
-    print("HELLO WORLD")
     populate_collection(
         middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True
     )
-
 
 def find_chroma_collections(file_id):
     """
