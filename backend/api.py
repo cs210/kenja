@@ -36,12 +36,32 @@ async def upload_file(files: List[UploadFile] = File(...)):
     # Try saving file
     try:
         file_path = upload(files[0], new_uuid)
-        features = get_header(file_path)
+        features, encoding = get_header(file_path)
+
+        # Save features and encoding
+        mapping["features"] = features
+        mapping["encoding"] = encoding
 
     # Return error or success depending on status
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
     return {"status": "SUCCESS", "features": features}
+
+@app.post("/set_index")
+async def set_index(data: dict):
+    """
+    Set the product index
+    """
+    # Extract the index and return all other features
+    try:
+        mapping['index'] = data['index']
+        mapping['features'] = [item for item in mapping['features'] if item != mapping['index']]
+
+    # Return error or success depending on status
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"status": "SUCCESS", "features": mapping['features']}
+
 
 @app.post("/create")
 async def create_embeddings(features: List[str]):
@@ -52,12 +72,12 @@ async def create_embeddings(features: List[str]):
     try:
         csv_files = os.listdir(DATA_PATH + mapping["id"])
         csv_files = [DATA_PATH + mapping["id"] + "/" + file for file in csv_files]
-        create_collections(csv_files, "ProductID", features, mapping["id"])
+        create_collections(csv_files, mapping['index'], features, mapping["id"], mapping["encoding"])
 
     # Return error or success depending on status
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
-    return {"status": "SUCCESS"}
+    return {"status": "SUCCESS", "id": mapping["id"]}
 
 @app.get("/collections")
 async def get_collections():

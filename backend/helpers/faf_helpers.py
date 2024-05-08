@@ -113,7 +113,7 @@ def feature_to_collection_name(feature):
     return collection_name
 
 
-def create_collections(csv_list, id, features_list, file_id):
+def create_collections(csv_list, id, features_list, file_id, encoding):
     """
     Create the collections for the first layer that corresponds to given features and
     the middle collection. At the moment, the collections for the feature layer is created
@@ -134,14 +134,14 @@ def create_collections(csv_list, id, features_list, file_id):
     # shared by all the csv files.
     if len(csv_list) > 1:
         main_dataframe = pd.merge(
-            pd.read_csv(csv_list[0]), pd.read_csv(csv_list[1]), on=str(id), how="outer"
+            pd.read_csv(csv_list[0], encoding=encoding), pd.read_csv(csv_list[1], encoding=encoding), on=str(id), how="outer"
         )
         for i in range(2, len(csv_list)):
             main_dataframe = pd.merge(
-                main_dataframe, pd.read_csv(csv_list[i]), on=str(id), how="outer"
+                main_dataframe, pd.read_csv(csv_list[i], encoding=encoding), on=str(id), how="outer"
             )
     else:
-        main_dataframe = pd.read_csv(csv_list[0])
+        main_dataframe = pd.read_csv(csv_list[0], encoding=encoding)
 
     # A helper function to populate a given collection with embeddings
     def create_collection_embeddings(collection, documents, metadatas, ids):
