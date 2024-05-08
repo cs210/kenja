@@ -90,7 +90,7 @@ async def search_collection(id: str, query: str):
     # Form description and call find match
     description = ProductDescription(
         feature_collections=features,
-        hidden_collections=[],
+        hidden_collections="hidden_collection",
         middle_collection="middle_collection"
     )
     results = find_match(query, description, id)
