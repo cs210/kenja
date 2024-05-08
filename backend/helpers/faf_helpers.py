@@ -220,13 +220,13 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
     
 
     # FIRST LEVEL COLLECTIONS
-    # for feature in features_list:
-    #     collection_name = feature_to_collection_name(feature)     
-    #     if feature != id:
-    #         current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
-    #     else:
-    #         current_dataframe = main_dataframe[[id]].drop_duplicates()
-    #     populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
+    for feature in features_list:
+        collection_name = feature_to_collection_name(feature)     
+        if feature != id:
+            current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
+        else:
+            current_dataframe = main_dataframe[[id]].drop_duplicates()
+        populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
     # MIDDLE LEVEL COLLECTION
 
     # Create a dataframe that can be populated with the combined information for each id.
