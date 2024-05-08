@@ -55,7 +55,6 @@ async def set_index(data: dict):
     # Extract the index and return all other features
     try:
         mapping['index'] = data['index']
-        mapping['features'] = [item for item in mapping['features'] if item != mapping['index']]
 
     # Return error or success depending on status
     except Exception as e:
