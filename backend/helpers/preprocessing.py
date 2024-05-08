@@ -1,6 +1,7 @@
 """
 Utility functions for helping with preprocessing files
 """
+import chardet
 import csv
 import os
 import shutil
@@ -31,12 +32,18 @@ def get_header(file_path):
     """
     Get the header of the CSV file.
     """
-    # Read the first row
+    # First, get the encoding by reading a small chunk of the file
     try:
-        with open(file_path, 'r', newline='') as file:
+        detected_encoding = None
+        with open(file_path, 'rb') as file:
+            raw_data = file.read(10000)
+            detected_encoding = chardet.detect(raw_data)['encoding']
+
+        # Actually read in file and open with correct encoding
+        with open(file_path, 'r', newline='', encoding=detected_encoding) as file:
             reader = csv.reader(file)
             header = next(reader)
-            return header
+            return header, detected_encoding
 
     # Return exception if unsuccessful
     except Exception as e:
