@@ -8,7 +8,7 @@ if torch.cuda.is_available():
     import sys
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-from .generation_helpers import get_generation
+from generation_helpers import get_generation
 
 import chromadb
 from chromadb.config import Settings
@@ -160,10 +160,7 @@ def create_collections(csv_list, id, features_list, file_id):
         feature_metadatas = (main_df.drop(columns=drop_cols)).drop_duplicates() # we make this a dict later now
         feature_documents = cur_df[feature].to_list()
         if is_middle:
-            print("HERE1!")
             feature_ids = list((cur_df.apply(lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id]}")), axis=1)))
-            print("HERE2!")
-            print(len(feature_ids))
         else:
             feature_metadatas["VALUE_ID"] = cur_df[id]
             # Use a deterministic hash function on the id and feature to create ids
@@ -174,8 +171,11 @@ def create_collections(csv_list, id, features_list, file_id):
 
     # FIRST LEVEL COLLECTIONS
     for feature in features_list:
-        collection_name = feature_to_collection_name(feature)        
-        current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
+        collection_name = feature_to_collection_name(feature)     
+        if feature != id:
+            current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
+        else:
+            current_dataframe = main_dataframe[[id]].drop_duplicates()
         populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
     
     # MIDDLE LEVEL COLLECTION
@@ -207,8 +207,6 @@ def create_collections(csv_list, id, features_list, file_id):
         feature_df = feature_df.groupby(id).agg({feature: lambda x: '\n\n'.join(map(str, x))}).reset_index()
         feature_df[feature] = feature_df[feature] + "\n\n"
         middle_dataframe["combined_texts"] = middle_dataframe["combined_texts"] + feature_df[feature]
-    
-    print("HELLO WORLD")
     populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True)
 
 def find_chroma_collections(file_id):
