@@ -1,5 +1,5 @@
-# 📚 🐛 Bookworm
-For all our booklovers out there: give us a description of a book you're dying to find, and we'll give you recs!
+# 🛍️ 🔍 Kenja
+Kenja is building AI search for e-commerce.
 
 ## Set-Up
 
@@ -19,7 +19,7 @@ python3 -m pip install -r requirements.txt
 
 ## To Run
 
-First, run the backend API:
+Assuming all requirements are installed, first, run the backend API:
 ```bash
 cd backend
 uvicorn api:app --reload
@@ -31,23 +31,9 @@ cd frontend
 npm run start
 ```
 
-## Deployment
-
-For deployment, run the backend API on our EC2 instance. To deploy the frontend, run:
-```bash
-cd frontend
-sudo sh deploy.sh
-```
-
-## Telemetry
-
-To query telemetry data, run the following after running Streamlit:
-
-```bash
-curl kenja.pro:8501/_stcore/metrics
-```
-
 ## Coding Standards
+
+### Backend
 
 We use [Black](https://github.com/psf/black) as our Python code formatter and [Flake8](https://flake8.pycqa.org/en/latest/) as our linter. To use both, install all of the requirements. To check Black, try:
 
@@ -61,6 +47,10 @@ flake8 .
 ```
 
 We also set up `setup.cfg` to configure Flake8 to meet Black style.
+
+## Frontend
+
+We use [ESLint](https://eslint.org/) for linting and use the default VSCode formatter for formatting. 
 
 ## Deployment
 

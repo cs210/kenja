@@ -14,16 +14,16 @@ function Navbar() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                <li className="nav-item active">
-                    <a className="nav-link" href="/collections">Collections</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/create">Create New Collection</a>
-                </li>
+                    <li className="nav-item active">
+                        <a className="nav-link" href="/collections">Collections</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/create">Create New Collection</a>
+                    </li>
                 </ul>
             </div>
         </nav>
-)
+    )
 }
 
 export default Navbar;

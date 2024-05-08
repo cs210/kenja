@@ -134,16 +134,22 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
     # shared by all the csv files.
     if len(csv_list) > 1:
         main_dataframe = pd.merge(
-            pd.read_csv(csv_list[0], encoding=encoding), pd.read_csv(csv_list[1], encoding=encoding), on=str(id), how="outer"
+            pd.read_csv(csv_list[0], encoding=encoding),
+            pd.read_csv(csv_list[1], encoding=encoding),
+            on=str(id),
+            how="outer",
         )
         for i in range(2, len(csv_list)):
             main_dataframe = pd.merge(
-                main_dataframe, pd.read_csv(csv_list[i], encoding=encoding), on=str(id), how="outer"
+                main_dataframe,
+                pd.read_csv(csv_list[i], encoding=encoding),
+                on=str(id),
+                how="outer",
             )
     else:
         main_dataframe = pd.read_csv(csv_list[0], encoding=encoding)
 
-    # A helper function to populate a given collection with embeddings 
+    # A helper function to populate a given collection with embeddings
     def create_collection_embeddings(collection, feature, documents, metadatas, ids):
         start_index = 0
         next_index = 5
@@ -216,17 +222,24 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
                 )
             )
         feature_metadatas = feature_metadatas.to_dict(orient="records")
-        create_collection_embeddings(feature_collection, feature, feature_documents, feature_metadatas, feature_ids)
-    
+        create_collection_embeddings(
+            feature_collection,
+            feature,
+            feature_documents,
+            feature_metadatas,
+            feature_ids,
+        )
 
     # FIRST LEVEL COLLECTIONS
     for feature in features_list:
-        collection_name = feature_to_collection_name(feature)     
+        collection_name = feature_to_collection_name(feature)
         if feature != id:
-            current_dataframe = main_dataframe[[id,feature]].drop_duplicates()
+            current_dataframe = main_dataframe[[id, feature]].drop_duplicates()
         else:
             current_dataframe = main_dataframe[[id]].drop_duplicates()
-        populate_collection(current_dataframe, main_dataframe, collection_name, feature, False)
+        populate_collection(
+            current_dataframe, main_dataframe, collection_name, feature, False
+        )
     # MIDDLE LEVEL COLLECTION
 
     # Create a dataframe that can be populated with the combined information for each id.
@@ -248,19 +261,32 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
             if num_unique_entries > 3:
                 num_unique_entries = 3
             main_dataframe["feature_length"] = main_dataframe[feature].apply(len)
-            feature_df = main_dataframe.groupby(id).apply(lambda x: x.nlargest(num_unique_entries, "feature_length")).reset_index(drop=True)
+            feature_df = (
+                main_dataframe.groupby(id)
+                .apply(lambda x: x.nlargest(num_unique_entries, "feature_length"))
+                .reset_index(drop=True)
+            )
             main_dataframe.drop("feature_length", axis=1, inplace=True)
-        else: 
+        else:
             feature_df = main_dataframe[[id]].drop_duplicates().reset_index(drop=True)
-        
+
         # Add the feature data to combined_texts
-        feature_prefix =  feature + ": "
+        feature_prefix = feature + ": "
         feature_df.loc[:, feature] = feature_prefix + feature_df[feature]
         if feature != id:
-            feature_df = feature_df.groupby(id).agg({feature: lambda x: '\n\n'.join(map(str, x))}).reset_index()
+            feature_df = (
+                feature_df.groupby(id)
+                .agg({feature: lambda x: "\n\n".join(map(str, x))})
+                .reset_index()
+            )
         feature_df.loc[:, feature] = feature_df[feature] + "\n\n"
-        middle_dataframe.loc[:, "combined_texts"] = middle_dataframe["combined_texts"] + feature_df[feature]
-    populate_collection(middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True)
+        middle_dataframe.loc[:, "combined_texts"] = (
+            middle_dataframe["combined_texts"] + feature_df[feature]
+        )
+    populate_collection(
+        middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True
+    )
+
 
 def find_chroma_collections(file_id):
     """

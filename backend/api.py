@@ -1,6 +1,7 @@
 """
 Basic API endpoint that will allow us to save files.
 """
+
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
 
 @app.post("/upload")
 async def upload_file(files: List[UploadFile] = File(...)):
@@ -47,6 +49,7 @@ async def upload_file(files: List[UploadFile] = File(...)):
         return JSONResponse(status_code=500, content={"error": str(e)})
     return {"status": "SUCCESS", "features": features}
 
+
 @app.post("/set_index")
 async def set_index(data: dict):
     """
@@ -54,12 +57,12 @@ async def set_index(data: dict):
     """
     # Extract the index and return all other features
     try:
-        mapping['index'] = data['index']
+        mapping["index"] = data["index"]
 
     # Return error or success depending on status
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
-    return {"status": "SUCCESS", "features": mapping['features']}
+    return {"status": "SUCCESS", "features": mapping["features"]}
 
 
 @app.post("/create")
@@ -71,12 +74,15 @@ async def create_embeddings(features: List[str]):
     try:
         csv_files = os.listdir(DATA_PATH + mapping["id"])
         csv_files = [DATA_PATH + mapping["id"] + "/" + file for file in csv_files]
-        create_collections(csv_files, mapping['index'], features, mapping["id"], mapping["encoding"])
+        create_collections(
+            csv_files, mapping["index"], features, mapping["id"], mapping["encoding"]
+        )
 
     # Return error or success depending on status
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
     return {"status": "SUCCESS", "id": mapping["id"]}
+
 
 @app.get("/collections")
 async def get_collections():
@@ -84,7 +90,8 @@ async def get_collections():
     Get list of all collections that a user has created.
     """
     files = os.listdir(EMBEDDINGS_PATH)
-    return {"status" : "SUCCESS", "files" : files}
+    return {"status": "SUCCESS", "files": files}
+
 
 @app.get("/collections/{id}")
 async def read_collection(id: str):
@@ -93,6 +100,7 @@ async def read_collection(id: str):
     """
     files = os.listdir(DATA_PATH + id)
     return {"status": "SUCCESS", "files": files}
+
 
 @app.get("/search/{id}")
 async def search_collection(id: str, query: str):
@@ -103,14 +111,14 @@ async def search_collection(id: str, query: str):
     collections = find_chroma_collections(id)
     features = []
     for col in collections:
-        if (col.name != "middle_collection"):
+        if col.name != "middle_collection":
             features.append(col.name)
 
     # Form description and call find match
     description = ProductDescription(
         feature_collections=features,
         hidden_collections=[],
-        middle_collection="middle_collection"
+        middle_collection="middle_collection",
     )
     results = find_match(query, description, id)
     return {"status": "SUCCESS", "results": results}

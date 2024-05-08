@@ -51,7 +51,7 @@ function Setup() {
         // Set generation step on and submit to backend
         setInPipeline(true);
         const response = await fetch(
-          "http://127.0.0.1:8000/upload", 
+          "http://127.0.0.1:8000/upload",
           { method: 'POST', body: formData }
         )
 
@@ -59,7 +59,7 @@ function Setup() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        
+
         // Extract data from response
         const responseData = await response.json();
         const { status, features } = responseData;
@@ -96,17 +96,19 @@ function Setup() {
 
     // Do something with the features
     const response = await fetch(
-      "http://127.0.0.1:8000/set_index", 
-      { method: 'POST', headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify(productIndexDict) }
+      "http://127.0.0.1:8000/set_index",
+      {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify(productIndexDict)
+      }
     )
 
     // Check for success
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    
+
     // Extract data from response
     const responseData = await response.json();
     const { status, features } = responseData;
@@ -151,17 +153,19 @@ function Setup() {
 
     // Do something with the features
     const response = await fetch(
-      "http://127.0.0.1:8000/create", 
-      { method: 'POST', headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify(relevantFeatures) }
+      "http://127.0.0.1:8000/create",
+      {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify(relevantFeatures)
+      }
     )
 
     // Check for success
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    
+
     // Extract data from response
     const responseData = await response.json();
     const { status, id } = responseData;
@@ -189,66 +193,66 @@ function Setup() {
           <input type="file" accept=".txt, .pdf, .doc, .docx, .csv" multiple onChange={handleFileChange} />
           <button onClick={handleUpload} className="btn btn-dark">Upload</button>
         </div>
-        { inPipeline ? <div className="step">
+        {inPipeline ? <div className="step">
           <h2>Step 2: Sending Over Data</h2>
           <h4>We're first sending over your files to be processed.</h4>
-          { allFeatures ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
-    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-  </svg>  Successfully uploaded!</div> : <div className="spinner-border text-dark" role="status"></div>}
-          </div> : null}
-        
-        { uploadedFile ? 
-        <div className="step">
-          <h2>Step 3: Pick ID of Data</h2>
-          <h4>Pick the unique identifier of each of your SKUs.</h4>
-          <select 
-            className="form-select" 
-            aria-label="Select a product index!"
-            value={productIndex}
-            onChange={handleSelectChange}
-          >
-            {allFeatures.map((option, index) => (
-              <option key={index} value={option}>{option}</option>
-            ))}
-          </select>
-          <br />
-          <button onClick={handleProductIndex} className="btn btn-dark">Submit</button>
-        </div> : null }
-        
-        { selectFeatures ? <div className="step">
-        <h2>Step 4: Select Relevant Features</h2>
-        <h4>Pick the features below you think are most important to your products.</h4>
-        {features.map((option, index) => (
-          <div key={index} className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={option}
-              name={option}
-              checked={checkboxes[option]}
-              onChange={handleCheckboxChange}
-            />
-            <label className="form-check-label" htmlFor={option}>
-              {option}
-            </label>
-          </div>
-        ))}
-        <br />
-        <button onClick={handleFeatures} className="btn btn-dark">Submit</button>
+          {allFeatures ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+          </svg>  Successfully uploaded!</div> : <div className="spinner-border text-dark" role="status"></div>}
         </div> : null}
 
-        { createEmbeddings ? <div className="step">
-        <h2>Step 5: Making Product Data Searchable</h2>
-        <h4>Next, we're making your data usable for our algorithm.</h4>
-        { gotSuccess ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
-  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-</svg>  Successfully created embeddings!</div> : <div className="spinner-border text-dark" role="status"></div>}
+        {uploadedFile ?
+          <div className="step">
+            <h2>Step 3: Pick ID of Data</h2>
+            <h4>Pick the unique identifier of each of your SKUs.</h4>
+            <select
+              className="form-select"
+              aria-label="Select a product index!"
+              value={productIndex}
+              onChange={handleSelectChange}
+            >
+              {allFeatures.map((option, index) => (
+                <option key={index} value={option}>{option}</option>
+              ))}
+            </select>
+            <br />
+            <button onClick={handleProductIndex} className="btn btn-dark">Submit</button>
+          </div> : null}
+
+        {selectFeatures ? <div className="step">
+          <h2>Step 4: Select Relevant Features</h2>
+          <h4>Pick the features below you think are most important to your products.</h4>
+          {features.map((option, index) => (
+            <div key={index} className="form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={option}
+                name={option}
+                checked={checkboxes[option]}
+                onChange={handleCheckboxChange}
+              />
+              <label className="form-check-label" htmlFor={option}>
+                {option}
+              </label>
+            </div>
+          ))}
+          <br />
+          <button onClick={handleFeatures} className="btn btn-dark">Submit</button>
         </div> : null}
-        
-        { gotSuccess ? <div className="step">
-        <h2>Step 6: Use Search APIs</h2>
-        <h4>Congrats! Your data is now searchable -- try calling one of our REST APIs to try it out!</h4>
-        <p>Also, check out <a href={"/collections/" + fileId}>the collection here!</a></p>
+
+        {createEmbeddings ? <div className="step">
+          <h2>Step 5: Making Product Data Searchable</h2>
+          <h4>Next, we're making your data usable for our algorithm.</h4>
+          {gotSuccess ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+          </svg>  Successfully created embeddings!</div> : <div className="spinner-border text-dark" role="status"></div>}
+        </div> : null}
+
+        {gotSuccess ? <div className="step">
+          <h2>Step 6: Use Search APIs</h2>
+          <h4>Congrats! Your data is now searchable -- try calling one of our REST APIs to try it out!</h4>
+          <p>Also, check out <a href={"/collections/" + fileId}>the collection here!</a></p>
         </div> : null}
       </div>
     </>

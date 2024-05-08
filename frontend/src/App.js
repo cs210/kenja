@@ -10,12 +10,12 @@ import CollectionPage from './pages/Collection';
 const App = () => {
   return (
     <Router>
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/create" element={<Setup />} />
-            <Route path="/collections" element={<CollectionsPage />} />
-            <Route path="/collections/:id" element={<CollectionPage />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/create" element={<Setup />} />
+        <Route path="/collections" element={<CollectionsPage />} />
+        <Route path="/collections/:id" element={<CollectionPage />} />
+      </Routes>
     </Router>
   );
 };

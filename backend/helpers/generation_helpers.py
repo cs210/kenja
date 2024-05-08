@@ -50,25 +50,24 @@ def get_generation(middle_search_results, query, option_count=5):
         # Add corresponding keys in metadata
         for key in metadata:
             document += str(key) + ": " + str(metadata[key]) + "\n"
-        
+
         # Add this entire document to super prompt engineer
         super_prompt_engineer += f"""
 Option #{i}:
 {document}
         """
-            
-#     book_features = zip(middle_search_results["documents"][0])
-#     print(middle_search_results["documents"][0])
-#     print("")
-#     print(middle_search_results["metadatas"][0])
-#     print("")
-#     for i, defining_tuple in enumerate(book_features):
-#         super_prompt_engineer += f"""
-# Option #{i}:
-# {defining_tuple[0]}
 
+    #     book_features = zip(middle_search_results["documents"][0])
+    #     print(middle_search_results["documents"][0])
+    #     print("")
+    #     print(middle_search_results["metadatas"][0])
+    #     print("")
+    #     for i, defining_tuple in enumerate(book_features):
+    #         super_prompt_engineer += f"""
+    # Option #{i}:
+    # {defining_tuple[0]}
 
-# """
+    # """
     # Make the call!
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-0125",
@@ -114,7 +113,9 @@ Option #{i}:
         last_match = last_matches[i]
         d[last_match]["Reason for Recommendation"] = gpt_review
         last_match_num = int(last_matches[i][-1])
-        d[last_match]["Description"] = middle_search_results["documents"][0][last_match_num]
+        d[last_match]["Description"] = middle_search_results["documents"][0][
+            last_match_num
+        ]
 
     return [d[last_match] for last_match in last_matches]
 
