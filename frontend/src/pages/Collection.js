@@ -102,12 +102,17 @@ const CollectionPage = () => {
                 { isSearching ? <div className="spinner-border text-dark" role="status"></div> : 
                   <>
                   { results ? <div className="collections-list">
-                <ul className="list-group">
-                    { results.map((option, index) => (
+                  <ul className="list-group">
+                    {results.map((option, index) => (
                         <li key={index} className="list-group-item">
-                          <h3>{option["ProductName"]}</h3>
-                          <p>{option["gpt_review"]}</p>
-                          <p><b>Description:</b> {option["Description"]}</p>
+                            <p>
+                                {Object.keys(option).map((key) => (
+                                    <span key={key}>
+                                        <b>{key}:</b> {option[key]}
+                                        <br />
+                                    </span>
+                                ))}
+                            </p>
                         </li>
                     ))}
                 </ul>

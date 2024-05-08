@@ -104,13 +104,17 @@ Option #{i}:
     last_matches = [i[1] for i in matches][-3:]
     reasoning_matches = [i for i in reasoning_matches][-3:]
 
-    # Extract the right text
+    # Find the text for reasoning
     for i in range(len(reasoning_matches)):
         new_text = text[reasoning_matches[i][0] :]
         next_section = new_text.find("\n")
         gpt_review = new_text[len("- Reasoning for #1: ") : next_section]
+
+        # Update the dictionary
         last_match = last_matches[i]
-        d[last_match]["gpt_review"] = gpt_review
+        d[last_match]["Reason for Recommendation"] = gpt_review
+        last_match_num = int(last_matches[i][-1])
+        d[last_match]["Description"] = middle_search_results["documents"][0][last_match_num]
 
     return [d[last_match] for last_match in last_matches]
 
