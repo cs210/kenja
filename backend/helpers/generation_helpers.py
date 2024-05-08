@@ -11,10 +11,15 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 
 
 def get_generation(middle_search_results, query, option_count=5):
+    """
+    Finish the "Generation" part of RAG -- give an LLM all of the choices and have it choose.
+    """
+    # Prompt for the system
     system_prompt = f"""
         You are are an expert at looking at different products. In particular, you have shopped for every item known to man, and constantly peruse sites like Amazon and EBay.
         """
 
+    # Our ask to the model as a user.
     super_prompt_engineer = f"""
         Someone is looking for an item that fits the following description:
         {query}
@@ -37,15 +42,33 @@ def get_generation(middle_search_results, query, option_count=5):
         Each of the options are now below:
         """
 
-    book_features = zip(middle_search_results["documents"][0])
-    for i, defining_tuple in enumerate(book_features):
+    # Iterate through all possible choices
+    for i in range(len(middle_search_results["documents"][0])):
+        document = str(middle_search_results["documents"][0][i])
+        metadata = middle_search_results["metadatas"][0][i]
+
+        # Add corresponding keys in metadata
+        for key in metadata:
+            document += str(key) + ": " + str(metadata[key]) + "\n"
+        
+        # Add this entire document to super prompt engineer
         super_prompt_engineer += f"""
 Option #{i}:
-{defining_tuple[0]}
+{document}
+        """
+            
+#     book_features = zip(middle_search_results["documents"][0])
+#     print(middle_search_results["documents"][0])
+#     print("")
+#     print(middle_search_results["metadatas"][0])
+#     print("")
+#     for i, defining_tuple in enumerate(book_features):
+#         super_prompt_engineer += f"""
+# Option #{i}:
+# {defining_tuple[0]}
 
 
-"""
-
+# """
     # Make the call!
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-0125",
