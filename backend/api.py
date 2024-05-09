@@ -124,6 +124,26 @@ async def search_collection(id: str, query: str):
     )
 
     # Set up telemetry and find match
-    logging.info("User searched collection " + id + " for query: \"" + query + "\"")
+    logging.info("User searched collection " + id + ' for query: "' + query + '"')
     results = find_match(query, description, id)
     return {"status": "SUCCESS", "results": results}
+
+
+@app.get("/feedback")
+async def obtain_telemetry(query: str, value: str):
+    """
+    Get telemetry from the frontend
+    """
+    # Try to log the score to the telemtry log!
+    try:
+        logging.info(
+            'Search results for query "'
+            + query
+            + '" had a satisfaction score of: '
+            + value
+        )
+
+    # Return error or success depending on status
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"status": "SUCCESS"}

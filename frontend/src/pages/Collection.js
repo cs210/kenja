@@ -16,7 +16,9 @@ const CollectionPage = () => {
   const [results, setResults] = useState(null);
 
   // Feedback for collections
+  const [feedbackQuery, setFeedbackQuery] = useState("");
   const [satisfactionScore, setSatisfactionScore] = useState(3);
+  const [feedbackDone, setFeedbackDone] = useState(false);
 
   // Function to handle changes in the range input
   const handleRangeChange = (event) => {
@@ -58,7 +60,11 @@ const CollectionPage = () => {
 
   // Code to actually handle fetching matches
   const fetchMatches = async (query) => {
+    // Set some state for feedback
+    setFeedbackQuery(query);
     setIsSearching(true);
+    setFeedbackDone(false);
+
     try {
       // Form request
       const apiUrl = 'http://127.0.0.1:8000/search/' + id;
@@ -84,8 +90,29 @@ const CollectionPage = () => {
   };
 
   // Handling submission of feedback
-  const feedbackSubmitted = (evt) => {
+  const feedbackSubmitted = async (evt) => {
     evt.preventDefault();
+
+    try {
+      // Form request
+      const apiUrl = 'http://127.0.0.1:8000/feedback'
+      const queryParams = { query: String(feedbackQuery), value: String(satisfactionScore) };
+      const queryString = new URLSearchParams(queryParams).toString();
+      const finalUrl = `${apiUrl}?${queryString}`;
+
+      // Make request
+      const response = await fetch(finalUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const result = await response.json();
+
+      // Update state with fetched data
+      setFeedbackDone(true);
+    } catch (error) {
+      setIsSearching(false);
+      console.log("ERROR");
+    }
   }
 
   return (
@@ -109,7 +136,7 @@ const CollectionPage = () => {
           <form className="search-form" onSubmit={testQuerySubmitted} autoComplete="off">
             <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
             <br />
-            <button type="submit" className="btn btn-dark" id="submit-prompt">Submit</button>
+            <button type="submit" className="btn btn-dark" id="submit-prompt">Search</button>
           </form>
           <br />
           {isSearching ? <div className="spinner-border text-dark" role="status"></div> :
@@ -135,19 +162,22 @@ const CollectionPage = () => {
                   </div>
                   <br />
                   <h3>How satisfied were you with these results?</h3>
-                  <h5>Satisfaction Score: <b>{satisfactionScore}</b></h5>
-                  <input
-                    type="range"
-                    className="form-range"
-                    min="1"
-                    max="5"
-                    id="satisfaction-score"
-                    value={satisfactionScore}
-                    onChange={handleRangeChange}
-                  />
-                  <form className="search-form" onSubmit={feedbackSubmitted} autoComplete="off">
-                    <button type="submit" className="btn btn-dark" id="submit-feedback">Submit</button>
-                  </form>
+                  {feedbackDone ? <div className="success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                  </svg>  Successfully submitted feedback!</div> : <>
+                    <h5>Satisfaction Score: <b>{satisfactionScore}</b></h5>
+                    <input
+                      type="range"
+                      className="form-range"
+                      min="1"
+                      max="5"
+                      id="satisfaction-score"
+                      value={satisfactionScore}
+                      onChange={handleRangeChange}
+                    />
+                    <form className="search-form" onSubmit={feedbackSubmitted} autoComplete="off">
+                      <button type="submit" className="btn btn-dark" id="submit-feedback">Send Feedback</button>
+                    </form> </>}
                   <br />
                 </> : null}
             </>
