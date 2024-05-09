@@ -1,3 +1,7 @@
+"""
+Helper functions to assist with the Find and Filter algorithm.
+"""
+
 from venv import create
 import torch
 from tqdm import tqdm
@@ -9,19 +13,26 @@ if torch.cuda.is_available():
 
     sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
+# For help with generation
 from .generation_helpers import get_generation
 
+# For making embeddings and such
 import chromadb
 from chromadb.config import Settings
 from dotenv import load_dotenv
 from openai import OpenAI
+import logging
 import pandas as pd
 import uuid
-from typing import List
-
-# for RAG embedding model
+import time
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModel
+from typing import List
+
+# Constants
+LOGGING_FILE = "telemetry.log"
+logging.basicConfig(filename=LOGGING_FILE, level=logging.INFO)
+
 
 tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased", model_max_length=8192)
 model = AutoModel.from_pretrained(
@@ -31,7 +42,7 @@ model.eval()
 if torch.cuda.is_available():
     model.to("cuda")
 
-OPTION_COUNT = 5
+OPTION_COUNT = 10
 
 load_dotenv()
 EMBEDDINGS_PATH = "./embeddings/"
@@ -315,6 +326,9 @@ def find_match(query, product_description: ProductDescription, file_id):
     """
     Call all functions.
     """
+    # Record the start time
+    start_time = time.time()
+
     # Create chroma and temp clients for specific file
     chroma_client = chromadb.PersistentClient(
         path=EMBEDDINGS_PATH + file_id, settings=Settings(anonymized_telemetry=False)
@@ -338,7 +352,7 @@ def find_match(query, product_description: ProductDescription, file_id):
     ids_list = []
     for feature_collection in feature_collections:
         partial_search_results = embedding_search(
-            feature_collection, query, max(20, int(0.05 * feature_collection.count()))
+            feature_collection, query, min(150, int(0.05 * feature_collection.count()))
         )
         partial_ids_list = [
             str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{dictionary['VALUE_ID']}"))
@@ -367,5 +381,16 @@ def find_match(query, product_description: ProductDescription, file_id):
     middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
     temp_client.delete_collection(name=client_name)
 
-    # Run the G part of RAG
-    return get_generation(middle_search_results, query, option_count=OPTION_COUNT)
+    # Run the G part of RAG, log time
+    print(middle_search_results)
+    results = get_generation(middle_search_results, query, option_count=OPTION_COUNT)
+    end_time = time.time()
+    logging.info(
+        'Search query "'
+        + str(query)
+        + '" took '
+        + str(end_time - start_time)
+        + " seconds"
+    )
+    print(results)
+    return results
