@@ -15,6 +15,14 @@ const CollectionPage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState(null);
 
+  // Feedback for collections
+  const [satisfactionScore, setSatisfactionScore] = useState(3);
+
+  // Function to handle changes in the range input
+  const handleRangeChange = (event) => {
+    setSatisfactionScore(parseInt(event.target.value));
+  };
+
   // Populate collection page
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +83,11 @@ const CollectionPage = () => {
     }
   };
 
+  // Handling submission of feedback
+  const feedbackSubmitted = (evt) => {
+    evt.preventDefault();
+  }
+
   return (
     <>
       <Navbar />
@@ -101,22 +114,42 @@ const CollectionPage = () => {
           <br />
           {isSearching ? <div className="spinner-border text-dark" role="status"></div> :
             <>
-              {results ? <div className="collections-list">
-                <ul className="list-group">
-                  {results.map((option, index) => (
-                    <li key={index} className="list-group-item">
-                      <p>
-                        {Object.keys(option).map((key) => (
-                          <span key={key}>
-                            <b>{key}:</b> {option[key]}
-                            <br />
-                          </span>
-                        ))}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div> : null}
+              {results ?
+                <>
+                  <h3>Results</h3>
+                  <div className="collections-list">
+                    <ul className="list-group">
+                      {results.map((option, index) => (
+                        <li key={index} className="list-group-item">
+                          <p>
+                            {Object.keys(option).map((key) => (
+                              <span key={key}>
+                                <b>{key}:</b> {option[key]}
+                                <br />
+                              </span>
+                            ))}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <br />
+                  <h3>How satisfied were you with these results?</h3>
+                  <h5>Satisfaction Score: <b>{satisfactionScore}</b></h5>
+                  <input
+                    type="range"
+                    className="form-range"
+                    min="1"
+                    max="5"
+                    id="satisfaction-score"
+                    value={satisfactionScore}
+                    onChange={handleRangeChange}
+                  />
+                  <form className="search-form" onSubmit={feedbackSubmitted} autoComplete="off">
+                    <button type="submit" className="btn btn-dark" id="submit-feedback">Submit</button>
+                  </form>
+                  <br />
+                </> : null}
             </>
           }
         </div>
