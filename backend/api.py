@@ -6,12 +6,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from helpers.faf_helpers import *
 from helpers.preprocessing import *
+import logging
 import os
 from typing import List
 import uuid
 
 # Sample for now -- storing some metadata
 mapping = {}
+logging.basicConfig(filename=LOGGING_FILE, level=logging.INFO)
 
 # Set up Fast API and allow requests from all sources
 app = FastAPI()
@@ -112,5 +114,8 @@ async def search_collection(id: str, query: str):
         hidden_collections=[],
         middle_collection="middle_collection"
     )
+
+    # Get results
+    logging.info("User searched collection " + str(id) + " for query: " + str(query))
     results = find_match(query, description, id)
     return {"status": "SUCCESS", "results": results}

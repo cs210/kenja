@@ -10,6 +10,9 @@ env/
 chromadb_data
 embeddings/
 
+# Telemetry
+backend/telemetry.log
+
 # Data
 archive/
 backend/helpers/books_information/books_datasets

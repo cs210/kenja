@@ -56,7 +56,7 @@ def get_generation(middle_search_results, query, option_count=5):
 Option #{i}:
 {document}
         """
-            
+                    
 #     book_features = zip(middle_search_results["documents"][0])
 #     print(middle_search_results["documents"][0])
 #     print("")
