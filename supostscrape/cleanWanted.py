@@ -2,7 +2,7 @@ import csv
 
 
 def filter_csv(input_file, output_file):
-    with open(input_file, "r", newline="") as csvfile:
+    with open(input_file, "r", newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         fieldnames = reader.fieldnames
         rows = [
@@ -12,7 +12,7 @@ def filter_csv(input_file, output_file):
             and "wanted" not in row["Description"].lower()
         ]
 
-    with open(output_file, "w", newline="") as csvfile:
+    with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
