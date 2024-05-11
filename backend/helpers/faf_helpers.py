@@ -46,13 +46,6 @@ OPTION_COUNT = 10
 
 load_dotenv()
 EMBEDDINGS_PATH = "./embeddings/"
-chroma_client = chromadb.PersistentClient(
-    path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
-)
-temp_client = chromadb.PersistentClient(
-    path="./chromadb_data", settings=Settings(anonymized_telemetry=False)
-)
-
 
 def open_source_create_embeddings(texts_list, is_document):
     """
