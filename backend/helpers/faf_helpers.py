@@ -14,7 +14,7 @@ if torch.cuda.is_available():
     sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 # For help with generation
-from .generation_helpers import get_generation
+from generation_helpers import get_generation
 
 # For making embeddings and such
 import chromadb
@@ -242,15 +242,120 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
         )
 
     # FIRST LEVEL COLLECTIONS
-    for feature in features_list:
-        collection_name = feature_to_collection_name(feature)
-        if feature != id:
-            current_dataframe = main_dataframe[[id, feature]].drop_duplicates()
+    # for feature in features_list:
+    #     collection_name = feature_to_collection_name(feature)
+    #     if feature != id:
+    #         current_dataframe = main_dataframe[[id, feature]].drop_duplicates()
+    #     else:
+    #         current_dataframe = main_dataframe[[id]].drop_duplicates()
+    #     populate_collection(
+    #         current_dataframe, main_dataframe, collection_name, feature, False
+    #     )
+    # MIDDLE LEVEL COLLECTION
+
+    # # Create a dataframe that can be populated with the combined information for each id.
+    # num_ids = len(main_dataframe[id].unique())
+    # unique_ids = main_dataframe[id].unique()
+    # string_list = []
+    # for i in range(num_ids):
+    #     string_list.append([unique_ids[i], ""])
+    # middle_dataframe = pd.DataFrame(string_list, columns=[id, "combined_texts"])
+
+    # # Update the combined text for each id
+    # for feature in features_list:
+    #     if feature != id:
+    #         # Get number of unique entries for the feature
+    #         unique_entries_series = main_dataframe.groupby(id)[feature].nunique()
+    #         num_unique_entries = unique_entries_series.min()
+
+    #         # Only keep The 3 longest entries of a feature -> can change this later
+    #         if num_unique_entries > 3:
+    #             num_unique_entries = 3
+    #         main_dataframe["feature_length"] = main_dataframe[feature].apply(len)
+    #         feature_df = (
+    #             main_dataframe.groupby(id)
+    #             .apply(lambda x: x.nlargest(num_unique_entries, "feature_length"))
+    #             .reset_index(drop=True)
+    #         )
+    #         main_dataframe.drop("feature_length", axis=1, inplace=True)
+    #     else:
+    #         feature_df = main_dataframe[[id]].drop_duplicates().reset_index(drop=True)
+
+    #     # Add the feature data to combined_texts
+    #     feature_prefix = feature + ": "
+    #     feature_df.loc[:, feature] = feature_prefix + feature_df[feature]
+    #     if feature != id:
+    #         feature_df = (
+    #             feature_df.groupby(id)
+    #             .agg({feature: lambda x: "\n\n".join(map(str, x))})
+    #             .reset_index()
+    #         )
+    #     feature_df.loc[:, feature] = feature_df[feature] + "\n\n"
+    #     middle_dataframe.loc[:, "combined_texts"] = (
+    #         middle_dataframe["combined_texts"] + feature_df[feature]
+    #     )
+        # A helper function to initialize the collection and relevant data
+    # needed to create embeddings
+    def populate_collection(cur_df, main_df, collection_name, feature, is_middle):
+        # We want to reset these collections, so try to get collection if it exists and delete it
+        chroma_client.get_or_create_collection(name=collection_name)
+        chroma_client.delete_collection(name=collection_name)
+        feature_collection = chroma_client.create_collection(name=collection_name)
+
+        # Only use the columns for metadata that are the same for each row of the feature at hand and the id
+        # (for example, if data corresponding to the same id have different timestamps but all have the same
+        # description, keep the description and get rid of the timestamp)
+        drop_cols = [
+            col
+            for col in main_df.columns
+            if col != feature
+            and main_df[[id, col]].duplicated().sum() != main_df[id].duplicated().sum()
+        ]
+        feature_metadatas = (
+            main_df.drop(columns=drop_cols)
+        ).drop_duplicates()  # we make this a dict later now
+        feature_documents = cur_df[feature].to_list()
+        if is_middle:
+            feature_ids = list(
+                (
+                    cur_df.apply(
+                        lambda row: str(uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id]}")),
+                        axis=1,
+                    )
+                )
+            )
         else:
-            current_dataframe = main_dataframe[[id]].drop_duplicates()
-        populate_collection(
-            current_dataframe, main_dataframe, collection_name, feature, False
+            feature_metadatas["VALUE_ID"] = cur_df[id]
+            # Use a deterministic hash function on the id and feature to create ids
+            feature_ids = list(
+                (
+                    cur_df.apply(
+                        lambda row: str(
+                            uuid.uuid3(uuid.NAMESPACE_DNS, f"{row[id], row[feature]}")
+                        ),
+                        axis=1,
+                    )
+                )
+            )
+        feature_metadatas = feature_metadatas.to_dict(orient="records")
+        create_collection_embeddings(
+            feature_collection,
+            feature,
+            feature_documents,
+            feature_metadatas,
+            feature_ids,
         )
+
+    # FIRST LEVEL COLLECTIONS
+    # for feature in features_list:
+    #     collection_name = feature_to_collection_name(feature)
+    #     if feature != id:
+    #         current_dataframe = main_dataframe[[id, feature]].drop_duplicates()
+    #     else:
+    #         current_dataframe = main_dataframe[[id]].drop_duplicates()
+    #     populate_collection(
+    #         current_dataframe, main_dataframe, collection_name, feature, False
+    #     )
     # MIDDLE LEVEL COLLECTION
 
     # Create a dataframe that can be populated with the combined information for each id.
@@ -260,8 +365,9 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
     for i in range(num_ids):
         string_list.append([unique_ids[i], ""])
     middle_dataframe = pd.DataFrame(string_list, columns=[id, "combined_texts"])
+    middle_dataframe = middle_dataframe.sort_values(by=id)
 
-    # Update the combined text for each id
+    # # Update the combined text for each id
     for feature in features_list:
         if feature != id:
             # Get number of unique entries for the feature
@@ -291,9 +397,11 @@ def create_collections(csv_list, id, features_list, file_id, encoding):
                 .reset_index()
             )
         feature_df.loc[:, feature] = feature_df[feature] + "\n\n"
+        feature_df = feature_df.sort_values(by=id)
         middle_dataframe.loc[:, "combined_texts"] = (
-            middle_dataframe["combined_texts"] + feature_df[feature]
-        )
+            middle_dataframe.loc[:, "combined_texts"] + feature_df.loc[:, feature]
+        ).reset_index(drop=True)
+        middle_dataframe = middle_dataframe.reset_index(drop=True)
     populate_collection(
         middle_dataframe, main_dataframe, "middle_collection", "combined_texts", True
     )
