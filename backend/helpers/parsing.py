@@ -2,11 +2,9 @@
 Sample code for noun parsing!
 """
 import torch
-# For chromadb with Chris's GPU
 if torch.cuda.is_available():
     __import__("pysqlite3")
     import sys
-
     sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import chromadb
 from chromadb.config import Settings
@@ -85,10 +83,12 @@ def create_embeddings(df):
         start, stop = i, min(i+5, len(rows))
         subset = rows[start:stop]
 
-        # Get maetdatas, IDs, and nouns
+        # Get matadatas, IDs, and nouns
         metadatas = [row[1].to_dict() for row in subset]
         ids = [str(metadata['Unnamed: 0']) for metadata in metadatas]
         nouns = df[start:stop]['Nouns'].tolist()
+        if '\\' in nouns:
+            print(nouns)
 
         # Generate embeddings
         if torch.cuda.is_available():
@@ -109,13 +109,13 @@ def semantic_search_nouns(query, collection):
     Semantically search across nouns
     """
     nouns = find_nouns(query)
+    # Only have the nouns of the original query be used in the searching
     query = " ".join(nouns)
     embedding = open_source_create_embeddings([query], False)
     results = collection.query(
         query_embeddings=embedding.tolist(),
         n_results=10,
     )
-    print(results)
 
 if __name__ == "__main__":
     """
