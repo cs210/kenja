@@ -5,8 +5,9 @@ Basic API endpoint that will allow us to save files.
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from helpers.faf_helpers import *
-from helpers.preprocessing import *
+from helpers.faf_helpers import find_match, find_chroma_collections, ProductDescription, LOGGING_FILE, EMBEDDINGS_PATH
+from helpers.collection_creation import create_collections
+from helpers.preprocessing import upload, get_header, DATA_PATH
 import logging
 import os
 from typing import List
@@ -113,11 +114,12 @@ async def search_collection(id: str, query: str):
     collections = find_chroma_collections(id)
     features = []
     for col in collections:
-        if col.name != "middle_collection":
+        if col.name != "middle_collection" and col.name != "Nouns":
             features.append(col.name)
 
     # Form description and call find match
     description = ProductDescription(
+        noun_collection = "Nouns",
         feature_collections=features,
         hidden_collections=[],
         middle_collection="middle_collection",

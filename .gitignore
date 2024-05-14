@@ -12,6 +12,7 @@ embeddings/
 
 # Telemetry
 backend/telemetry.log
+backend/helpers/telemetry.log
 
 # Data
 archive/
