@@ -4,8 +4,15 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 from tqdm import tqdm
 
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased", model_max_length=8192)
+model = AutoModel.from_pretrained(
+    "nomic-ai/nomic-embed-text-v1", trust_remote_code=True, rotary_scaling_factor=2
+)
+if torch.cuda.is_available():
+        model.to("cuda")
+model.eval()
 
-def open_source_create_embeddings(texts_list, is_document, model, tokenizer):
+def open_source_create_embeddings(texts_list, is_document):
     """
     Use the new local embeddings model to handle embeddings.
     """
@@ -41,35 +48,24 @@ def open_source_create_embeddings(texts_list, is_document, model, tokenizer):
 
 # A helper function to populate a given collection with embeddings
 def create_collection_embeddings(collection, feature, documents, metadatas, ids):
-    tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased", model_max_length=8192)
-    model = AutoModel.from_pretrained(
-        "nomic-ai/nomic-embed-text-v1", trust_remote_code=True, rotary_scaling_factor=2
-    )
-    model.eval()
     if torch.cuda.is_available():
-        model.to("cuda")
-        start_index = 0
-        next_index = 5
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        desc = feature + " embedding creation progress"
-        progress_bar = tqdm(total=len(documents), desc=desc)
-        while start_index < len(documents):
-            current_documents = documents[start_index:next_index]
-            current_metadatas = metadatas[start_index:next_index]
-            current_ids = ids[start_index:next_index]
-            current_embeddings = open_source_create_embeddings(
-                current_documents, True, model, tokenizer
-            ).tolist()
-            collection.add(
-                embeddings=current_embeddings,
-                documents=current_documents,
-                metadatas=current_metadatas,
-                ids=current_ids,
-            )
-            if next_index > len(documents):
-                progress_bar.update((len(documents) - start_index))
-            else:
-                progress_bar.update(5)
-            start_index = next_index
-            next_index += 5
+        torch.cuda.empty_cache()
+
+    desc = feature + " embedding creation progress"
+    for i in tqdm(range(0, len(ids), 5), desc=desc):
+        # Find start and stop
+        start_index, next_index = i, min(i+5, len(ids))
+        current_documents = documents[start_index:next_index]
+        current_metadatas = metadatas[start_index:next_index]
+        current_ids = ids[start_index:next_index]
+
+        current_embeddings = open_source_create_embeddings(
+            current_documents, True
+        ).tolist()
+
+        collection.add(
+            embeddings=current_embeddings,
+            documents=current_documents,
+            metadatas=current_metadatas,
+            ids=current_ids,
+        )

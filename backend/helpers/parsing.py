@@ -83,12 +83,10 @@ def create_embeddings(df):
         start, stop = i, min(i+5, len(rows))
         subset = rows[start:stop]
 
-        # Get matadatas, IDs, and nouns
+        # Get metadatas, IDs, and nouns
         metadatas = [row[1].to_dict() for row in subset]
         ids = [str(metadata['Unnamed: 0']) for metadata in metadatas]
         nouns = df[start:stop]['Nouns'].tolist()
-        if '\\' in nouns:
-            print(nouns)
 
         # Generate embeddings
         if torch.cuda.is_available():
