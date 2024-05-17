@@ -73,6 +73,18 @@ form {
 }
 
 /* Results style */
+.option-title {
+  font-weight: 600 !important;
+}
+
+.result-link {
+  text-decoration: none !important;
+}
+
+.list-group-item {
+  overflow-wrap: break-word;
+}
+
 .results {
   padding-top: 1% !important;
 }

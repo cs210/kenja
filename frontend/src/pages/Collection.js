@@ -4,6 +4,10 @@ import '../styles/home.css';
 import Navbar from '../components/Navbar';
 import { useParams } from 'react-router-dom';
 
+// Const number of return options
+const columnsNoShow = ["Nouns", "Title", "Reason for Recommendation", "URL"];
+const maxResults = 3;
+
 const CollectionPage = () => {
   // Set title dynamically
   document.title = "View Collection | Kenja";
@@ -12,13 +16,23 @@ const CollectionPage = () => {
   // State for collection
   const [collection, setCollection] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // State for search results
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState(null);
+  const [isOpen, setIsOpen] = useState(Array(maxResults).fill(false));
 
   // Feedback for collections
   const [feedbackQuery, setFeedbackQuery] = useState("");
   const [satisfactionScore, setSatisfactionScore] = useState(3);
   const [feedbackDone, setFeedbackDone] = useState(false);
+
+  // Function to toggle the dropdown state of a specific book
+  const toggleDropdown = (index) => {
+    const updatedOpenState = [...isOpen];
+    updatedOpenState[index] = !updatedOpenState[index];
+    setIsOpen(updatedOpenState);
+  };
 
   // Function to handle changes in the range input
   const handleRangeChange = (event) => {
@@ -148,14 +162,32 @@ const CollectionPage = () => {
                     <ul className="list-group">
                       {results.map((option, index) => (
                         <li key={index} className="list-group-item">
-                          <p>
-                            {Object.keys(option).map((key) => (
-                              <span key={key}>
-                                <b>{key}:</b> {option[key]}
-                                <br />
-                              </span>
-                            ))}
-                          </p>
+                          <h4 className="option-title">{option["Title"]} · <a className="result-link" href={option["URL"]}>🔗</a></h4>
+                          <p>{option["Reason for Recommendation"]}</p>
+                          <button
+                            className="description-button dropdown-toggle"
+                            type="button"
+                            onClick={() => toggleDropdown(index)}
+                            aria-expanded={isOpen[index] ? "true" : "false"}
+                            aria-controls={"collapse" + option["Title"]}
+                            data-bs-toggle="dropdown"
+                          >
+                            <b>View Information</b>
+                          </button>
+                          <div className={`collapse ${isOpen[index] ? 'show' : ''}`} id={"collapse" + option["Title"]}>
+                            <ul>
+                              {Object.keys(option)
+                                .filter((key) => !columnsNoShow.includes(key))
+                                .map((key) => (
+                                  <li key={key}>
+                                    <span>
+                                      <b>{key}:</b> {option[key]}
+                                      <br />
+                                    </span>
+                                  </li>
+                                ))}
+                            </ul>
+                          </div>
                         </li>
                       ))}
                     </ul>
