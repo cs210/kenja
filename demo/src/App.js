@@ -123,7 +123,7 @@ const App = () => {
       <br />
 
       <h2>Search</h2>
-      <p>Enter your query to search across all SUPost Data as of May 8, 2024.</p>
+      <p>Enter your query to search across the last two years of SUPost Data as of May 8, 2024.</p>
       <form className="search-form" onSubmit={testQuerySubmitted} autoComplete="off">
         <input className="form-control" name='query' type="text" placeholder="What are you looking for?" aria-label="default input example"></input>
         <br />
