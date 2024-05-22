@@ -105,7 +105,7 @@ async def read_collection(id: str):
     return {"status": "SUCCESS", "files": files}
 
 
-@app.get("/search/{id}")
+@app.get("/api/search/{id}")
 async def search_collection(id: str, query: str):
     """
     Search a specific collection (to add more security).
@@ -131,7 +131,7 @@ async def search_collection(id: str, query: str):
     return {"status": "SUCCESS", "results": results}
 
 
-@app.get("/feedback")
+@app.get("/api/feedback")
 async def obtain_telemetry(query: str, value: str):
     """
     Get telemetry from the frontend
