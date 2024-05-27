@@ -20,10 +20,10 @@ from .generation_helpers import get_generation
 # For making embeddings and such
 import chromadb
 from chromadb.config import Settings
+from datetime import datetime
+from .db_helpers import add_query
 from dotenv import load_dotenv
-from openai import OpenAI
 import logging
-import pandas as pd
 import uuid
 import time
 from typing import List
@@ -169,4 +169,8 @@ def find_match(query, product_description: ProductDescription, file_id):
         + str(end_time - start_time)
         + " seconds"
     )
+    
+    # Also add to database, and then return results
+    timestamp = datetime.now().isoformat()
+    add_query(query, end_time - start_time, timestamp)
     return results
