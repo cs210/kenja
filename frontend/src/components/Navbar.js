@@ -20,6 +20,9 @@ function Navbar() {
                     <li className="nav-item">
                         <a className="nav-link" href="/create">Create New Collection</a>
                     </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/usage">Usage</a>
+                    </li>
                 </ul>
             </div>
         </nav>
