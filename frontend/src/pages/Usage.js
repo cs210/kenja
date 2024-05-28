@@ -43,23 +43,45 @@ const UsagePage = () => {
             const barData = {
                 labels: dates,
                 datasets: [
-                  {
-                    label: 'Number of Searches',
-                    backgroundColor: 'rgba(75,192,192,0.2)',
-                    borderColor: 'rgba(75,192,192,1)',
-                    borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(75,192,192,0.4)',
-                    hoverBorderColor: 'rgba(75,192,192,1)',
-                    data: numSearches,
-                  },
+                    {
+                        label: 'Number of Searches',
+                        backgroundColor: 'rgba(75,192,192,0.2)',
+                        borderColor: 'rgba(75,192,192,1)',
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+                        hoverBorderColor: 'rgba(75,192,192,1)',
+                        data: numSearches,
+                        barPercentage: 0.35, // Adjust the height of the bars here (e.g., 0.5 for 50% height)
+                    },
                 ],
-              };
+            };
             setSearchUsage(barData);
+
+            // Set loading
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
             console.log("ERROR");
         }
+    };
+
+    
+    const options = {
+        scales: {
+            x: {
+                type: 'category',
+                title: {
+                    display: true,
+                    text: 'Date',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Number of Searches',
+                },
+            },
+        },
     };
 
     return (
@@ -74,7 +96,7 @@ const UsagePage = () => {
                     <h2>Daily Usage</h2>
                     <h4>See how often users are using the APIs!</h4>
                     {
-                        isLoading ? <div className="spinner-border text-dark" role="status"></div> : <Bar data={searchUsage} /> }
+                        isLoading ? <div className="spinner-border text-dark" role="status"></div> : <Bar data={searchUsage} options={options} />}
                     <h2>History</h2>
                     <h4>Look at previous searches!</h4>
                     {
@@ -88,6 +110,9 @@ const UsagePage = () => {
                                         <div className="col-sm">
                                             <b>Time for Search</b>
                                         </div>
+                                        <div className="col-sm">
+                                            <b>Date</b>
+                                        </div>
                                     </div>
                                 </li>
                                 {results.map((option, index) => (
@@ -98,6 +123,9 @@ const UsagePage = () => {
                                             </div>
                                             <div className="col-sm">
                                                 {option[2]}
+                                            </div>
+                                            <div className="col-sm">
+                                                {option[3] + " " + option[4]}
                                             </div>
                                         </div>
                                     </li>
