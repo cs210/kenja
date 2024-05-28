@@ -5,7 +5,7 @@ Helper functions to assist with the Find and Filter algorithm.
 from venv import create
 import torch
 
-from .embedding_creation import  open_source_create_embeddings
+from .embedding_creation import  open_source_create_embeddings, create_collection_embeddings
 
 # For chromadb with Chris's GPU
 if torch.cuda.is_available():
@@ -147,17 +147,32 @@ def find_match(query, product_description: ProductDescription, file_id):
     extract_dict = middle_collection.get(
         ids=ids_list, include=["embeddings", "documents", "metadatas"]
     )
-    # probably want to be more clever with this name
+    
+    """
+    Below is the code for the new middle collection where teh query is appended.
+    """
+    middle_documents = extract_dict["documents"]
+    middle_documents = ["Query: " + query + "\n\n" + entry for entry in middle_documents]
     client_name = str(uuid.uuid1())
     extract_collection = temp_client.create_collection(name=client_name)
-    extract_collection.add(
-        embeddings=extract_dict["embeddings"],
-        documents=extract_dict["documents"],
-        metadatas=extract_dict["metadatas"],
-        ids=extract_dict["ids"],
-    )
+    create_collection_embeddings(extract_collection, "middle text", middle_documents, extract_dict["metadatas"], ids_list)
     middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
     temp_client.delete_collection(name=client_name)
+    
+    """
+    Below is the code for the old middle collection where we do not append the query
+    """
+    # probably want to be more clever with this name
+    # client_name = str(uuid.uuid1())
+    # extract_collection = temp_client.create_collection(name=client_name)
+    # extract_collection.add(
+    #     embeddings=extract_dict["embeddings"],
+    #     documents=extract_dict["documents"],
+    #     metadatas=extract_dict["metadatas"],
+    #     ids=extract_dict["ids"],
+    # )
+    # middle_search_results = embedding_search(extract_collection, query, OPTION_COUNT)
+    # temp_client.delete_collection(name=client_name)
 
     # Run the G part of RAG, log time
     results = get_generation(middle_search_results, query, option_count=OPTION_COUNT)
