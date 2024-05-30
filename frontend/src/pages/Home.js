@@ -35,10 +35,10 @@ const HomePage = () => {
                         </a>
                     </div>
                     <div className="col-sm">
-                        <a className="option-link" href="http://kenja.pro/">
+                        <a className="option-link" href="/usage">
                             <div className="card">
                                 <div className="card-body">
-                                    Get Support
+                                    View Usage
                                 </div>
                             </div>
                         </a>

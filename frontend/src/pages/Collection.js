@@ -81,7 +81,7 @@ const CollectionPage = () => {
 
     try {
       // Form request
-      const apiUrl = 'http://127.0.0.1:8000/search/' + id;
+      const apiUrl = 'http://127.0.0.1:8000/api/search/' + id;
       const queryValue = query;
       const queryParams = { query: String(queryValue) };
       const queryString = new URLSearchParams(queryParams).toString();
@@ -109,7 +109,7 @@ const CollectionPage = () => {
 
     try {
       // Form request
-      const apiUrl = 'http://127.0.0.1:8000/feedback'
+      const apiUrl = 'http://127.0.0.1:8000/api/feedback'
       const queryParams = { query: String(feedbackQuery), value: String(satisfactionScore) };
       const queryString = new URLSearchParams(queryParams).toString();
       const finalUrl = `${apiUrl}?${queryString}`;

@@ -5,16 +5,18 @@ Basic API endpoint that will allow us to save files.
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from helpers.faf_helpers import find_match, find_chroma_collections, ProductDescription, LOGGING_FILE, EMBEDDINGS_PATH
 from helpers.collection_creation import create_collections
+from helpers.db_helpers import create_db, read_all_rows, queries_per_timestamp
+from helpers.faf_helpers import find_match, find_chroma_collections, ProductDescription, LOGGING_FILE, EMBEDDINGS_PATH
 from helpers.preprocessing import upload, get_header, DATA_PATH
 import logging
 import os
 from typing import List
 import uuid
 
-# Setting up metadata storing and logging
+# Setting up metadata storing, database, and logging
 mapping = {}
+create_db()
 logging.basicConfig(filename=LOGGING_FILE, level=logging.INFO)
 
 # Set up Fast API and allow requests from all sources
@@ -136,7 +138,7 @@ async def obtain_telemetry(query: str, value: str):
     """
     Get telemetry from the frontend
     """
-    # Try to log the score to the telemtry log!
+    # Try to log the score to the telemetry log!
     try:
         logging.info(
             'Search results for query "'
@@ -149,3 +151,18 @@ async def obtain_telemetry(query: str, value: str):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
     return {"status": "SUCCESS"}
+
+@app.get("/api/usage")
+async def retrieve_usage():
+    """
+    Retrieve usage stats from searches
+    """
+    # Query database for appropriate statistics
+    try:
+        data = read_all_rows()
+        qpt = queries_per_timestamp()
+
+    # Return error or success depending on status
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"status": "SUCCESS", "rows": data, "qpt": qpt}
