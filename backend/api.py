@@ -11,13 +11,15 @@ from helpers.faf_helpers import find_match, find_chroma_collections, ProductDesc
 from helpers.preprocessing import upload, get_header, DATA_PATH
 import logging
 import os
-from typing import List
+import re
+from typing import List, Dict
 import uuid
 
 # Setting up metadata storing, database, and logging
 mapping = {}
 create_db()
 logging.basicConfig(filename=LOGGING_FILE, level=logging.INFO)
+LOG_FILE_PATH = "telemetry.log"
 
 # Set up Fast API and allow requests from all sources
 app = FastAPI()
@@ -29,6 +31,48 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/telemetry")
+def get_metrics() -> Dict[str, float]:
+    """
+    Endpoint that allows us to see number of unique searches, average
+    search time, and average satisfaction score.
+    """
+    # Define initial variables
+    unique_searches = set()
+    total_search_time = 0.0
+    search_count = 0
+    total_satisfaction_score = 0.0
+    satisfaction_count = 0
+
+    # Open log file and search using regex
+    with open(LOG_FILE_PATH, "r") as log_file:
+        for line in log_file:
+            search_match = re.search(r'User searched collection .+ for query: "(.*?)"', line)
+            time_match = re.search(r'Search query ".+?" took ([\d.]+) seconds', line)
+            satisfaction_match = re.search(r'Search results for query ".+?" had a satisfaction score of: (\d+)', line)
+
+            # Find matches
+            if search_match:
+                unique_searches.add(search_match.group(1))
+
+            if time_match:
+                total_search_time += float(time_match.group(1))
+                search_count += 1
+
+            if satisfaction_match:
+                total_satisfaction_score += int(satisfaction_match.group(1))
+                satisfaction_count += 1
+
+    # Calculate statistics
+    average_search_time = total_search_time / search_count if search_count else 0.0
+    average_satisfaction_score = total_satisfaction_score / satisfaction_count if satisfaction_count else 0.0
+
+    # Return statistics
+    return {
+        "num_unique_searches": len(unique_searches),
+        "average_search_time": average_search_time,
+        "average_satisfaction_score": average_satisfaction_score
+    }
 
 @app.post("/upload")
 async def upload_file(files: List[UploadFile] = File(...)):
