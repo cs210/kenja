@@ -4,6 +4,8 @@ import "chart.js/auto";
 import '../main.css';
 import '../styles/home.css';
 import Navbar from '../components/Navbar';
+import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const UsagePage = () => {
     // Set title dynamically
@@ -15,9 +17,16 @@ const UsagePage = () => {
     const [searchUsage, setSearchUsage] = useState(null);
 
     // Rendering on startup
+    const navigate = useNavigate();
     useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (!user) {
+              navigate("/login"); // User is logged in
+            }
+          });
         // Call fetchData function when component mounts
         fetchUsage();
+        return () => unsubscribe();
     }, []);
 
     // Code to actually handle fetching usage

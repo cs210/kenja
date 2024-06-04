@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../main.css';
 import '../styles/home.css';
 import Navbar from '../components/Navbar';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
 
 // Const number of return options
 const columnsNoShow = ["Nouns", "Title", "Reason for Recommendation", "URL"];
@@ -40,6 +41,7 @@ const CollectionPage = () => {
   };
 
   // Populate collection page
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,8 +64,15 @@ const CollectionPage = () => {
       }
     };
 
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        navigate("/login"); // User is logged in
+      }
+    });
+
     // Call fetchData function when component mounts
     fetchData();
+    return () => unsubscribe(); 
   }, []);
 
   // Handling submission of query
