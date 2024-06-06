@@ -1,11 +1,26 @@
-import React from 'react';
+// Imports
+import React, { useEffect } from 'react';
 import '../main.css';
 import '../styles/home.css';
 import Navbar from '../components/Navbar';
+import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
     // Set title dynamically
     document.title = "Home | Kenja";
+
+    // Handle auth
+    const navigate = useNavigate();
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (!user) {
+                navigate("/login"); // User is logged in
+            }
+        });
+
+        return () => unsubscribe(); // Cleanup subscription on unmount
+    }, []);
 
     return (
         <>
@@ -15,6 +30,7 @@ const HomePage = () => {
                     <h1>Welcome back to Kenja!</h1>
                     <h3>Look through existing collections or create a new one!</h3>
                 </div>
+
                 <div className="row">
                     <div className="col-sm">
                         <a className="option-link" href="/collections">

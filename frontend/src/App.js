@@ -7,12 +7,14 @@ import Setup from './pages/Setup';
 import CollectionsPage from './pages/Collections';
 import CollectionPage from './pages/Collection';
 import UsagePage from './pages/Usage';
+import LoginPage from './pages/Login';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/create" element={<Setup />} />
         <Route path="/collections" element={<CollectionsPage />} />
         <Route path="/collections/:id" element={<CollectionPage />} />

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../main.css';
 import '../styles/home.css';
 import Navbar from '../components/Navbar';
+import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const CollectionsPage = () => {
   // Set title dynamically
@@ -12,6 +14,7 @@ const CollectionsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Load in API data at runtime
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,9 +37,17 @@ const CollectionsPage = () => {
       }
     };
 
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        navigate("/login"); // User is logged in
+      }
+    });
+
     // Call fetchData function when component mounts
     fetchData();
+    return () => unsubscribe(); 
   }, []);
+
 
   return (
     <>

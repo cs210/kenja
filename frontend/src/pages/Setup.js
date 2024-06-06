@@ -1,6 +1,9 @@
+// Imports
 import '../main.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import { auth } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 /*
  * Describes the core single page web component.
@@ -28,6 +31,18 @@ function Setup() {
   const [createEmbeddings, setCreateEmbeddings] = useState(false);
   const [gotSuccess, setGotSuccess] = useState(false);
   const [fileId, setFileId] = useState("");
+
+  // Handle auth
+  const navigate = useNavigate();
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (!user) {
+        navigate("/login"); // User is logged in
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, []);
 
   /*
    * Set the updated product catalog files.
